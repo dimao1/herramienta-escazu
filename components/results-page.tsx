@@ -118,6 +118,12 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
     })
   }
 
+  // Función para limpiar el texto de la pregunta eliminando la numeración inicial
+  const cleanQuestionText = (text: string): string => {
+    // Busca patrones como "1. ", "12. ", etc. al inicio del texto y los elimina
+    return text.replace(/^\d+\.\s+/, "")
+  }
+
   const handleDownloadPDF = async () => {
     try {
       // Crear el contenido del PDF usando jsPDF
@@ -148,6 +154,32 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
       // Configurar fuente
       doc.setFont("helvetica")
 
+      // Agregar logo del ministerio
+      try {
+        // Convertir la imagen a base64 para incluirla en el PDF
+        const logoImg = new Image()
+        logoImg.crossOrigin = "anonymous"
+        logoImg.src = "/logo-ambiente.png"
+
+        await new Promise((resolve, reject) => {
+          logoImg.onload = () => {
+            const canvas = document.createElement("canvas")
+            const ctx = canvas.getContext("2d")
+            canvas.width = logoImg.width
+            canvas.height = logoImg.height
+            ctx.drawImage(logoImg, 0, 0)
+            const logoDataUrl = canvas.toDataURL("image/png")
+
+            // Agregar logo al PDF (esquina superior derecha)
+            doc.addImage(logoDataUrl, "PNG", pageWidth - 50, 10, 40, 25)
+            resolve()
+          }
+          logoImg.onerror = reject
+        })
+      } catch (error) {
+        console.log("No se pudo cargar el logo:", error)
+      }
+
       // Header con logo y título
       doc.setFontSize(18)
       doc.setTextColor(34, 139, 34) // Verde
@@ -161,7 +193,7 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
       doc.setTextColor(0, 0, 0)
       doc.text(`Fecha de generación: ${new Date().toLocaleDateString("es-CO")}`, 20, 45)
 
-      let yPos = 60
+      let yPos = 55
 
       // Información del Evaluado con fondo verde
       const greenColor = hexToRgb("#22c55e")
@@ -171,7 +203,7 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
       doc.setTextColor(255, 255, 255) // Blanco
       doc.text("Información del Evaluado", 15, yPos + 5)
 
-      yPos += 20
+      yPos += 15
 
       // Contenido de información del evaluado con fondo gris claro
       addColoredRect(10, yPos - 5, pageWidth - 20, 35, "rgb(248, 250, 252)")
@@ -184,7 +216,7 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
       doc.text(`Correo: ${user.email}`, 110, yPos + 15)
       doc.text(`Municipio: ${user.municipality}`, 15, yPos + 25)
 
-      yPos += 45
+      yPos += 35
 
       // Resumen de Resultados con fondo azul
       const blueColor = hexToRgb("#3b82f6")
@@ -194,7 +226,7 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
       doc.setTextColor(255, 255, 255) // Blanco
       doc.text("Resumen de Resultados", 15, yPos + 5)
 
-      yPos += 25
+      yPos += 20
 
       // Métricas en cajas con colores
       const metricBoxWidth = (pageWidth - 40) / 4
@@ -237,13 +269,13 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
       doc.setTextColor(255, 255, 255)
       doc.text(`${assessment?.classification}`, 15 + (metricBoxWidth + 5) * 3 + metricBoxWidth / 2 - 15, yPos + 20)
 
-      yPos += 50
+      yPos += 35
 
       // Respuestas Detalladas
       doc.setFontSize(14)
       doc.setTextColor(0, 0, 0)
       doc.text("Respuestas Detalladas", pageWidth / 2 - 30, yPos)
-      yPos += 15
+      yPos += 10
 
       // Agrupar respuestas por módulo
       const responseDetails = responses.map((response) => {
@@ -284,8 +316,16 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
       )
 
       let questionNumber = 1
+      let isFirstModule = true
 
       Object.entries(moduleGroups).forEach(([moduleName, moduleResponses]) => {
+        // Salto de página para cada módulo (excepto el primero)
+        if (!isFirstModule) {
+          doc.addPage()
+          yPos = 20
+        }
+        isFirstModule = false
+
         // Verificar si necesitamos una nueva página
         if (yPos > pageHeight - 60) {
           doc.addPage()
@@ -316,8 +356,11 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
           // Borde izquierdo verde
           addColoredRect(10, yPos - 5, 3, questionHeight, "rgb(34, 197, 94)")
 
-          // Pregunta
-          const questionLines = doc.splitTextToSize(`${questionNumber}. ${response.question_text}`, 160)
+          // Limpiar el texto de la pregunta para eliminar la numeración inicial
+          const cleanedQuestionText = cleanQuestionText(response.question_text)
+
+          // Pregunta con numeración secuencial
+          const questionLines = doc.splitTextToSize(`${questionNumber}. ${cleanedQuestionText}`, 160)
           doc.setTextColor(0, 0, 0)
           doc.setFont("helvetica", "bold")
           doc.text(questionLines, 20, yPos + 5)
@@ -356,7 +399,7 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
           }
 
           yPos += 10 // Espacio entre preguntas
-          questionNumber++
+          questionNumber++ // Incrementar numeración secuencial
         })
 
         yPos += 10 // Espacio entre módulos
