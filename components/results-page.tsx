@@ -120,146 +120,255 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
 
   const handleDownloadPDF = async () => {
     try {
-      // Create PDF content
-      const pdfContent = generatePDFContent()
+      // Crear el contenido del PDF usando jsPDF
+      const { jsPDF } = await import("jspdf")
 
-      // Create blob and download
-      const blob = new Blob([pdfContent], { type: "text/html" })
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement("a")
-      link.href = url
-      link.download = `diagnostico-ambiental-${user.name.replace(/\s+/g, "-")}.html`
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      URL.revokeObjectURL(url)
+      const doc = new jsPDF()
+      const pageWidth = doc.internal.pageSize.width
+      const pageHeight = doc.internal.pageSize.height
+
+      // Función para agregar rectángulos con color de fondo
+      const addColoredRect = (x: number, y: number, width: number, height: number, color: string) => {
+        doc.setFillColor(color)
+        doc.rect(x, y, width, height, "F")
+      }
+
+      // Función para obtener color RGB desde hex
+      const hexToRgb = (hex: string) => {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+        return result
+          ? {
+              r: Number.parseInt(result[1], 16),
+              g: Number.parseInt(result[2], 16),
+              b: Number.parseInt(result[3], 16),
+            }
+          : { r: 0, g: 0, b: 0 }
+      }
+
+      // Configurar fuente
+      doc.setFont("helvetica")
+
+      // Header con logo y título
+      doc.setFontSize(18)
+      doc.setTextColor(34, 139, 34) // Verde
+      doc.text("Resultados del Diagnóstico", 20, 25)
+
+      doc.setFontSize(12)
+      doc.setTextColor(0, 100, 0) // Verde más oscuro
+      doc.text("Transparencia, Participación y Evaluación Ambiental", 20, 35)
+
+      doc.setFontSize(10)
+      doc.setTextColor(0, 0, 0)
+      doc.text(`Fecha de generación: ${new Date().toLocaleDateString("es-CO")}`, 20, 45)
+
+      let yPos = 60
+
+      // Información del Evaluado con fondo verde
+      const greenColor = hexToRgb("#22c55e")
+      addColoredRect(10, yPos - 5, pageWidth - 20, 15, `rgb(${greenColor.r}, ${greenColor.g}, ${greenColor.b})`)
+
+      doc.setFontSize(12)
+      doc.setTextColor(255, 255, 255) // Blanco
+      doc.text("Información del Evaluado", 15, yPos + 5)
+
+      yPos += 20
+
+      // Contenido de información del evaluado con fondo gris claro
+      addColoredRect(10, yPos - 5, pageWidth - 20, 35, "rgb(248, 250, 252)")
+
+      doc.setFontSize(10)
+      doc.setTextColor(0, 0, 0)
+      doc.text(`Nombre: ${user.name}`, 15, yPos + 5)
+      doc.text(`Entidad: ${user.entity}`, 110, yPos + 5)
+      doc.text(`Teléfono: ${user.phone}`, 15, yPos + 15)
+      doc.text(`Correo: ${user.email}`, 110, yPos + 15)
+      doc.text(`Municipio: ${user.municipality}`, 15, yPos + 25)
+
+      yPos += 45
+
+      // Resumen de Resultados con fondo azul
+      const blueColor = hexToRgb("#3b82f6")
+      addColoredRect(10, yPos - 5, pageWidth - 20, 15, `rgb(${blueColor.r}, ${blueColor.g}, ${blueColor.b})`)
+
+      doc.setFontSize(12)
+      doc.setTextColor(255, 255, 255) // Blanco
+      doc.text("Resumen de Resultados", 15, yPos + 5)
+
+      yPos += 25
+
+      // Métricas en cajas con colores
+      const metricBoxWidth = (pageWidth - 40) / 4
+      const metricBoxHeight = 30
+
+      // Puntuación Total (Verde)
+      addColoredRect(15, yPos, metricBoxWidth, metricBoxHeight, "rgb(34, 197, 94)")
+      doc.setFontSize(20)
+      doc.setTextColor(255, 255, 255)
+      doc.text(`${assessment?.total_score}`, 15 + metricBoxWidth / 2 - 5, yPos + 15)
+      doc.setFontSize(8)
+      doc.text("Puntuación Total", 15 + metricBoxWidth / 2 - 15, yPos + 25)
+
+      // Puntuación Máxima (Azul)
+      addColoredRect(15 + metricBoxWidth + 5, yPos, metricBoxWidth, metricBoxHeight, "rgb(59, 130, 246)")
+      doc.setFontSize(20)
+      doc.setTextColor(255, 255, 255)
+      doc.text(`${assessment?.max_possible_score}`, 15 + metricBoxWidth + 5 + metricBoxWidth / 2 - 5, yPos + 15)
+      doc.setFontSize(8)
+      doc.text("Puntuación Máxima", 15 + metricBoxWidth + 5 + metricBoxWidth / 2 - 18, yPos + 25)
+
+      // Porcentaje (Púrpura)
+      addColoredRect(15 + (metricBoxWidth + 5) * 2, yPos, metricBoxWidth, metricBoxHeight, "rgb(147, 51, 234)")
+      doc.setFontSize(20)
+      doc.setTextColor(255, 255, 255)
+      doc.text(`${assessment?.percentage}%`, 15 + (metricBoxWidth + 5) * 2 + metricBoxWidth / 2 - 10, yPos + 15)
+      doc.setFontSize(8)
+      doc.text("Porcentaje", 15 + (metricBoxWidth + 5) * 2 + metricBoxWidth / 2 - 10, yPos + 25)
+
+      // Clasificación (Color según nivel)
+      let classificationColor = "rgb(239, 68, 68)" // Rojo para Básico
+      if (assessment?.classification === "Avanzado") {
+        classificationColor = "rgb(34, 197, 94)" // Verde
+      } else if (assessment?.classification === "Intermedio") {
+        classificationColor = "rgb(245, 158, 11)" // Amarillo
+      }
+
+      addColoredRect(15 + (metricBoxWidth + 5) * 3, yPos, metricBoxWidth, metricBoxHeight, classificationColor)
+      doc.setFontSize(12)
+      doc.setTextColor(255, 255, 255)
+      doc.text(`${assessment?.classification}`, 15 + (metricBoxWidth + 5) * 3 + metricBoxWidth / 2 - 15, yPos + 20)
+
+      yPos += 50
+
+      // Respuestas Detalladas
+      doc.setFontSize(14)
+      doc.setTextColor(0, 0, 0)
+      doc.text("Respuestas Detalladas", pageWidth / 2 - 30, yPos)
+      yPos += 15
+
+      // Agrupar respuestas por módulo
+      const responseDetails = responses.map((response) => {
+        const question = questions.find((q) => q.id === response.questionId)
+        const option = response.response_option_id
+          ? responseOptions.find((opt) => opt.id === response.response_option_id)
+          : null
+        const module = question ? modules.find((m) => m.id === question.module_id) : null
+
+        let recommendation = ""
+        if (question?.recommendations && option) {
+          recommendation = question.recommendations[option.option_text] || ""
+        } else if (question?.recommendations && response.open_response) {
+          recommendation = question.recommendations.general || ""
+        }
+
+        return {
+          question_text: question?.question_text || "",
+          option_text: option?.option_text,
+          open_response: response.open_response,
+          justification: response.justification,
+          recommendation: recommendation,
+          module_name: module?.name || "",
+          points: option?.points,
+        }
+      })
+
+      const moduleGroups = responseDetails.reduce(
+        (groups, response) => {
+          const module = response.module_name
+          if (!groups[module]) {
+            groups[module] = []
+          }
+          groups[module].push(response)
+          return groups
+        },
+        {} as Record<string, typeof responseDetails>,
+      )
+
+      let questionNumber = 1
+
+      Object.entries(moduleGroups).forEach(([moduleName, moduleResponses]) => {
+        // Verificar si necesitamos una nueva página
+        if (yPos > pageHeight - 60) {
+          doc.addPage()
+          yPos = 20
+        }
+
+        // Título del módulo con fondo azul
+        addColoredRect(10, yPos - 5, pageWidth - 20, 15, `rgb(${blueColor.r}, ${blueColor.g}, ${blueColor.b})`)
+        doc.setFontSize(11)
+        doc.setTextColor(255, 255, 255)
+        doc.text(moduleName, 15, yPos + 5)
+        yPos += 20
+
+        doc.setFontSize(9)
+        doc.setTextColor(0, 0, 0)
+
+        moduleResponses.forEach((response) => {
+          // Verificar si necesitamos una nueva página
+          if (yPos > pageHeight - 80) {
+            doc.addPage()
+            yPos = 20
+          }
+
+          // Fondo para cada pregunta
+          const questionHeight = 40 + (response.justification ? 15 : 0) + (response.recommendation ? 20 : 0)
+          addColoredRect(10, yPos - 5, pageWidth - 20, questionHeight, "rgb(249, 250, 251)")
+
+          // Borde izquierdo verde
+          addColoredRect(10, yPos - 5, 3, questionHeight, "rgb(34, 197, 94)")
+
+          // Pregunta
+          const questionLines = doc.splitTextToSize(`${questionNumber}. ${response.question_text}`, 160)
+          doc.setTextColor(0, 0, 0)
+          doc.setFont("helvetica", "bold")
+          doc.text(questionLines, 20, yPos + 5)
+          yPos += questionLines.length * 4 + 5
+
+          // Respuesta
+          const answerText = response.option_text || response.open_response || ""
+          const pointsText = response.points !== undefined && response.points > 0 ? ` (${response.points} puntos)` : ""
+          doc.setFont("helvetica", "normal")
+          doc.setTextColor(75, 85, 99)
+          const responseLines = doc.splitTextToSize(`Respuesta: ${answerText}${pointsText}`, 160)
+          doc.text(responseLines, 20, yPos)
+          yPos += responseLines.length * 4 + 3
+
+          // Justificación si existe
+          if (response.justification) {
+            doc.setTextColor(75, 85, 99)
+            const justificationLines = doc.splitTextToSize(`Justificación: ${response.justification}`, 160)
+            doc.text(justificationLines, 20, yPos)
+            yPos += justificationLines.length * 4 + 3
+          }
+
+          // Recomendación si existe
+          if (response.recommendation) {
+            // Fondo azul claro para recomendación
+            const recHeight = Math.ceil(response.recommendation.length / 80) * 4 + 8
+            addColoredRect(20, yPos - 2, pageWidth - 40, recHeight, "rgb(239, 246, 255)")
+
+            doc.setTextColor(30, 64, 175)
+            doc.setFont("helvetica", "bold")
+            doc.text("Recomendación:", 25, yPos + 3)
+            doc.setFont("helvetica", "normal")
+            const recommendationLines = doc.splitTextToSize(response.recommendation, 150)
+            doc.text(recommendationLines, 25, yPos + 8)
+            yPos += recommendationLines.length * 4 + 8
+          }
+
+          yPos += 10 // Espacio entre preguntas
+          questionNumber++
+        })
+
+        yPos += 10 // Espacio entre módulos
+      })
+
+      // Guardar el PDF
+      const fileName = `Diagnostico_${user.name.replace(/\s+/g, "_")}_${new Date().toISOString().split("T")[0]}.pdf`
+      doc.save(fileName)
     } catch (error) {
       console.error("Error generating PDF:", error)
       alert("Error al generar el PDF. Por favor, intente nuevamente.")
     }
-  }
-
-  const generatePDFContent = () => {
-    const responseDetails = responses.map((response) => {
-      const question = questions.find((q) => q.id === response.questionId)
-      const option = response.response_option_id
-        ? responseOptions.find((opt) => opt.id === response.response_option_id)
-        : null
-      const module = question ? modules.find((m) => m.id === question.module_id) : null
-
-      // Get recommendation from question data
-      let recommendation = ""
-      if (question?.recommendations && option) {
-        recommendation = question.recommendations[option.option_text] || ""
-      } else if (question?.recommendations && response.open_response) {
-        recommendation = question.recommendations.general || ""
-      }
-
-      return {
-        module_name: module?.name || "",
-        question_text: question?.question_text || "",
-        option_text: option?.option_text,
-        open_response: response.open_response,
-        justification: response.justification,
-        recommendation: recommendation,
-        points: option?.points || 0,
-      }
-    })
-
-    return `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>Diagnóstico Ambiental - ${user.name}</title>
-      <style>
-        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
-        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #22c55e; padding-bottom: 20px; }
-        .section { margin-bottom: 25px; page-break-inside: avoid; }
-        .user-info { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .results-summary { background: #e8f5e8; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
-        .question-block { border-left: 4px solid #22c55e; padding-left: 15px; margin-bottom: 20px; page-break-inside: avoid; }
-        .recommendation { background: #eff6ff; padding: 10px; border-radius: 5px; margin-top: 10px; }
-        .module-header { background: #1e40af; color: white; padding: 10px; margin: 20px 0 10px 0; border-radius: 5px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .points { color: #22c55e; font-weight: bold; }
-      </style>
-    </head>
-    <body>
-      <div class="header">
-        <h1>Diagnóstico de Transparencia, Participación y Evaluación Ambiental</h1>
-        <h2>Ministerio de Ambiente y Desarrollo Sostenible</h2>
-        <p>Fecha: ${new Date().toLocaleDateString("es-CO")}</p>
-      </div>
-
-      <div class="section">
-        <h3>Información del Evaluado</h3>
-        <div class="user-info">
-          <p><strong>Nombre:</strong> ${user.name}</p>
-          <p><strong>Teléfono:</strong> ${user.phone}</p>
-          <p><strong>Correo:</strong> ${user.email}</p>
-          <p><strong>Entidad:</strong> ${user.entity}</p>
-          <p><strong>Municipio:</strong> ${user.municipality}</p>
-        </div>
-      </div>
-
-      <div class="section">
-        <h3>Resumen de Resultados</h3>
-        <div class="results-summary">
-          <p><strong>Puntuación Total:</strong> ${assessment?.total_score} de ${assessment?.max_possible_score}</p>
-          <p><strong>Porcentaje:</strong> ${assessment?.percentage}%</p>
-          <p><strong>Clasificación:</strong> ${assessment?.classification}</p>
-        </div>
-      </div>
-
-      <div class="section">
-        <h3>Respuestas Detalladas</h3>
-        ${Object.entries(
-          responseDetails.reduce(
-            (groups, response) => {
-              const module = response.module_name
-              if (!groups[module]) groups[module] = []
-              groups[module].push(response)
-              return groups
-            },
-            {} as Record<string, typeof responseDetails>,
-          ),
-        )
-          .map(
-            ([moduleName, moduleResponses]) => `
-          <div class="module-header">
-            <h4>${moduleName}</h4>
-          </div>
-          ${moduleResponses
-            .map(
-              (response, index) => `
-            <div class="question-block">
-              <p><strong>Pregunta ${index + 1}:</strong> ${response.question_text}</p>
-              <p><strong>Respuesta:</strong> ${response.option_text || response.open_response} 
-                ${response.points !== undefined && response.points > 0 ? `<span class="points">(${response.points} puntos)</span>` : ""}</p>
-              ${response.justification ? `<p><strong>Justificación:</strong> ${response.justification}</p>` : ""}
-              ${
-                response.recommendation
-                  ? `
-                <div class="recommendation">
-                  <strong>Recomendación:</strong> ${response.recommendation}
-                </div>
-              `
-                  : ""
-              }
-            </div>
-          `,
-            )
-            .join("")}
-        `,
-          )
-          .join("")}
-      </div>
-    </body>
-    </html>
-  `
   }
 
   const handleStartNew = () => {
@@ -409,35 +518,6 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
                   {assessment.classification}
                 </Badge>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Debug Information */}
-        <Card className="mb-6 shadow-lg bg-yellow-50 border-yellow-200">
-          <CardHeader>
-            <CardTitle className="text-lg text-yellow-800">Debug Information</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-sm space-y-2">
-              <p>
-                <strong>Total Responses:</strong> {responses.length}
-              </p>
-              <p>
-                <strong>Responses with option_id:</strong> {responses.filter((r) => r.response_option_id).length}
-              </p>
-              <p>
-                <strong>Response Options Available:</strong> {responseOptions.length}
-              </p>
-              <p>
-                <strong>Module Groups:</strong> {Object.keys(moduleGroups).length}
-              </p>
-              <p>
-                <strong>Response Details:</strong> {responseDetails.length}
-              </p>
-              <p>
-                <strong>Sample Response:</strong> {JSON.stringify(responses[0] || "No responses")}
-              </p>
             </div>
           </CardContent>
         </Card>
