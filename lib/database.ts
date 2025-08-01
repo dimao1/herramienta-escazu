@@ -1,6 +1,6 @@
 import { neon } from "@neondatabase/serverless"
 
-const sql = neon(process.env.DATABASE_URL!)
+const sql = neon(process.env.DATABASE_URL || "postgresql://placeholder:placeholder@placeholder.neon.tech/placeholder?sslmode=require")
 
 export interface Module {
   id: number

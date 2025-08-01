@@ -95,11 +95,11 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
     const maxPossibleScore = questionsIncluded * 3
     const percentage = maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0
 
-    let classification = "Básico"
-    if (percentage >= 85) {
-      classification = "Avanzado"
-    } else if (percentage >= 60) {
-      classification = "Intermedio"
+    let classification = "Punto de partida"
+    if (percentage >= 71) {
+      classification = "Bien encaminado"
+    } else if (percentage >= 50) {
+      classification = "En proceso"
     }
 
     console.log("Final calculation:", {
@@ -218,13 +218,13 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
 
       yPos += 35
 
-      // Resumen de Resultados con fondo azul
+      // ¿Cómo estamos? con fondo azul
       const blueColor = hexToRgb("#3b82f6")
       addColoredRect(10, yPos - 5, pageWidth - 20, 15, `rgb(${blueColor.r}, ${blueColor.g}, ${blueColor.b})`)
 
       doc.setFontSize(12)
       doc.setTextColor(255, 255, 255) // Blanco
-      doc.text("Resumen de Resultados", 15, yPos + 5)
+              doc.text("¿Cómo estamos?", 15, yPos + 5)
 
       yPos += 20
 
@@ -257,10 +257,10 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
       doc.text("Porcentaje", 15 + (metricBoxWidth + 5) * 2 + metricBoxWidth / 2 - 10, yPos + 25)
 
       // Clasificación (Color según nivel)
-      let classificationColor = "rgb(239, 68, 68)" // Rojo para Básico
-      if (assessment?.classification === "Avanzado") {
+      let classificationColor = "rgb(239, 68, 68)" // Rojo para Punto de partida
+      if (assessment?.classification === "Bien encaminado") {
         classificationColor = "rgb(34, 197, 94)" // Verde
-      } else if (assessment?.classification === "Intermedio") {
+      } else if (assessment?.classification === "En proceso") {
         classificationColor = "rgb(245, 158, 11)" // Amarillo
       }
 
@@ -270,6 +270,16 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
       doc.text(`${assessment?.classification}`, 15 + (metricBoxWidth + 5) * 3 + metricBoxWidth / 2 - 15, yPos + 20)
 
       yPos += 35
+
+      // Descripción del nivel de clasificación
+      doc.setFontSize(10)
+      doc.setTextColor(0, 0, 0)
+      const description = getClassificationDescription(assessment?.classification || "")
+      const wrappedDescription = doc.splitTextToSize(description, pageWidth - 30)
+      doc.text("Descripción breve:", 15, yPos)
+      yPos += 8
+      doc.text(wrappedDescription, 15, yPos)
+      yPos += wrappedDescription.length * 5 + 10
 
       // Respuestas Detalladas
       doc.setFontSize(14)
@@ -431,12 +441,23 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
 
   const getClassificationColor = (classification: string) => {
     switch (classification) {
-      case "Avanzado":
+      case "Bien encaminado":
         return "bg-green-100 text-green-800 border-green-200"
-      case "Intermedio":
+      case "En proceso":
         return "bg-yellow-100 text-yellow-800 border-yellow-200"
       default:
         return "bg-red-100 text-red-800 border-red-200"
+    }
+  }
+
+  const getClassificationDescription = (classification: string) => {
+    switch (classification) {
+      case "Bien encaminado":
+        return "La mayoría de prácticas clave están implementadas o en ejecución. Se recomienda darles continuidad, optimizarlas y mantener su efectividad en el tiempo."
+      case "En proceso":
+        return "Hay prácticas sólidamente implementadas. El avance es visible, pero aún hay áreas por fortalecer."
+      default:
+        return "Se identifican múltiples acciones que aún no están en marcha. Es el punto de inicio para estructurar prioridades."
     }
   }
 
@@ -540,7 +561,7 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
         {/* Summary Card */}
         <Card className="mb-6 shadow-lg">
           <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-            <CardTitle className="text-xl">Resumen de Resultados</CardTitle>
+            <CardTitle className="text-xl">¿Cómo estamos?</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -561,6 +582,11 @@ export function ResultsPage({ userId, user, responses, questions, responseOption
                   {assessment.classification}
                 </Badge>
               </div>
+            </div>
+            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+              <p className="text-sm text-gray-700 text-center">
+                <strong>Descripción breve:</strong> {getClassificationDescription(assessment.classification)}
+              </p>
             </div>
           </CardContent>
         </Card>

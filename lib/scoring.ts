@@ -16,11 +16,11 @@ export function calculateScore(responses: Array<{ response_option: ResponseOptio
   const maxPossibleScore = questionsIncluded * 3 // Maximum 3 points per included question
   const percentage = maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0
 
-  let classification = "Básico"
-  if (percentage >= 85) {
-    classification = "Avanzado"
-  } else if (percentage >= 60) {
-    classification = "Intermedio"
+  let classification = "Punto de partida"
+  if (percentage >= 71) {
+    classification = "Bien encaminado"
+  } else if (percentage >= 50) {
+    classification = "En proceso"
   }
 
   return {

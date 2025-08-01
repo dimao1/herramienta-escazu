@@ -72,9 +72,9 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
 
   const getClassificationColor = (classification: string) => {
     switch (classification) {
-      case "Avanzado":
+      case "Bien encaminado":
         return "bg-green-100 text-green-800"
-      case "Intermedio":
+      case "En proceso":
         return "bg-yellow-100 text-yellow-800"
       default:
         return "bg-red-100 text-red-800"

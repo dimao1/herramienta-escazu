@@ -125,7 +125,7 @@ export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
               <p className="text-sm text-blue-800">
                 <strong>Instrucciones:</strong> Con base en la guía de diligenciamiento, marque con una X en la casilla
                 apropiada. En caso de marcar la casilla "Sí", deberá autoevaluar su estado según los niveles: Básico,
-                Intermedio o Avanzado.
+            Intermedio o Avanzado.
               </p>
             </div>
 

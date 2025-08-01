@@ -228,7 +228,7 @@ function QuestionForm({ question, modules, onSave, onCancel }: QuestionFormProps
   }
 
   const addRecommendation = () => {
-    const key = prompt('Ingrese la clave para la recomendación (ej: "Sí - Básico"):')
+    const key = prompt('Ingrese la clave para la recomendación (ej: "Sí - Punto de partida"):')
     if (key) {
       updateRecommendation(key, "")
     }

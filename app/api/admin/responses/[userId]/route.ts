@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { neon } from "@neondatabase/serverless"
 
-const sql = neon(process.env.DATABASE_URL!)
+const sql = neon(process.env.DATABASE_URL || "postgresql://placeholder:placeholder@placeholder.neon.tech/placeholder?sslmode=require")
 
 export async function GET(request: NextRequest, { params }: { params: { userId: string } }) {
   try {
