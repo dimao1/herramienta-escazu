@@ -1,97 +1,105 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardHeader, CardTitle } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Badge } from "@/components/ui/badge"
-import { Plus, Edit, Trash2, Save } from "lucide-react"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Plus, Edit, Trash2, Save } from "lucide-react";
 
 interface Module {
-  id: number
-  name: string
-  description: string
-  order_index: number
+  id: number;
+  name: string;
+  description: string;
+  order_index: number;
 }
 
 export function ModulesManager() {
-  const [modules, setModules] = useState<Module[]>([])
-  const [loading, setLoading] = useState(true)
-  const [editingModule, setEditingModule] = useState<Module | null>(null)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [modules, setModules] = useState<Module[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [editingModule, setEditingModule] = useState<Module | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    fetchModules()
-  }, [])
+    fetchModules();
+  }, []);
 
   const fetchModules = async () => {
     try {
-      const response = await fetch("/api/admin/modules")
-      const data = await response.json()
-      setModules(data)
+      const response = await fetch("/api/admin/modules");
+      const data = await response.json();
+      setModules(data);
     } catch (error) {
-      console.error("Error fetching modules:", error)
+      console.error("Error fetching modules:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleSaveModule = async (moduleData: Partial<Module>) => {
     try {
-      const method = editingModule ? "PUT" : "POST"
+      const method = editingModule ? "PUT" : "POST";
       const response = await fetch("/api/admin/modules", {
         method,
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(moduleData),
-      })
+      });
 
       if (response.ok) {
-        fetchModules()
-        setIsDialogOpen(false)
-        setEditingModule(null)
+        fetchModules();
+        setIsDialogOpen(false);
+        setEditingModule(null);
       }
     } catch (error) {
-      console.error("Error saving module:", error)
+      console.error("Error saving module:", error);
     }
-  }
+  };
 
   const handleDeleteModule = async (id: number) => {
     if (
-      confirm("¿Está seguro de que desea eliminar este módulo? Esto también eliminará todas las preguntas asociadas.")
+      confirm(
+        "¿Está seguro de que desea eliminar este módulo? Esto también eliminará todas las preguntas asociadas.",
+      )
     ) {
       try {
         const response = await fetch(`/api/admin/modules?id=${id}`, {
           method: "DELETE",
-        })
+        });
 
         if (response.ok) {
-          fetchModules()
+          fetchModules();
         }
       } catch (error) {
-        console.error("Error deleting module:", error)
+        console.error("Error deleting module:", error);
       }
     }
-  }
+  };
 
   const openEditDialog = (module: Module) => {
-    setEditingModule(module)
-    setIsDialogOpen(true)
-  }
+    setEditingModule(module);
+    setIsDialogOpen(true);
+  };
 
   const openCreateDialog = () => {
-    setEditingModule(null)
-    setIsDialogOpen(true)
-  }
+    setEditingModule(null);
+    setIsDialogOpen(true);
+  };
 
   if (loading) {
-    return <div className="text-center py-8">Cargando módulos...</div>
+    return <div className="text-center py-8">Cargando módulos...</div>;
   }
 
   return (
@@ -107,9 +115,15 @@ export function ModulesManager() {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{editingModule ? "Editar Módulo" : "Nuevo Módulo"}</DialogTitle>
+              <DialogTitle>
+                {editingModule ? "Editar Módulo" : "Nuevo Módulo"}
+              </DialogTitle>
             </DialogHeader>
-            <ModuleForm module={editingModule} onSave={handleSaveModule} onCancel={() => setIsDialogOpen(false)} />
+            <ModuleForm
+              module={editingModule}
+              onSave={handleSaveModule}
+              onCancel={() => setIsDialogOpen(false)}
+            />
           </DialogContent>
         </Dialog>
       </div>
@@ -127,10 +141,18 @@ export function ModulesManager() {
                   </Badge>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline" onClick={() => openEditDialog(module)}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => openEditDialog(module)}
+                  >
                     <Edit className="h-4 w-4" />
                   </Button>
-                  <Button size="sm" variant="outline" onClick={() => handleDeleteModule(module.id)}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleDeleteModule(module.id)}
+                  >
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
@@ -140,13 +162,13 @@ export function ModulesManager() {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 interface ModuleFormProps {
-  module: Module | null
-  onSave: (data: Partial<Module>) => void
-  onCancel: () => void
+  module: Module | null;
+  onSave: (data: Partial<Module>) => void;
+  onCancel: () => void;
 }
 
 function ModuleForm({ module, onSave, onCancel }: ModuleFormProps) {
@@ -154,16 +176,16 @@ function ModuleForm({ module, onSave, onCancel }: ModuleFormProps) {
     name: module?.name || "",
     description: module?.description || "",
     order_index: module?.order_index || 1,
-  })
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     onSave({
       ...formData,
       id: module?.id,
       order_index: Number(formData.order_index),
-    })
-  }
+    });
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -172,7 +194,9 @@ function ModuleForm({ module, onSave, onCancel }: ModuleFormProps) {
         <Input
           id="name"
           value={formData.name}
-          onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, name: e.target.value }))
+          }
           required
         />
       </div>
@@ -182,7 +206,9 @@ function ModuleForm({ module, onSave, onCancel }: ModuleFormProps) {
         <Textarea
           id="description"
           value={formData.description}
-          onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, description: e.target.value }))
+          }
           rows={3}
         />
       </div>
@@ -193,7 +219,12 @@ function ModuleForm({ module, onSave, onCancel }: ModuleFormProps) {
           id="order_index"
           type="number"
           value={formData.order_index}
-          onChange={(e) => setFormData((prev) => ({ ...prev, order_index: Number(e.target.value) }))}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              order_index: Number(e.target.value),
+            }))
+          }
           required
         />
       </div>
@@ -208,5 +239,5 @@ function ModuleForm({ module, onSave, onCancel }: ModuleFormProps) {
         </Button>
       </div>
     </form>
-  )
+  );
 }

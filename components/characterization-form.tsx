@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface CharacterizationData {
-  name: string
-  phone: string
-  email: string
-  entity: string
-  municipality: string
+  name: string;
+  phone: string;
+  email: string;
+  entity: string;
+  municipality: string;
 }
 
 interface CharacterizationFormProps {
-  onSubmit: (data: CharacterizationData) => void
+  onSubmit: (data: CharacterizationData) => void;
 }
 
 export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
@@ -27,34 +27,46 @@ export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
     email: "",
     entity: "",
     municipality: "",
-  })
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (onSubmit && typeof onSubmit === "function") {
-      onSubmit(formData)
+      onSubmit(formData);
     }
-  }
+  };
 
-  const isValid = formData.name && formData.phone && formData.email && formData.entity && formData.municipality
+  const isValid =
+    formData.name &&
+    formData.phone &&
+    formData.email &&
+    formData.entity &&
+    formData.municipality;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl shadow-xl">
         <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white">
-          <CardTitle className="text-2xl text-center">Caracterización del Evaluador</CardTitle>
+          <CardTitle className="text-2xl text-center">
+            Caracterización del Evaluador
+          </CardTitle>
         </CardHeader>
         <CardContent className="p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+              <Label
+                htmlFor="name"
+                className="text-sm font-medium text-gray-700"
+              >
                 Nombre de quien diligencia *
               </Label>
               <Input
                 id="name"
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 className="mt-2"
                 placeholder="Ingrese su nombre completo"
                 required
@@ -62,14 +74,19 @@ export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
             </div>
 
             <div>
-              <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
+              <Label
+                htmlFor="phone"
+                className="text-sm font-medium text-gray-700"
+              >
                 Celular *
               </Label>
               <Input
                 id="phone"
                 type="tel"
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
                 className="mt-2"
                 placeholder="Ej: 300-123-4567"
                 required
@@ -77,14 +94,19 @@ export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
             </div>
 
             <div>
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+              <Label
+                htmlFor="email"
+                className="text-sm font-medium text-gray-700"
+              >
                 Correo Electrónico *
               </Label>
               <Input
                 id="email"
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 className="mt-2"
                 placeholder="correo@ejemplo.com"
                 required
@@ -92,14 +114,19 @@ export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
             </div>
 
             <div>
-              <Label htmlFor="entity" className="text-sm font-medium text-gray-700">
+              <Label
+                htmlFor="entity"
+                className="text-sm font-medium text-gray-700"
+              >
                 Entidad *
               </Label>
               <Input
                 id="entity"
                 type="text"
                 value={formData.entity}
-                onChange={(e) => setFormData({ ...formData, entity: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, entity: e.target.value })
+                }
                 className="mt-2"
                 placeholder="Nombre de la entidad o institución"
                 required
@@ -107,14 +134,19 @@ export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
             </div>
 
             <div>
-              <Label htmlFor="municipality" className="text-sm font-medium text-gray-700">
+              <Label
+                htmlFor="municipality"
+                className="text-sm font-medium text-gray-700"
+              >
                 Municipio *
               </Label>
               <Input
                 id="municipality"
                 type="text"
                 value={formData.municipality}
-                onChange={(e) => setFormData({ ...formData, municipality: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, municipality: e.target.value })
+                }
                 className="mt-2"
                 placeholder="Municipio donde se realiza la evaluación"
                 required
@@ -123,9 +155,10 @@ export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
 
             <div className="bg-blue-50 p-4 rounded-lg">
               <p className="text-sm text-blue-800">
-                <strong>Instrucciones:</strong> Con base en la guía de diligenciamiento, marque con una X en la casilla
-                apropiada. En caso de marcar la casilla "Sí", deberá autoevaluar su estado según los niveles: Básico,
-            Intermedio o Avanzado.
+                <strong>Instrucciones:</strong> Con base en la guía de
+                diligenciamiento, marque con una X en la casilla apropiada. En
+                caso de marcar la casilla "Sí", deberá autoevaluar su estado
+                según los niveles: Básico, Intermedio o Avanzado.
               </p>
             </div>
 
@@ -140,5 +173,5 @@ export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

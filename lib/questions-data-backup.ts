@@ -17,21 +17,42 @@ export const modulesData = [
     description: "Evaluación de participación en decisiones",
     order_index: 3,
   },
-]
+];
 
 export const responseOptionsData = [
-  { id: 1, option_text: "Sí - Básico", points: 1, excludes_from_calculation: false },
-  { id: 2, option_text: "Sí - Intermedio", points: 2, excludes_from_calculation: false },
-  { id: 3, option_text: "Sí - Avanzado", points: 3, excludes_from_calculation: false },
+  {
+    id: 1,
+    option_text: "Sí - Básico",
+    points: 1,
+    excludes_from_calculation: false,
+  },
+  {
+    id: 2,
+    option_text: "Sí - Intermedio",
+    points: 2,
+    excludes_from_calculation: false,
+  },
+  {
+    id: 3,
+    option_text: "Sí - Avanzado",
+    points: 3,
+    excludes_from_calculation: false,
+  },
   { id: 4, option_text: "No", points: 0, excludes_from_calculation: false },
-  { id: 5, option_text: "No aplica", points: 0, excludes_from_calculation: true },
-]
+  {
+    id: 5,
+    option_text: "No aplica",
+    points: 0,
+    excludes_from_calculation: true,
+  },
+];
 
 export const questionsData = [
   {
     id: 1,
     module_id: 1,
-    question_text: "1. Actualizamos el menu transparencia y acceso a la información de manera mensual",
+    question_text:
+      "1. Actualizamos el menu transparencia y acceso a la información de manera mensual",
     question_type: "statement" as const,
     order_index: 1,
     recommendations: {
@@ -54,14 +75,14 @@ export const questionsData = [
     order_index: 2,
     recommendations: {
       "Sí - Básico":
-        "Revisen los requisitos establecidos en la Resolución 1519 de 2020 para el menú \"Participa\" y realicen los ajustes necesarios en la página web para asegurar su cumplimiento. Socialicen estos lineamientos con las áreas responsables responsables de promover la participación ciudadana y definan, de forma conjunta, criterios que garanticen la publicación oportuna y clara de la información ambiental relacionada.",
+        'Revisen los requisitos establecidos en la Resolución 1519 de 2020 para el menú "Participa" y realicen los ajustes necesarios en la página web para asegurar su cumplimiento. Socialicen estos lineamientos con las áreas responsables responsables de promover la participación ciudadana y definan, de forma conjunta, criterios que garanticen la publicación oportuna y clara de la información ambiental relacionada.',
       "Sí - Intermedio":
-        "Establezcan un sistema claro y práctico para la actualización de la información ambiental en el menú \"Participa\", a través de un protocolo, procedimiento o instructivo que defina cómo y cuándo las áreas responsables de promover la participación en su entidad, deben remitir la información correspondiente para su publicación. Aseguren la socialización de este sistema con los equipos involucrados y desarrollen espacios de capacitación para fortalecer su implementación.",
+        'Establezcan un sistema claro y práctico para la actualización de la información ambiental en el menú "Participa", a través de un protocolo, procedimiento o instructivo que defina cómo y cuándo las áreas responsables de promover la participación en su entidad, deben remitir la información correspondiente para su publicación. Aseguren la socialización de este sistema con los equipos involucrados y desarrollen espacios de capacitación para fortalecer su implementación.',
       "Sí - Avanzado":
         "Continúen con la actualización periódica y oportuna de los espacios, actividades y contenidos que promueven la participación ciudadana ambiental, como convocatorias, espacios de diálogo, talleres e informes. Incorporen los resultados de estas actividades, la visibilización de compromisos asumidos, el seguimiento realizado, el uso de datos abiertos y la publicación de informes en lenguaje claro. Aseguren también mecanismos que permitan a la ciudadanía brindar retroalimentación sobre estos procesos.",
-      No: "¡ALERTA! La normatividad vigente exige actualizar de manera periódica y oportuna de los espacios, actividades y contenidos que promueven la participación ciudadana ambiental. Establezcan un cronograma de actualización mensual del menú \"Participa\", en cumplimiento del Decreto 1499 de 2017, la Resolución 1519 de 2020, los lineamientos de Gobierno Digital y el Acuerdo de Escazú. Aseguren que esta actualización impulse mecanismos efectivos de participación ciudadana.",
+      No: '¡ALERTA! La normatividad vigente exige actualizar de manera periódica y oportuna de los espacios, actividades y contenidos que promueven la participación ciudadana ambiental. Establezcan un cronograma de actualización mensual del menú "Participa", en cumplimiento del Decreto 1499 de 2017, la Resolución 1519 de 2020, los lineamientos de Gobierno Digital y el Acuerdo de Escazú. Aseguren que esta actualización impulse mecanismos efectivos de participación ciudadana.',
       "No aplica":
-        "¡ALERTA! La normatividad vigente relacionada con el acceso a la información para la participación ambiental (Decreto 1499 de 2017, la resolución 1519 de 2020, los lineamientos de Gobierno Digital y el Acuerdo de Escazú) obliga a tener lineamientos (protocolo, guía, instructivo, procedimiento, etc) en el que se establezca los pasos y responsabilidades para la actualización de la información ambiental del menú \"Participa\". Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
+        '¡ALERTA! La normatividad vigente relacionada con el acceso a la información para la participación ambiental (Decreto 1499 de 2017, la resolución 1519 de 2020, los lineamientos de Gobierno Digital y el Acuerdo de Escazú) obliga a tener lineamientos (protocolo, guía, instructivo, procedimiento, etc) en el que se establezca los pasos y responsabilidades para la actualización de la información ambiental del menú "Participa". Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.',
     },
   },
   {
@@ -86,7 +107,8 @@ export const questionsData = [
   {
     id: 4,
     module_id: 1,
-    question_text: "4. Mi página es accesible para todas las poblaciones diferenciales de mi territorio",
+    question_text:
+      "4. Mi página es accesible para todas las poblaciones diferenciales de mi territorio",
     question_type: "statement" as const,
     order_index: 4,
     recommendations: {
@@ -104,7 +126,8 @@ export const questionsData = [
   {
     id: 5,
     module_id: 1,
-    question_text: "5. He hecho pruebas de sistema de lenguaje claro en mi página",
+    question_text:
+      "5. He hecho pruebas de sistema de lenguaje claro en mi página",
     question_type: "statement" as const,
     order_index: 5,
     recommendations: {
@@ -160,7 +183,8 @@ export const questionsData = [
   {
     id: 8,
     module_id: 1,
-    question_text: "8. Tengo establecidos claramente los criterios para denegar solicitudes de información ambiental",
+    question_text:
+      "8. Tengo establecidos claramente los criterios para denegar solicitudes de información ambiental",
     question_type: "statement" as const,
     order_index: 8,
     recommendations: {
@@ -178,7 +202,8 @@ export const questionsData = [
   {
     id: 9,
     module_id: 1,
-    question_text: "9. Conozco la prueba de interés público para determinar la denegación de información",
+    question_text:
+      "9. Conozco la prueba de interés público para determinar la denegación de información",
     question_type: "statement" as const,
     order_index: 9,
     recommendations: {
@@ -292,7 +317,8 @@ export const questionsData = [
   {
     id: 15,
     module_id: 2,
-    question_text: "15. Mi entidad usa y carga información de los sistemas de información ambiental (VITAL, SIAC, RUA)",
+    question_text:
+      "15. Mi entidad usa y carga información de los sistemas de información ambiental (VITAL, SIAC, RUA)",
     question_type: "statement" as const,
     order_index: 15,
     recommendations: {
@@ -310,7 +336,8 @@ export const questionsData = [
   {
     id: 16,
     module_id: 2,
-    question_text: "16. Mis datos ambientales siempre están disponibles en formatos editable",
+    question_text:
+      "16. Mis datos ambientales siempre están disponibles en formatos editable",
     question_type: "statement" as const,
     order_index: 16,
     recommendations: {
@@ -538,7 +565,8 @@ export const questionsData = [
   {
     id: 28,
     module_id: 3,
-    question_text: "28. Facilito la participación de comunidades que hablen idiomas distintos al idioma oficial",
+    question_text:
+      "28. Facilito la participación de comunidades que hablen idiomas distintos al idioma oficial",
     question_type: "statement" as const,
     order_index: 28,
     recommendations: {
@@ -594,7 +622,8 @@ export const questionsData = [
   {
     id: 31,
     module_id: 3,
-    question_text: "31. Promuevo activamente el ejercicio del derecho al control social sobre la gestión ambiental",
+    question_text:
+      "31. Promuevo activamente el ejercicio del derecho al control social sobre la gestión ambiental",
     question_type: "statement" as const,
     order_index: 31,
     recommendations: {
@@ -669,7 +698,8 @@ export const questionsData = [
   {
     id: 35,
     module_id: 3,
-    question_text: "35. Diseño diálogos de rendición de cuentas para la toma de desiciones ambientales",
+    question_text:
+      "35. Diseño diálogos de rendición de cuentas para la toma de desiciones ambientales",
     question_type: "statement" as const,
     order_index: 35,
     recommendations: {
@@ -709,4 +739,4 @@ export const questionsData = [
         "Elabore un plan de mejoramiento institucional basado en los retos identificados, estableciendo metas, responsables y cronogramas específicos para avanzar en la implementación efectiva de los derechos de acceso en asuntos ambientales.",
     },
   },
-]
+];

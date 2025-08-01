@@ -1,15 +1,19 @@
-import { NextResponse } from "next/server"
-import { neon } from "@neondatabase/serverless"
+import { NextResponse } from "next/server";
+import { neon } from "@neondatabase/serverless";
 
-const sql = neon(process.env.DATABASE_URL || "postgresql://placeholder:placeholder@placeholder.neon.tech/placeholder?sslmode=require")
+const sql = neon(
+  process.env.DATABASE_URL ||
+    "postgresql://placeholder:placeholder@placeholder.neon.tech/placeholder?sslmode=require",
+);
 
 export async function GET() {
   try {
     // Obtener estadísticas del dashboard
-    const totalUsers = await sql`SELECT COUNT(*) as count FROM users`
-    const totalAssessments = await sql`SELECT COUNT(*) as count FROM assessments`
-    const totalQuestions = await sql`SELECT COUNT(*) as count FROM questions`
-    const totalModules = await sql`SELECT COUNT(*) as count FROM modules`
+    const totalUsers = await sql`SELECT COUNT(*) as count FROM users`;
+    const totalAssessments =
+      await sql`SELECT COUNT(*) as count FROM assessments`;
+    const totalQuestions = await sql`SELECT COUNT(*) as count FROM questions`;
+    const totalModules = await sql`SELECT COUNT(*) as count FROM modules`;
 
     // Obtener evaluaciones recientes
     const recentAssessments = await sql`
@@ -18,14 +22,14 @@ export async function GET() {
       JOIN users u ON a.user_id = u.id
       ORDER BY a.completed_at DESC
       LIMIT 10
-    `
+    `;
 
     // Obtener distribución por clasificación
     const classificationStats = await sql`
       SELECT classification, COUNT(*) as count
       FROM assessments
       GROUP BY classification
-    `
+    `;
 
     return NextResponse.json({
       stats: {
@@ -36,9 +40,12 @@ export async function GET() {
       },
       recentAssessments,
       classificationStats,
-    })
+    });
   } catch (error) {
-    console.error("Error obteniendo datos del dashboard:", error)
-    return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 })
+    console.error("Error obteniendo datos del dashboard:", error);
+    return NextResponse.json(
+      { error: "Error interno del servidor" },
+      { status: 500 },
+    );
   }
 }

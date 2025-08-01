@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Shield } from "lucide-react"
-import Link from "next/link"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Shield } from "lucide-react";
+import Link from "next/link";
 
 export function AdminAccessButton() {
-  const [showButton, setShowButton] = useState(false)
+  const [showButton, setShowButton] = useState(false);
 
   // Mostrar el botón solo después de hacer clic 5 veces en una esquina
   const handleCornerClick = () => {
-    setShowButton(true)
-  }
+    setShowButton(true);
+  };
 
   return (
     <>
@@ -34,5 +34,5 @@ export function AdminAccessButton() {
         </div>
       )}
     </>
-  )
+  );
 }

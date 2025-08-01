@@ -1,21 +1,27 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import Image from "next/image"
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import Image from "next/image";
 
 interface QuizLayoutProps {
-  children: React.ReactNode
-  currentQuestion: number
-  totalQuestions: number
-  score?: number
-  title: string
+  children: React.ReactNode;
+  currentQuestion: number;
+  totalQuestions: number;
+  score?: number;
+  title: string;
 }
 
-export function QuizLayout({ children, currentQuestion, totalQuestions, score = 0, title }: QuizLayoutProps) {
-  const progress = (currentQuestion / totalQuestions) * 100
+export function QuizLayout({
+  children,
+  currentQuestion,
+  totalQuestions,
+  score = 0,
+  title,
+}: QuizLayoutProps) {
+  const progress = (currentQuestion / totalQuestions) * 100;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4">
@@ -52,7 +58,9 @@ export function QuizLayout({ children, currentQuestion, totalQuestions, score = 
         {/* Progress Bar */}
         <div className="mb-6">
           <Progress value={progress} className="h-3" />
-          <div className="text-center text-sm text-gray-600 mt-2">Progreso: {Math.round(progress)}%</div>
+          <div className="text-center text-sm text-gray-600 mt-2">
+            Progreso: {Math.round(progress)}%
+          </div>
         </div>
 
         {/* Main Content */}
@@ -64,5 +72,5 @@ export function QuizLayout({ children, currentQuestion, totalQuestions, score = 
         </Card>
       </div>
     </div>
-  )
+  );
 }

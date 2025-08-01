@@ -1,92 +1,96 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { Users, FileText, BarChart3, Settings, LogOut } from "lucide-react"
-import { QuestionsManager } from "./questions-manager"
-import { ModulesManager } from "./modules-manager"
-import { AssessmentsViewer } from "./assessments-viewer"
-import { ResponseOptionsManager } from "./response-options-manager"
-import { DataExport } from "./data-export"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { Users, FileText, BarChart3, Settings, LogOut } from "lucide-react";
+import { QuestionsManager } from "./questions-manager";
+import { ModulesManager } from "./modules-manager";
+import { AssessmentsViewer } from "./assessments-viewer";
+import { ResponseOptionsManager } from "./response-options-manager";
+import { DataExport } from "./data-export";
 
 interface AdminUser {
-  id: number
-  username: string
-  role: string
+  id: number;
+  username: string;
+  role: string;
 }
 
 interface AdminDashboardProps {
-  admin: AdminUser
-  onLogout: () => void
+  admin: AdminUser;
+  onLogout: () => void;
 }
 
 interface DashboardStats {
-  totalUsers: number
-  totalAssessments: number
-  totalQuestions: number
-  totalModules: number
+  totalUsers: number;
+  totalAssessments: number;
+  totalQuestions: number;
+  totalModules: number;
 }
 
 interface RecentAssessment {
-  id: number
-  name: string
-  entity: string
-  municipality: string
-  classification: string
-  percentage: number
-  completed_at: string
+  id: number;
+  name: string;
+  entity: string;
+  municipality: string;
+  classification: string;
+  percentage: number;
+  completed_at: string;
 }
 
 interface ClassificationStat {
-  classification: string
-  count: number
+  classification: string;
+  count: number;
 }
 
 export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
-  const [stats, setStats] = useState<DashboardStats | null>(null)
-  const [recentAssessments, setRecentAssessments] = useState<RecentAssessment[]>([])
-  const [classificationStats, setClassificationStats] = useState<ClassificationStat[]>([])
-  const [loading, setLoading] = useState(true)
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [recentAssessments, setRecentAssessments] = useState<
+    RecentAssessment[]
+  >([]);
+  const [classificationStats, setClassificationStats] = useState<
+    ClassificationStat[]
+  >([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchDashboardData()
-  }, [])
+    fetchDashboardData();
+  }, []);
 
   const fetchDashboardData = async () => {
     try {
-      const response = await fetch("/api/admin/dashboard")
-      const data = await response.json()
+      const response = await fetch("/api/admin/dashboard");
+      const data = await response.json();
 
-      setStats(data.stats)
-      setRecentAssessments(data.recentAssessments)
-      setClassificationStats(data.classificationStats)
+      setStats(data.stats);
+      setRecentAssessments(data.recentAssessments);
+      setClassificationStats(data.classificationStats);
     } catch (error) {
-      console.error("Error fetching dashboard data:", error)
+      console.error("Error fetching dashboard data:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const getClassificationColor = (classification: string) => {
     switch (classification) {
       case "Bien encaminado":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case "En proceso":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       default:
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
     }
-  }
+  };
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -96,7 +100,9 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Panel de Administración</h1>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Panel de Administración
+              </h1>
               <p className="text-gray-600">Bienvenido, {admin.username}</p>
             </div>
             <Button onClick={onLogout} variant="outline">
@@ -126,8 +132,12 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
                   <div className="flex items-center">
                     <Users className="h-8 w-8 text-blue-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Total Usuarios</p>
-                      <p className="text-2xl font-bold text-gray-900">{stats?.totalUsers}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Total Usuarios
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {stats?.totalUsers}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -138,8 +148,12 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
                   <div className="flex items-center">
                     <BarChart3 className="h-8 w-8 text-green-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Evaluaciones</p>
-                      <p className="text-2xl font-bold text-gray-900">{stats?.totalAssessments}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Evaluaciones
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {stats?.totalAssessments}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -150,8 +164,12 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
                   <div className="flex items-center">
                     <FileText className="h-8 w-8 text-purple-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Preguntas</p>
-                      <p className="text-2xl font-bold text-gray-900">{stats?.totalQuestions}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Preguntas
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {stats?.totalQuestions}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -162,8 +180,12 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
                   <div className="flex items-center">
                     <Settings className="h-8 w-8 text-orange-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Módulos</p>
-                      <p className="text-2xl font-bold text-gray-900">{stats?.totalModules}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Módulos
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {stats?.totalModules}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -179,17 +201,30 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
                 <CardContent>
                   <div className="space-y-4">
                     {recentAssessments.map((assessment) => (
-                      <div key={assessment.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div
+                        key={assessment.id}
+                        className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                      >
                         <div>
                           <p className="font-medium">{assessment.name}</p>
-                          <p className="text-sm text-gray-600">{assessment.entity}</p>
-                          <p className="text-xs text-gray-500">{assessment.municipality}</p>
+                          <p className="text-sm text-gray-600">
+                            {assessment.entity}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {assessment.municipality}
+                          </p>
                         </div>
                         <div className="text-right">
-                          <Badge className={getClassificationColor(assessment.classification)}>
+                          <Badge
+                            className={getClassificationColor(
+                              assessment.classification,
+                            )}
+                          >
                             {assessment.classification}
                           </Badge>
-                          <p className="text-sm text-gray-600 mt-1">{assessment.percentage}%</p>
+                          <p className="text-sm text-gray-600 mt-1">
+                            {assessment.percentage}%
+                          </p>
                         </div>
                       </div>
                     ))}
@@ -205,8 +240,17 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
                 <CardContent>
                   <div className="space-y-4">
                     {classificationStats.map((stat) => (
-                      <div key={stat.classification} className="flex items-center justify-between">
-                        <Badge className={getClassificationColor(stat.classification)}>{stat.classification}</Badge>
+                      <div
+                        key={stat.classification}
+                        className="flex items-center justify-between"
+                      >
+                        <Badge
+                          className={getClassificationColor(
+                            stat.classification,
+                          )}
+                        >
+                          {stat.classification}
+                        </Badge>
                         <span className="text-2xl font-bold">{stat.count}</span>
                       </div>
                     ))}
@@ -238,5 +282,5 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
         </Tabs>
       </div>
     </div>
-  )
+  );
 }

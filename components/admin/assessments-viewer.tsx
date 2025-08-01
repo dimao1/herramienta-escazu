@@ -1,103 +1,110 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Eye } from "lucide-react"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Eye } from "lucide-react";
 
 interface Assessment {
-  id: number
-  user_id: number
-  name: string
-  contact: string
-  entity: string
-  municipality: string
-  total_score: number
-  max_possible_score: number
-  percentage: number
-  classification: string
-  completed_at: string
-  total_responses: number
+  id: number;
+  user_id: number;
+  name: string;
+  contact: string;
+  entity: string;
+  municipality: string;
+  total_score: number;
+  max_possible_score: number;
+  percentage: number;
+  classification: string;
+  completed_at: string;
+  total_responses: number;
 }
 
 interface UserResponse {
-  id: number
-  question_text: string
-  question_type: string
-  option_text?: string
-  open_response?: string
-  justification?: string
-  points?: number
-  module_name: string
-  recommendations: Record<string, string>
+  id: number;
+  question_text: string;
+  question_type: string;
+  option_text?: string;
+  open_response?: string;
+  justification?: string;
+  points?: number;
+  module_name: string;
+  recommendations: Record<string, string>;
 }
 
 interface UserData {
-  id: number
-  name: string
-  contact: string
-  entity: string
-  municipality: string
+  id: number;
+  name: string;
+  contact: string;
+  entity: string;
+  municipality: string;
 }
 
 export function AssessmentsViewer() {
-  const [assessments, setAssessments] = useState<Assessment[]>([])
-  const [loading, setLoading] = useState(true)
+  const [assessments, setAssessments] = useState<Assessment[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedAssessment, setSelectedAssessment] = useState<{
-    user: UserData
-    responses: UserResponse[]
-  } | null>(null)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+    user: UserData;
+    responses: UserResponse[];
+  } | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    fetchAssessments()
-  }, [])
+    fetchAssessments();
+  }, []);
 
   const fetchAssessments = async () => {
     try {
-      const response = await fetch("/api/admin/assessments")
-      const data = await response.json()
-      setAssessments(data)
+      const response = await fetch("/api/admin/assessments");
+      const data = await response.json();
+      setAssessments(data);
     } catch (error) {
-      console.error("Error fetching assessments:", error)
+      console.error("Error fetching assessments:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const viewAssessmentDetails = async (userId: number) => {
     try {
-      const response = await fetch(`/api/admin/responses/${userId}`)
-      const data = await response.json()
-      setSelectedAssessment(data)
-      setIsDialogOpen(true)
+      const response = await fetch(`/api/admin/responses/${userId}`);
+      const data = await response.json();
+      setSelectedAssessment(data);
+      setIsDialogOpen(true);
     } catch (error) {
-      console.error("Error fetching assessment details:", error)
+      console.error("Error fetching assessment details:", error);
     }
-  }
+  };
 
   const getClassificationColor = (classification: string) => {
     switch (classification) {
       case "Bien encaminado":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case "En proceso":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       default:
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
     }
-  }
+  };
 
   if (loading) {
-    return <div className="text-center py-8">Cargando evaluaciones...</div>
+    return <div className="text-center py-8">Cargando evaluaciones...</div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Evaluaciones Realizadas</h2>
-        <p className="text-gray-600">Total: {assessments.length} evaluaciones</p>
+        <p className="text-gray-600">
+          Total: {assessments.length} evaluaciones
+        </p>
       </div>
 
       <div className="grid gap-4">
@@ -108,18 +115,28 @@ export function AssessmentsViewer() {
                 <div>
                   <CardTitle className="text-lg">{assessment.name}</CardTitle>
                   <p className="text-gray-600">{assessment.entity}</p>
-                  <p className="text-sm text-gray-500">{assessment.municipality}</p>
+                  <p className="text-sm text-gray-500">
+                    {assessment.municipality}
+                  </p>
                   <p className="text-xs text-gray-400">
-                    Completado: {new Date(assessment.completed_at).toLocaleDateString("es-CO")}
+                    Completado:{" "}
+                    {new Date(assessment.completed_at).toLocaleDateString(
+                      "es-CO",
+                    )}
                   </p>
                 </div>
                 <div className="text-right space-y-2">
-                  <Badge className={getClassificationColor(assessment.classification)}>
+                  <Badge
+                    className={getClassificationColor(
+                      assessment.classification,
+                    )}
+                  >
                     {assessment.classification}
                   </Badge>
                   <div className="text-sm">
                     <p>
-                      <strong>Puntuación:</strong> {assessment.total_score}/{assessment.max_possible_score}
+                      <strong>Puntuación:</strong> {assessment.total_score}/
+                      {assessment.max_possible_score}
                     </p>
                     <p>
                       <strong>Porcentaje:</strong> {assessment.percentage}%
@@ -133,7 +150,11 @@ export function AssessmentsViewer() {
             </CardHeader>
             <CardContent>
               <div className="flex gap-2">
-                <Button size="sm" variant="outline" onClick={() => viewAssessmentDetails(assessment.user_id)}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => viewAssessmentDetails(assessment.user_id)}
+                >
                   <Eye className="h-4 w-4 mr-2" />
                   Ver Detalles
                 </Button>
@@ -146,14 +167,18 @@ export function AssessmentsViewer() {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Detalles de la Evaluación - {selectedAssessment?.user.name}</DialogTitle>
+            <DialogTitle>
+              Detalles de la Evaluación - {selectedAssessment?.user.name}
+            </DialogTitle>
           </DialogHeader>
           {selectedAssessment && (
             <div className="space-y-6">
               {/* User Info */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Información del Evaluado</CardTitle>
+                  <CardTitle className="text-lg">
+                    Información del Evaluado
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4">
@@ -161,13 +186,15 @@ export function AssessmentsViewer() {
                       <strong>Nombre:</strong> {selectedAssessment.user.name}
                     </div>
                     <div>
-                      <strong>Contacto:</strong> {selectedAssessment.user.contact}
+                      <strong>Contacto:</strong>{" "}
+                      {selectedAssessment.user.contact}
                     </div>
                     <div>
                       <strong>Entidad:</strong> {selectedAssessment.user.entity}
                     </div>
                     <div>
-                      <strong>Municipio:</strong> {selectedAssessment.user.municipality}
+                      <strong>Municipio:</strong>{" "}
+                      {selectedAssessment.user.municipality}
                     </div>
                   </div>
                 </CardContent>
@@ -179,10 +206,10 @@ export function AssessmentsViewer() {
                 {Object.entries(
                   selectedAssessment.responses.reduce(
                     (groups, response) => {
-                      const module = response.module_name
-                      if (!groups[module]) groups[module] = []
-                      groups[module].push(response)
-                      return groups
+                      const module = response.module_name;
+                      if (!groups[module]) groups[module] = [];
+                      groups[module].push(response);
+                      return groups;
                     },
                     {} as Record<string, UserResponse[]>,
                   ),
@@ -194,24 +221,42 @@ export function AssessmentsViewer() {
                     <CardContent>
                       <div className="space-y-4">
                         {moduleResponses.map((response, index) => (
-                          <div key={index} className="border-l-4 border-blue-500 pl-4 py-2">
-                            <div className="font-medium text-gray-800 mb-2">{response.question_text}</div>
+                          <div
+                            key={index}
+                            className="border-l-4 border-blue-500 pl-4 py-2"
+                          >
+                            <div className="font-medium text-gray-800 mb-2">
+                              {response.question_text}
+                            </div>
                             <div className="text-sm text-gray-600 mb-2">
-                              <strong>Respuesta:</strong> {response.option_text || response.open_response}
-                              {response.points !== undefined && response.points > 0 && (
-                                <span className="ml-2 text-green-600 font-semibold">({response.points} puntos)</span>
-                              )}
+                              <strong>Respuesta:</strong>{" "}
+                              {response.option_text || response.open_response}
+                              {response.points !== undefined &&
+                                response.points > 0 && (
+                                  <span className="ml-2 text-green-600 font-semibold">
+                                    ({response.points} puntos)
+                                  </span>
+                                )}
                             </div>
                             {response.justification && (
                               <div className="text-sm text-gray-600 mb-2">
-                                <strong>Justificación:</strong> {response.justification}
+                                <strong>Justificación:</strong>{" "}
+                                {response.justification}
                               </div>
                             )}
-                            {response.option_text && response.recommendations[response.option_text] && (
-                              <div className="bg-blue-50 p-3 rounded-lg text-sm text-blue-800">
-                                <strong>Recomendación:</strong> {response.recommendations[response.option_text]}
-                              </div>
-                            )}
+                            {response.option_text &&
+                              response.recommendations[
+                                response.option_text
+                              ] && (
+                                <div className="bg-blue-50 p-3 rounded-lg text-sm text-blue-800">
+                                  <strong>Recomendación:</strong>{" "}
+                                  {
+                                    response.recommendations[
+                                      response.option_text
+                                    ]
+                                  }
+                                </div>
+                              )}
                           </div>
                         ))}
                       </div>
@@ -224,5 +269,5 @@ export function AssessmentsViewer() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

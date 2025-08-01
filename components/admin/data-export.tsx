@@ -1,41 +1,43 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Download, FileSpreadsheet, Database } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Download, FileSpreadsheet, Database } from "lucide-react";
 
 export function DataExport() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const exportToCSV = async (endpoint: string, filename: string) => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const response = await fetch(endpoint)
-      const data = await response.json()
+      const response = await fetch(endpoint);
+      const data = await response.json();
 
       // Convertir a CSV
       if (data.length > 0) {
-        const headers = Object.keys(data[0]).join(",")
-        const rows = data.map((row: any) => Object.values(row).join(",")).join("\n")
-        const csv = `${headers}\n${rows}`
+        const headers = Object.keys(data[0]).join(",");
+        const rows = data
+          .map((row: any) => Object.values(row).join(","))
+          .join("\n");
+        const csv = `${headers}\n${rows}`;
 
         // Descargar archivo
-        const blob = new Blob([csv], { type: "text/csv" })
-        const url = window.URL.createObjectURL(blob)
-        const a = document.createElement("a")
-        a.href = url
-        a.download = `${filename}_${new Date().toISOString().split("T")[0]}.csv`
-        a.click()
-        window.URL.revokeObjectURL(url)
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${filename}_${new Date().toISOString().split("T")[0]}.csv`;
+        a.click();
+        window.URL.revokeObjectURL(url);
       }
     } catch (error) {
-      console.error("Error exporting data:", error)
-      alert("Error al exportar los datos")
+      console.error("Error exporting data:", error);
+      alert("Error al exportar los datos");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -51,10 +53,13 @@ export function DataExport() {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-gray-600 mb-4">
-              Exportar todas las evaluaciones completadas con resultados y datos del usuario.
+              Exportar todas las evaluaciones completadas con resultados y datos
+              del usuario.
             </p>
             <Button
-              onClick={() => exportToCSV("/api/admin/assessments", "evaluaciones")}
+              onClick={() =>
+                exportToCSV("/api/admin/assessments", "evaluaciones")
+              }
               disabled={loading}
               className="w-full"
             >
@@ -94,8 +99,14 @@ export function DataExport() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-gray-600 mb-4">Exportar todos los módulos del diagnóstico.</p>
-            <Button onClick={() => exportToCSV("/api/admin/modules", "modulos")} disabled={loading} className="w-full">
+            <p className="text-sm text-gray-600 mb-4">
+              Exportar todos los módulos del diagnóstico.
+            </p>
+            <Button
+              onClick={() => exportToCSV("/api/admin/modules", "modulos")}
+              disabled={loading}
+              className="w-full"
+            >
               <Download className="h-4 w-4 mr-2" />
               Exportar CSV
             </Button>
@@ -103,5 +114,5 @@ export function DataExport() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

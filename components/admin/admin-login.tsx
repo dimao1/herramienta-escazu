@@ -1,35 +1,35 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Shield } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Shield } from "lucide-react";
 
 interface AdminUser {
-  id: number
-  username: string
-  role: string
+  id: number;
+  username: string;
+  role: string;
 }
 
 interface AdminLoginProps {
-  onLogin: (admin: AdminUser) => void
+  onLogin: (admin: AdminUser) => void;
 }
 
 export function AdminLogin({ onLogin }: AdminLoginProps) {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError("")
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
     try {
       const response = await fetch("/api/admin/auth", {
@@ -38,21 +38,21 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok) {
-        onLogin(data.admin)
+        onLogin(data.admin);
       } else {
-        setError(data.error || "Error de autenticación")
+        setError(data.error || "Error de autenticación");
       }
     } catch (error) {
-      setError("Error de conexión")
+      setError("Error de conexión");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
@@ -61,7 +61,9 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
           <div className="mx-auto w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-4">
             <Shield className="h-6 w-6 text-white" />
           </div>
-          <CardTitle className="text-2xl text-gray-800">Panel de Administración</CardTitle>
+          <CardTitle className="text-2xl text-gray-800">
+            Panel de Administración
+          </CardTitle>
           <p className="text-gray-600">Herramienta Diagnóstica Ambiental</p>
         </CardHeader>
         <CardContent>
@@ -93,12 +95,16 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            <Button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-700"
+            >
               {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
             </Button>
           </form>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

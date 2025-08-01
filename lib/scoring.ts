@@ -1,26 +1,29 @@
-import type { ResponseOption } from "./database"
+import type { ResponseOption } from "./database";
 
-export function calculateScore(responses: Array<{ response_option: ResponseOption | null }>) {
-  let totalScore = 0
-  let questionsIncluded = 0
+export function calculateScore(
+  responses: Array<{ response_option: ResponseOption | null }>,
+) {
+  let totalScore = 0;
+  let questionsIncluded = 0;
 
   responses.forEach((response) => {
     if (response.response_option) {
       if (!response.response_option.excludes_from_calculation) {
-        totalScore += response.response_option.points
-        questionsIncluded += 1
+        totalScore += response.response_option.points;
+        questionsIncluded += 1;
       }
     }
-  })
+  });
 
-  const maxPossibleScore = questionsIncluded * 3 // Maximum 3 points per included question
-  const percentage = maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0
+  const maxPossibleScore = questionsIncluded * 3; // Maximum 3 points per included question
+  const percentage =
+    maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0;
 
-  let classification = "Punto de partida"
+  let classification = "Punto de partida";
   if (percentage >= 71) {
-    classification = "Bien encaminado"
+    classification = "Bien encaminado";
   } else if (percentage >= 50) {
-    classification = "En proceso"
+    classification = "En proceso";
   }
 
   return {
@@ -29,5 +32,5 @@ export function calculateScore(responses: Array<{ response_option: ResponseOptio
     questionsIncluded,
     percentage: Math.round(percentage * 100) / 100,
     classification,
-  }
+  };
 }

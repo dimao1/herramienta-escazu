@@ -1,7 +1,10 @@
-import { NextResponse } from "next/server"
-import { neon } from "@neondatabase/serverless"
+import { NextResponse } from "next/server";
+import { neon } from "@neondatabase/serverless";
 
-const sql = neon(process.env.DATABASE_URL || "postgresql://placeholder:placeholder@placeholder.neon.tech/placeholder?sslmode=require")
+const sql = neon(
+  process.env.DATABASE_URL ||
+    "postgresql://placeholder:placeholder@placeholder.neon.tech/placeholder?sslmode=require",
+);
 
 export async function GET() {
   try {
@@ -18,11 +21,14 @@ export async function GET() {
       LEFT JOIN responses r ON r.user_id = u.id
       GROUP BY a.id, u.id
       ORDER BY a.completed_at DESC
-    `
+    `;
 
-    return NextResponse.json(assessments)
+    return NextResponse.json(assessments);
   } catch (error) {
-    console.error("Error obteniendo evaluaciones:", error)
-    return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 })
+    console.error("Error obteniendo evaluaciones:", error);
+    return NextResponse.json(
+      { error: "Error interno del servidor" },
+      { status: 500 },
+    );
   }
 }
