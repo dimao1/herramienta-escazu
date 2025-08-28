@@ -52,7 +52,7 @@ export const questionsData = [
     id: 1,
     module_id: 1,
     question_text:
-      "1. Actualizamos el menu transparencia y acceso a la información de manera mensual",
+      "1. Actualizamos el menú transparencia y acceso a la información de manera mensual",
     question_type: "statement" as const,
     order_index: 1,
     recommendations: {
@@ -70,7 +70,7 @@ export const questionsData = [
   {
     id: 2,
     module_id: 1,
-    question_text: "2. Actualizamos el menu participa de manera mensual",
+    question_text: "2. Actualizamos el menú participa de manera mensual",
     question_type: "statement" as const,
     order_index: 2,
     recommendations: {
