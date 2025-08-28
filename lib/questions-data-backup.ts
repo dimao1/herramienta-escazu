@@ -261,7 +261,7 @@ export const questionsData = [
     id: 12,
     module_id: 2,
     question_text:
-      "12. Informo a mi ciudadanía de manera trimestral sobre su derecho al acceso de la información ambiental (por medios físicos, remotos y locales de comunicación)",
+      "12. Informamos a nuestra ciudadanía de manera trimestral sobre su derecho al acceso de la información ambiental (por medios físicos, remotos y locales de comunicación)",
     question_type: "statement" as const,
     order_index: 12,
     recommendations: {
@@ -337,7 +337,7 @@ export const questionsData = [
     id: 16,
     module_id: 2,
     question_text:
-      "16. Mis datos ambientales siempre están disponibles en formatos editable",
+      "16. Nuestros datos ambientales siempre están disponibles en formatos editables",
     question_type: "statement" as const,
     order_index: 16,
     recommendations: {
@@ -356,7 +356,7 @@ export const questionsData = [
     id: 17,
     module_id: 2,
     question_text:
-      "17. Mido mi desempeño ambiental, implemento un plan estructurado, documentado para mitigar impactos y mejorar, así como divulgo los resultados a la ciudadanía",
+      "17. Medimos nuestro desempeño ambiental, implementamos un plan estructurado y documentado para mitigar impactos y promover mejoras, y divulgamos los resultados a la ciudadanía",
     question_type: "statement" as const,
     order_index: 17,
     recommendations: {
@@ -661,7 +661,7 @@ export const questionsData = [
     id: 33,
     module_id: 3,
     question_text:
-      "33. Diseño y ejecuto la audiencia de rendición de cuentas de mi entidad con el objetivo de que ciudadanía de mi territorio evalúe mi gestión ambiental y los resultados de la toma de decisiones ambientales",
+      "33. Diseñamos y ejecutamos la audiencia de rendición de cuentas de nuestra entidad con el objetivo de que ciudadanía de nuestro territorio evalúe nuestra gestión ambiental y los resultados de la toma de decisiones ambientales",
     question_type: "statement" as const,
     order_index: 33,
     recommendations: {
@@ -680,7 +680,7 @@ export const questionsData = [
     id: 34,
     module_id: 3,
     question_text:
-      "34. Uso la información de la evaluación ciudadana de la rendición de cuentas para la mejora de mi gestión ambiental",
+      "34. En nuestra entidad se ha usado la información de la evaluación ciudadana de la rendición de cuentas para la mejora de nuestra gestión ambiental",
     question_type: "statement" as const,
     order_index: 34,
     recommendations: {
@@ -699,7 +699,7 @@ export const questionsData = [
     id: 35,
     module_id: 3,
     question_text:
-      "35. Diseño diálogos de rendición de cuentas para la toma de desiciones ambientales",
+      "35. En nuestra entidad se diseñan diálogos de rendición de cuentas para la toma de decisiones ambientales",
     question_type: "statement" as const,
     order_index: 35,
     recommendations: {
