@@ -108,7 +108,7 @@ export const questionsData = [
     id: 4,
     module_id: 1,
     question_text:
-      "4. Mi página es accesible para todas las poblaciones diferenciales de mi territorio",
+      "4. Nuestra página es accesible para todas las poblaciones diferenciales de nuestro territorio",
     question_type: "statement" as const,
     order_index: 4,
     recommendations: {
@@ -127,7 +127,7 @@ export const questionsData = [
     id: 5,
     module_id: 1,
     question_text:
-      "5. He hecho pruebas de sistema de lenguaje claro en mi página",
+      "5. Hemos hecho pruebas de sistema de lenguaje claro en nuestra página",
     question_type: "statement" as const,
     order_index: 5,
     recommendations: {
@@ -146,7 +146,7 @@ export const questionsData = [
     id: 6,
     module_id: 1,
     question_text:
-      "6. Dentro de mi página web los canales de contacto son visibles y accesibles a todas las poblaciones diferenciales de mi territorio",
+      "6. Dentro de nuestra página web los canales de contacto son visibles y accesibles a todas las poblaciones diferenciales de nuestro territorio",
     question_type: "statement" as const,
     order_index: 6,
     recommendations: {
@@ -394,7 +394,7 @@ export const questionsData = [
     id: 19,
     module_id: 2,
     question_text:
-      "19. Tengo una estrategia dirigida a privados, presentes en mi territorio, para que publiquen información ambiental",
+      "19. Tenemos una estrategia dirigida a privados, presentes en nuestro territorio, para que publiquen información ambiental",
     question_type: "statement" as const,
     order_index: 19,
     recommendations: {
