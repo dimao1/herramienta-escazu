@@ -711,7 +711,7 @@ export const questionsData = [
         "Optimicen los diálogos de rendición de cuentas mediante una estrategia integral que combine el uso de tecnologías inclusivas, espacios presenciales en el territorio y mecanismos de retroalimentación continua. Habiliten transmisiones en línea con accesibilidad lingüística y sensorial, generen informes de respuestas ciudadanas y establezcan rutinas de seguimiento.",
       No: "¡ALERTA! Inicien el diseño de espacios de diálogo para la rendición de cuentas, asegurando que sean estructurados con criterios de accesibilidad, diversidad e incidencia en la gestión ambiental. Como primer paso, se podría elaborar un protocolo básico de diálogo que contemple convocatorias amplias, presentación clara de resultados, mecanismos de retroalimentación y sistematización de aportes, promoviendo así una participación ciudadana sustantiva y transformadora.",
       "No aplica":
-        "¡ALERTA! Diseñar diálogos de rendición de cuentas para la toma de decisiones ambientales es fundamental para la participación democrática y la transparencia. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
+        "¡ALERTA! Los diálogos de rendición de cuentas son cruciales porque permiten a los ciudadanos ejercer control sobre las acciones y decisiones de las entidades públicas, promoviendo la transparencia y la participación ciudadana. Estos espacios facilitan la explicación y justificación de la gestión pública, fomentando la confianza y el compromiso cívico. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   // Preguntas adicionales 36 y 37

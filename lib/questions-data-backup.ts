@@ -711,7 +711,7 @@ export const questionsData = [
         "Optimice los diálogos de rendición de cuentas, alineándolos de manera integral con la Ley 1712 de 2014, el Acuerdo de Escazú y la Ley 1757 de 2015, asegurando que no solo se dé acceso a la información, sino que los resultados sean utilizados para ajustar políticas ambientales. Además, debe aplicar herramientas tecnológicas avanzadas que permitan la inclusión de diversas poblaciones y proporcionar espacios de retroalimentación continua para mejorar la toma de decisiones.",
       No: "Debe iniciar el diseño de los diálogos de rendición de cuentas, asegurando su alineación con la Ley 1712 de 2014, el Acuerdo de Escazú y la Ley 1757 de 2015. Estos diálogos deben ser estructurados de manera accesible, utilizando tecnologías inclusivas y garantizando que los resultados se utilicen para ajustar las decisiones ambientales. Es esencial establecer un proceso continuo de participación ciudadana para mejorar la transparencia y la toma de decisiones.",
       "No aplica":
-        "Revise en la normatividad vigente si en realidad esto no le aplica a su entidad y en la siguiente casilla justifique su elección con base en el criterio jurídico de su entidad.",
+        "¡ALERTA! Los diálogos de rendición de cuentas son cruciales porque permiten a los ciudadanos ejercer control sobre las acciones y decisiones de las entidades públicas, promoviendo la transparencia y la participación ciudadana. Estos espacios facilitan la explicación y justificación de la gestión pública, fomentando la confianza y el compromiso cívico. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   // Preguntas adicionales 36 y 37
