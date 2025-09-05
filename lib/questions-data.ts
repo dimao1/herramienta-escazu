@@ -533,9 +533,9 @@ export const questionsData = [
     order_index: 26,
     recommendations: {
       "Sí - Básico":
-        "Fortalezcan el proceso de recepción de observaciones incorporando mecanismos de trazabilidad interna que permitan registrar, clasificar y hacer seguimiento a cada uno de los aportes ciudadanos. Pueden apoyarse en formatos estándar, herramientas digitales o matrices que faciliten el seguimiento de las observaciones desde su recepción hasta su respuesta",
+        "Fortalezcan el proceso de recepción de observaciones incorporando mecanismos de trazabilidad interna que permitan registrar, clasificar y hacer seguimiento a cada uno de los aportes ciudadanos. Pueden apoyarse en formatos estándar, herramientas digitales o matrices que faciliten el seguimiento de las observaciones desde su recepción hasta su respuesta.",
       "Sí - Intermedio":
-        "Consoliden una estrategia institucional que asegure que todas las observaciones ciudadanas sean sistemáticamente documentadas, analizadas y respondidas en tiempos razonables. Para ello, pueden establecer un protocolo de atención, definir responsables y publicar los resultados de este análisis y reforzando la rendición de cuentas",
+        "Consoliden una estrategia institucional que asegure que todas las observaciones ciudadanas sean sistemáticamente documentadas, analizadas y respondidas en tiempos razonables. Para ello, pueden establecer un protocolo de atención, definir responsables y publicar los resultados de este análisis y reforzando la rendición de cuentas.",
       "Sí - Avanzado":
         "Propongan nuevas prácticas que garanticen que las observaciones ciudadanas sean visibilizadas en las decisiones finales, explicando si fueron acogidas total o parcialmente, y por qué. Pueden incluir cuadros comparativos entre aportes y decisiones o secciones específicas en los informes finales que den cuenta de la influencia ciudadana, asegurando así un sistema accesible, evaluado de forma continua y transparente.",
       No: "¡ALERTA! Establezcan una estrategia básica para recopilar, organizar y considerar las observaciones ciudadanas dentro del proceso decisorio, con criterios mínimos de sistematización y participación efectiva. Como primer paso, pueden adaptar formatos sencillos, designar un equipo responsable y utilizar medios digitales y presenciales para ampliar el alcance.",
@@ -590,7 +590,7 @@ export const questionsData = [
     order_index: 29,
     recommendations: {
       "Sí - Básico":
-        "Inicien la definición de criterios objetivos, públicos y participativos para identificar a las personas o comunidades directamente afectadas por decisiones ambientales. Para ello, pueden construir una matriz de variables territoriales, ambientales y sociales que sirva como base para esta identificación, articulándola con fuentes de información oficiales, consultas comunitarias y la revisión de antecedentes técnicos. Recuerden que esta acción debe acompañarse de mecanismos básicos de consulta y divulgación de información oportuna,",
+        "Inicien la definición de criterios objetivos, públicos y participativos para identificar a las personas o comunidades directamente afectadas por decisiones ambientales. Para ello, pueden construir una matriz de variables territoriales, ambientales y sociales que sirva como base para esta identificación, articulándola con fuentes de información oficiales, consultas comunitarias y la revisión de antecedentes técnicos. Recuerden que esta acción debe acompañarse de mecanismos básicos de consulta y divulgación de información oportuna.",
       "Sí - Intermedio":
         "Fortalezcan y sistematicen los criterios institucionales existentes para identificar población afectada, asegurando su aplicación coherente y con enfoque territorial y diferencial. Como parte de este proceso, pueden establecer protocolos que definan cómo aplicar los criterios en cada fase del ciclo de decisión ambiental, y asegurar que los grupos identificados reciban la información pública necesaria, de forma clara y anticipada.",
       "Sí - Avanzado":
@@ -613,7 +613,7 @@ export const questionsData = [
       "Sí - Intermedio":
         "Fortalezcan y visibilicen los procedimientos existentes para impugnar decisiones ambientales, asegurando que la ciudadanía sepa cómo acceder a ellos y comprenda sus derechos. Elaboren materiales pedagógicos en lenguaje claro, traduzcan los procedimientos a lenguas del territorio y ajusten canales digitales y físicos para eliminar barreras territoriales, digitales o jurídicas.",
       "Sí - Avanzado":
-        "Consoliden buenas prácticas institucionales que promuevan activamente el acceso a la justicia ambiental, como campañas de información, asesorías jurídicas gratuitas o acompañamientos comunitarios. Implementen un sistema de evaluación que mida el impacto de los recursos ejercidos y retroalimente las decisiones institucionales,",
+        "Consoliden buenas prácticas institucionales que promuevan activamente el acceso a la justicia ambiental, como campañas de información, asesorías jurídicas gratuitas o acompañamientos comunitarios. Implementen un sistema de evaluación que mida el impacto de los recursos ejercidos y retroalimente las decisiones institucionales.",
       No: "¡ALERTA! Establezcan rutas jurídicas y administrativas claras que faciliten a la ciudadanía impugnar decisiones ambientales, asegurando su comprensión y aplicación desde las primeras etapas del proceso. Incluyan estas rutas en cartillas de participación ambiental, vinculenlas a las plataformas institucionales y garanticen su disponibilidad permanente.",
       "No aplica":
         "¡ALERTA! Proporcionar procedimientos para que la ciudadanía pueda impugnar decisiones ambientales es parte del derecho fundamental al acceso a la justicia ambiental. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
