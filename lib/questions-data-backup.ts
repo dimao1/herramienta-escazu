@@ -540,7 +540,7 @@ export const questionsData = [
         "Proponga nuevas practicas, asegurando que todas las observaciones sean claramente reflejadas en las decisiones finales y que el sistema siga siendo accesible y evaluado de forma continua para garantizar la máxima transparencia y efectividad en la participación ciudadana.",
       No: "Establezca una estrategia básica que permita recopilar, organizar y considerar las observaciones ciudadanas dentro del proceso decisorio. Esto representa un primer paso hacia el cumplimiento de los estándares de participación efectiva del Acuerdo de Escazú La Ley 1757 de 2015 (Ley de Participación)",
       "No aplica":
-        "Revise en la normatividad vigente si en realidad esto no le aplica a su entidad y en la siguiente casilla justifique su elección con base en el criterio jurídico de su entidad.",
+        "¡ALERTA! Verifiquen que estén dando cumplimiento al deber constitucional de garantizar que la ciudadanía pueda involucrarse de manera efectiva, informada y oportuna en los procesos de toma de decisiones, tal como lo establece el artículo 2 de la Constitución Política. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -559,7 +559,7 @@ export const questionsData = [
         "Podría en caso de no tenerlo elaborar una estrategia de comunicación clara y multiformato que facilite la comprensión de las decisiones ambientales y sus fundamentos. En donde ademas se incluyan mecanismos de retroalimentación ciudadana y evaluación del impacto informativo. Esto refuerza el cumplimiento normativo y promueve una participación ambiental efectiva. Lo que podría posiicionar a la entidad como referente en transparencia y participación ambiental efectiva.",
       No: "Revise la normativa vigente relacionada con el acceso a la información pública, en especial la Ley 1712 de 2014, conocida como la Ley de Transparencia y del Derecho de Acceso a la Información Pública Nacional. En caso de que la entidad o territorio pertenezca a la Región Metropolitana Bogotá-Cundinamarca, también debe considerarse la Ley 2199 de 2022, que establece disposiciones específicas sobre gobernanza regional y acceso a la información. Además, dado que Colombia es signataria y ha ratificado el Acuerdo de Escazú, se debe cumplir con lo establecido en su articulado, que garantiza el derecho de acceso a la información, la participación pública y el acceso a la justicia en asuntos ambientales.",
       "No aplica":
-        "Revise en la normatividad vigente si en realidad esto no le aplica a su entidad y en la siguiente casilla justifique su elección con base en el criterio jurídico de su entidad.",
+        "¡ALERTA! Revisen la normativa vigente sobre acceso a la información pública, con especial atención a la Ley 1712 de 2014 y, si aplica, a la Ley 2199 de 2022 para entidades de la Región Metropolitana Bogotá-Cundinamarca. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -578,7 +578,7 @@ export const questionsData = [
         "Consolide la estrategia de accesibilidad mediante la divulgación proactiva de información en idiomas y formatos alternativos, conforme al Artículo 8 y 17 de la Ley 1712 de 2014 y el Artículo 6.6 del Acuerdo de Escazú. Se sugiere integrar mecanismos de evaluación del impacto y asegurar que los sistemas de información sean inclusivos, alineados con el Programa de Gestión Documental, y permitan una participación ciudadana efectiva.",
       No: "Inicie el cumplimiento del Artículo 8 y 17 de la Ley 1712 de 2014 y del Artículo 6.6 del Acuerdo de Escazú, adoptando medidas para garantizar el acceso a la información en idiomas, formatos y canales accesibles. Es clave adecuar los sistemas de información y medios de comunicación para llegar efectivamente a grupos étnicos, culturales y personas con discapacidad, asegurando su derecho a estar informados.",
       "No aplica":
-        "Revise en la normatividad vigente si en realidad esto no le aplica a su entidad y en la siguiente casilla justifique su elección con base en el criterio jurídico de su entidad.",
+        "¡ALERTA! Revisen la normativa vigente sobre acceso a la información pública, con especial atención los artículos 8 y 17 de la Ley 1712 de 2014 y del artículo 6.6 del Acuerdo de Escazú. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -597,7 +597,7 @@ export const questionsData = [
         "Podria profundizar en la transparencia y trazabilidad de los procesos de identificación de comunidades afectadas, haciendo públicos los criterios y resultados, con validación social y técnica. Conforme al Artículo 7 del Acuerdo de Escazú, esto debe ir acompañado de una participación informada, oportuna y continua, garantizando derechos diferenciales y fortaleciendo la confianza en la gestión ambiental.",
       No: "Defina criterios claros, públicos y participativos para identificar a las personas o comunidades directamente afectadas, conforme al Artículo 5, 6 y 7 del Acuerdo de Escazú. Esto permitirá garantizar la participación desde las primeras etapas del proceso, como lo exige la Ley 1757 de 2015, y asegurar el acceso a información relevante de acuerdo con la Ley 1712 de 2014, promoviendo transparencia y equidad en la gestión ambiental.",
       "No aplica":
-        "Revise en la normatividad vigente si en realidad esto no le aplica a su entidad y en la siguiente casilla justifique su elección con base en el criterio jurídico de su entidad.",
+        "¡ALERTA! Revisen la normativa vigente sobre acceso a la información pública, con especial atención a la Ley 1712 de 2014 y la Ley 1757 de 2015. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -616,7 +616,7 @@ export const questionsData = [
         "Consolide las buenas prácticas institucionales, como la promoción activa del acceso a la justicia ambiental, mediante estrategias de divulgación, acompañamiento jurídico y evaluación del impacto de los recursos ejercidos. Esto debe estar articulado con el Artículo 85del Acuerdo de Escazú, promoviendo justicia ambiental efectiva, accesible y equitativa, en línea con las leyes 1712 y 1757.",
       No: "Establezca rutas claras de acción jurídica y administrativa que permitan a la ciudadanía ejercer su derecho a impugnar decisiones ambientales. Esto responde al Acuerdo de Escazú (art. 5) y a lo estipulado en la Ley 1757 de 2015 sobre mecanismos de participación, así como a la obligación de garantizar el acceso efectivo a la información (Ley 1712 de 2014).",
       "No aplica":
-        "Revise en la normatividad vigente si en realidad esto no le aplica a su entidad y en la siguiente casilla justifique su elección con base en el criterio jurídico de su entidad.",
+        "¡ALERTA! Revisen la normativa vigente sobre acceso a la información pública, con especial atención a la Ley 1712 de 2014 y la Ley 1757 de 2015. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -635,7 +635,7 @@ export const questionsData = [
         "Expanda las estrategias de control social, promoviendo la participación activa y continua de la ciudadanía en la gestión ambiental, más alla de los procesos de rendición de cuenta, atrevase a implementar otro tipo de modalidades de control social como veedurías ciudadanas, las Juntas de vigilancia, los Comités de Desarrollo y Control Social de los Servicios Públicos Domiciliarios, las auditorías ciudadanas y las instancias de participación ciudadana, revise articulos 63 y 65",
       No: "Elaboré e implemente un plan específico para fomentar el control social activo en la gestión ambiental, creando espacios formales de participación donde la ciudadanía pueda monitorear y evaluar las decisiones ambientales. Además, debe garantizar que la información relevante sea proporcionada de manera accesible y en formatos comprensibles para facilitar la participación, revise Título V capítulo 1 Del control social a lo público de la Ley 1757.",
       "No aplica":
-        "Revise en la normatividad vigente si en realidad esto no le aplica a su entidad y en la siguiente casilla justifique su elección con base en el criterio jurídico de su entidad.",
+        "¡ALERTA! Revisen la normativa vigente sobre promoción de la participación en especial la Ley 1757 de 2015. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -654,7 +654,7 @@ export const questionsData = [
         "Consolide el canal formal de participación, garantizando su alineación con los principios de la Ley 1757 de 2015 sobre participación efectiva y acceso a la información. Este canal debe integrarse con los sistemas de gestión documental y cumplir con los criterios de accesibilidad establecidos en la Ley 1712 de 2014, así como los principios del Acuerdo de Escazú. Además, se sugiere implementar plataformas tecnológicas para el seguimiento de solicitudes y generar retroalimentación continua, optimizando el control social ambiental y asegurando la transparencia y eficiencia del proceso.",
       No: "Establezca un canal formal de participación que permita a la ciudadanía acceder a la información y expresar sus opiniones sobre la gestión ambiental, en cumplimiento con el Art. 8 de la Ley 1712 de 2014 y el Acuerdo de Escazú. Este canal debe garantizar la accesibilidad y estar alineado con los principios de participación activa y transparencia establecidos en la Ley 1757 de 2015. Además, se debe asegurar un seguimiento adecuado y la implementación de formatos accesibles para grupos vulnerables. Esto iniciará el fortalecimiento del control social ambiental.",
       "No aplica":
-        "Revise en la normatividad vigente si en realidad esto no le aplica a su entidad y en la siguiente casilla justifique su elección con base en el criterio jurídico de su entidad.",
+        "¡ALERTA! Revisen la normativa vigente sobre promoción de la participación en especial la Ley 1757 de 2015. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -692,7 +692,7 @@ export const questionsData = [
         "Integre un sistema formal y sistemático para el uso de la información obtenida de la evaluación ciudadana en la rendición de cuentas, asegurando que esta retroalimentación se utilice para la mejora continua de la gestión ambiental. La entidad debe implementar herramientas tecnológicas para analizar la información y priorizar áreas de mejora, ajustando las políticas y estrategias ambientales de manera ágil. Además, se debe garantizar la transparencia en cómo se incorporan estas sugerencias y se comunican los cambios realizados a la ciudadanía.",
       No: "Implemente de inmediato un mecanismo para recoger y utilizar la retroalimentación ciudadana proveniente de la rendición de cuentas. La falta de este proceso limita la capacidad de la entidad para responder de manera efectiva a las preocupaciones y sugerencias de la ciudadanía, lo que afecta la transparencia y la legitimidad de las decisiones ambientales. Utilizar esta información para ajustar las políticas y acciones ambientales fortalecerá el compromiso con la gestión pública y la participación de la comunidad.",
       "No aplica":
-        "Revise en la normatividad vigente si en realidad esto no le aplica a su entidad y en la siguiente casilla justifique su elección con base en el criterio jurídico de su entidad.",
+        "¡ALERTA! La rendición de cuentas es obligatoria en Colombia para entidades públicas y privadas que manejen recursos públicos o presten servicios de interés público. Esta obligación está respaldada por la Constitución Política y la Ley 1757 de 2015, que promueve la participación ciudadana y el control social sobre la gestión pública. Identifiquen las causas que impiden su implementación y tomen medidas para superarlas.",
     },
   },
   {

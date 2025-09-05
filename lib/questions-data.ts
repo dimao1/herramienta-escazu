@@ -540,7 +540,7 @@ export const questionsData = [
         "Propongan nuevas prácticas que garanticen que las observaciones ciudadanas sean visibilizadas en las decisiones finales, explicando si fueron acogidas total o parcialmente, y por qué. Pueden incluir cuadros comparativos entre aportes y decisiones o secciones específicas en los informes finales que den cuenta de la influencia ciudadana, asegurando así un sistema accesible, evaluado de forma continua y transparente.",
       No: "¡ALERTA! Establezcan una estrategia básica para recopilar, organizar y considerar las observaciones ciudadanas dentro del proceso decisorio, con criterios mínimos de sistematización y participación efectiva. Como primer paso, pueden adaptar formatos sencillos, designar un equipo responsable y utilizar medios digitales y presenciales para ampliar el alcance.",
       "No aplica":
-        "¡ALERTA! Asegurar que las observaciones de la ciudadanía sean consideradas y contribuyan en los procesos de toma de decisiones es un principio fundamental de la participación democrática. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
+        "¡ALERTA! Verifiquen que estén dando cumplimiento al deber constitucional de garantizar que la ciudadanía pueda involucrarse de manera efectiva, informada y oportuna en los procesos de toma de decisiones, tal como lo establece el artículo 2 de la Constitución Política. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -559,7 +559,7 @@ export const questionsData = [
         "Elaboren una estrategia de comunicación multiformato que facilite la comprensión pública de las decisiones ambientales y sus fundamentos técnicos y normativos. La estrategia podría incluir recursos en audio, texto simplificado, interpretación en lengua de señas, y mecanismos de retroalimentación ciudadana como buzones físicos o formularios en línea. Evaluar periódicamente el impacto de esta estrategia también permitiría posicionar a la entidad como referente en transparencia y participación ambiental efectiva.",
       No: "¡ALERTA! Inicien con una estructura sencilla, legalmente adecuada y comprensible para distintos públicos: Identifiquen la decisión a divulgar, extraigan los elementos clave para comunicar, usen un canal de publicación accesible para su territorio, acompañen la publicación con una breve explicación (por qué se tomó la decisión, qué criterios se usaron, evaluaciones, normas, cómo los ciudadanos pueden participar o aportar observaciones posteriores). Definan un responsable de actualización",
       "No aplica":
-        "¡ALERTA! Informar oportunamente sobre las decisiones ambientales finales y sus motivos es una obligación legal y un derecho ciudadano fundamental. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
+        "¡ALERTA! Revisen la normativa vigente sobre acceso a la información pública, con especial atención a la Ley 1712 de 2014 y, si aplica, a la Ley 2199 de 2022 para entidades de la Región Metropolitana Bogotá-Cundinamarca. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -578,7 +578,7 @@ export const questionsData = [
         "Consoliden la estrategia institucional de accesibilidad mediante la divulgación proactiva y sistemática de información pública en formatos alternativos, integrando criterios de inclusión desde su planificación. Adopten un protocolo de accesibilidad digital, incluyan indicadores de evaluación del impacto, y articulen esta estrategia con el Programa de Gestión Documental y con las directrices del Plan Anticorrupción y de Atención al Ciudadano (PAAC).",
       No: "¡ALERTA! Inicien con acciones básicas asegurando que la información ambiental se divulgue en formatos y lenguas adecuados para la población de su territorio. Como primer paso, pueden realizar un diagnóstico de accesibilidad, diseñar contenidos en formatos inclusivos y abrir canales de comunicación que permitan validar su comprensibilidad con representantes de las comunidades étnicas, culturales y personas con discapacidad.",
       "No aplica":
-        "¡ALERTA! Facilitar la participación de comunidades que hablen idiomas distintos al oficial es una obligación del Estado colombiano como país pluriétnico y multicultural. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
+        "¡ALERTA! Revisen la normativa vigente sobre acceso a la información pública, con especial atención los artículos 8 y 17 de la Ley 1712 de 2014 y del artículo 6.6 del Acuerdo de Escazú. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -597,7 +597,7 @@ export const questionsData = [
         "Profundicen en la transparencia y trazabilidad del proceso de identificación de personas o comunidades directamente afectadas, asegurando la validación técnica y social de los criterios y resultados aplicados. Se sugiere publicar los mapas de actores afectados, informes de justificación técnica y registros de participación en etapas iniciales. Esto permitirá garantizar una participación informada, continua y con enfoque de derechos, fortaleciendo la confianza ciudadana en la gestión ambiental.",
       No: "¡ALERTA! Definan de manera clara, pública y participativa los criterios para identificar a las personas o comunidades directamente afectadas por decisiones ambientales. Pueden iniciar este proceso mediante mesas técnicas interinstitucionales y espacios comunitarios de construcción conjunta, que aseguren su pertinencia territorial. Esta definición permitirá promover una participación desde las etapas más tempranas del proceso asegurando equidad y transparencia en la toma de decisiones.",
       "No aplica":
-        "¡ALERTA! Determinar qué personas o comunidades están directamente afectadas por decisiones ambientales es fundamental para garantizar sus derechos de participación. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
+        "¡ALERTA! Revisen la normativa vigente sobre acceso a la información pública, con especial atención a la Ley 1712 de 2014 y la Ley 1757 de 2015. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -616,7 +616,7 @@ export const questionsData = [
         "Consoliden buenas prácticas institucionales que promuevan activamente el acceso a la justicia ambiental, como campañas de información, asesorías jurídicas gratuitas o acompañamientos comunitarios. Implementen un sistema de evaluación que mida el impacto de los recursos ejercidos y retroalimente las decisiones institucionales.",
       No: "¡ALERTA! Establezcan rutas jurídicas y administrativas claras que faciliten a la ciudadanía impugnar decisiones ambientales, asegurando su comprensión y aplicación desde las primeras etapas del proceso. Incluyan estas rutas en cartillas de participación ambiental, vinculenlas a las plataformas institucionales y garanticen su disponibilidad permanente.",
       "No aplica":
-        "¡ALERTA! Proporcionar procedimientos para que la ciudadanía pueda impugnar decisiones ambientales es parte del derecho fundamental al acceso a la justicia ambiental. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
+        "¡ALERTA! Revisen la normativa vigente sobre acceso a la información pública, con especial atención a la Ley 1712 de 2014 y la Ley 1757 de 2015. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -635,7 +635,7 @@ export const questionsData = [
         "Expandan las estrategias institucionales para el control social, promoviendo la participación activa y continua de la ciudadanía más allá de los espacios tradicionales de rendición de cuentas. Habiliten e impulsen figuras como veedurías ciudadanas, comités de desarrollo y control social, auditorías ciudadanas, juntas de vigilancia y otros mecanismos establecidos en los artículos 63 y 65 de la Ley 1757 de 2015, asegurando una participación plural, autónoma y sostenida en la vigilancia de la gestión ambiental.",
       No: "¡ALERTA! Elaboren e implementen un plan para fomentar el control social activo en la gestión ambiental, asegurando que la ciudadanía cuente con espacios formales y adecuados para monitorear y evaluar las decisiones que les afectan. Este plan podría incluir cronogramas participativos, acompañamiento técnico a los grupos ciudadanos y materiales divulgativos en formatos accesibles.",
       "No aplica":
-        "¡ALERTA! Promover activamente el ejercicio del derecho al control social sobre la gestión ambiental es una obligación democrática fundamental del Estado. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
+        "¡ALERTA! Revisen la normativa vigente sobre promoción de la participación en especial la Ley 1757 de 2015. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -654,7 +654,7 @@ export const questionsData = [
         "Consoliden el canal formal de participación como parte integral de la estrategia institucional, garantizando su interoperabilidad con los sistemas de gestión documental y el cumplimiento de los criterios de accesibilidad establecidos en la Ley 1712 de 2014. Este canal debe reflejar los principios de participación efectiva de la Ley 1757 de 2015 y del Acuerdo de Escazú, mediante plataformas tecnológicas que permitan el seguimiento de solicitudes, la retroalimentación continua y la evaluación del impacto ciudadano sobre la gestión ambiental, fortaleciendo así la rendición de cuentas.",
       No: "¡ALERTA! Establezcan un canal formal de participación ciudadana que permita el acceso a la información ambiental y la expresión de opiniones sobre decisiones ambientales. Este canal debe estar diseñado con criterios de accesibilidad y diversidad, y alineado con los principios de participación activa y transparencia de la Ley 1757 de 2015. Para su implementación, habiliten buzones físicos y formularios digitales accesibles, capaciten a los equipos de atención y garanticen un sistema de seguimiento y respuesta, que asegure un entorno propicio para el control social ambiental.",
       "No aplica":
-        "¡ALERTA! Tener un canal formal para solicitudes de información relacionadas con control social ambiental es una obligación de transparencia y participación democrática. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
+        "¡ALERTA! Revisen la normativa vigente sobre promoción de la participación en especial la Ley 1757 de 2015. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
   {
@@ -692,7 +692,7 @@ export const questionsData = [
         "Integren un sistema formal y continuo para analizar, priorizar y aplicar la retroalimentación ciudadana recibida durante el proceso de rendición de cuentas, garantizando que los ajustes en las políticas ambientales se basen en evidencia socialmente construida. Implementen matrices de seguimiento, herramientas digitales de análisis y boletines de avances. Esta acción aseguraría la mejora continua y el retorno público de información, conforme a los principios de transparencia, participación efectiva y justicia ambiental.",
       No: "¡ALERTA! Implementen de forma inmediata un mecanismo institucional que recoja, procese y utilice la retroalimentación ciudadana derivada de las audiencias o informes de rendición de cuentas, como insumo clave para fortalecer la gestión ambiental. Para ello, podrían desarrollar formatos breves de encuesta, sesiones de diálogo posterior o buzones accesibles en línea.",
       "No aplica":
-        "¡ALERTA! Usar la información de la evaluación ciudadana para mejorar la gestión ambiental es fundamental para la mejora continua y la legitimidad democrática. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
+        "¡ALERTA! La rendición de cuentas es obligatoria en Colombia para entidades públicas y privadas que manejen recursos públicos o presten servicios de interés público. Esta obligación está respaldada por la Constitución Política y la Ley 1757 de 2015, que promueve la participación ciudadana y el control social sobre la gestión pública. Identifiquen las causas que impiden su implementación y tomen medidas para superarlas.",
     },
   },
   {
