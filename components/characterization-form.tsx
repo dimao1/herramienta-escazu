@@ -48,7 +48,7 @@ export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
       <Card className="w-full max-w-2xl shadow-xl">
         <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white">
           <CardTitle className="text-2xl text-center">
-            Caracterización del Evaluador
+            Datos de contacto
           </CardTitle>
         </CardHeader>
         <CardContent className="p-8">
