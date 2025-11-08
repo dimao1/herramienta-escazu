@@ -7,8 +7,8 @@ export const modulesData = [
   },
   {
     id: 2,
-    name: "Módulo 2: Participación Ciudadana, Control Social y Toma de Decisiones Ambientales",
-    description: "Evaluación de participación ciudadana",
+    name: "Módulo 2: Divulgación y publicación de información ambiental",
+    description: "Evaluación de divulgación y publicación de información ambiental",
     order_index: 2,
   },
   {
@@ -738,5 +738,23 @@ export const questionsData = [
       general:
         "Elaboren un plan de mejoramiento institucional integral basado en los retos identificados, estableciendo metas SMART (específicas, medibles, alcanzables, relevantes y temporales), asignando responsables claros, definiendo cronogramas específicos, desarrollando indicadores de seguimiento y creando mecanismos de evaluación continua para avanzar de manera efectiva en la implementación de los derechos de acceso a la información, participación ciudadana y acceso a la justicia en asuntos ambientales, conforme al Acuerdo de Escazú y la normatividad nacional vigente.",
     },
+  },
+  {
+    id: 38,
+    module_id: 3,
+    question_text:
+      "38. Los mecanismos de participación ambiental que promueven aseguran la inclusión activa de mujeres y diversidades de género, en condiciones de equidad frente a la toma de decisiones y el acceso a la información ambiental",
+    question_type: "open" as const,
+    order_index: 38,
+    recommendations: {},
+  },
+  {
+    id: 39,
+    module_id: 3,
+    question_text:
+      "39. Han implementado protocolos, indicadores o acciones específicas para identificar y reducir las barreras que enfrentan las mujeres y poblaciones con enfoque diferencial (edad, etnia, discapacidad, orientación sexual) en los procesos de licenciamiento, consultas y participación ambiental",
+    question_type: "open" as const,
+    order_index: 39,
+    recommendations: {},
   },
 ];

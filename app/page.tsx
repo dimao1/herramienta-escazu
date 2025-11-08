@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { IntroductionPage } from "@/components/introduction-page";
+import { ModuleIntroduction } from "@/components/module-introduction";
 import { CharacterizationForm } from "@/components/characterization-form";
 import { QuizLayout } from "@/components/quiz-layout";
 import { QuestionCard } from "@/components/question-card";
@@ -60,10 +62,10 @@ interface UserResponse {
   justification?: string;
 }
 
-type AppState = "characterization" | "quiz" | "results";
+type AppState = "introduction" | "characterization" | "module-intro" | "quiz" | "results";
 
 export default function HomePage() {
-  const [appState, setAppState] = useState<AppState>("characterization");
+  const [appState, setAppState] = useState<AppState>("introduction");
   const [user, setUser] = useState<User | null>(null);
   const [modules] = useState<Module[]>(modulesData);
   const [questions] = useState<Question[]>(questionsData);
@@ -71,6 +73,7 @@ export default function HomePage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [responses, setResponses] = useState<UserResponse[]>([]);
   const [score, setScore] = useState(0);
+  const [shownModuleIntros, setShownModuleIntros] = useState<Set<number>>(new Set());
 
   // Calculate score whenever responses change
   useEffect(() => {
@@ -112,7 +115,8 @@ export default function HomePage() {
     };
 
     setUser(newUser);
-    setAppState("quiz");
+    // Show module introduction for first module
+    setAppState("module-intro");
   };
 
   const handleAnswer = (
@@ -148,7 +152,16 @@ export default function HomePage() {
 
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
+      const currentQuestion = questions[currentQuestionIndex];
+      const nextQuestion = questions[currentQuestionIndex + 1];
+      
+      // Check if moving to a new module
+      if (currentQuestion.module_id !== nextQuestion.module_id && !shownModuleIntros.has(nextQuestion.module_id)) {
+        setCurrentQuestionIndex((prev) => prev + 1);
+        setAppState("module-intro");
+      } else {
+        setCurrentQuestionIndex((prev) => prev + 1);
+      }
     } else {
       // Quiz completed, go to results
       console.log(
@@ -165,8 +178,39 @@ export default function HomePage() {
     }
   };
 
+  // Helper function to get question count by module
+  const getModuleQuestionCount = (moduleId: number) => {
+    return questions.filter((q) => q.module_id === moduleId).length;
+  };
+
+  const handleModuleIntroContinue = () => {
+    const currentQuestion = questions[currentQuestionIndex];
+    setShownModuleIntros(prev => new Set([...prev, currentQuestion.module_id]));
+    setAppState("quiz");
+  };
+
+  if (appState === "introduction") {
+    return <IntroductionPage onContinue={() => setAppState("characterization")} />;
+  }
+
   if (appState === "characterization") {
     return <CharacterizationForm onSubmit={handleCharacterizationSubmit} />;
+  }
+
+  if (appState === "module-intro" && questions.length > 0) {
+    const currentQuestion = questions[currentQuestionIndex];
+    const currentModule = modules.find((m) => m.id === currentQuestion.module_id);
+    
+    if (currentModule) {
+      return (
+        <ModuleIntroduction
+          moduleId={currentModule.id}
+          moduleName={currentModule.name}
+          questionCount={getModuleQuestionCount(currentModule.id)}
+          onContinue={handleModuleIntroContinue}
+        />
+      );
+    }
   }
 
   if (appState === "quiz" && questions.length > 0) {
