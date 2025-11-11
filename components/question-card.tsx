@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
@@ -269,24 +270,28 @@ export function QuestionCard({
 
       {/* Action Buttons */}
       <div className="flex justify-between gap-2 sm:gap-4 pt-4 sm:pt-6">
-        <Button
-          onClick={onPrevious}
-          variant="outline"
-          disabled={!showPrevious}
-          className="px-4 sm:px-6 md:px-8 text-sm sm:text-base"
-        >
-          Anterior
-        </Button>
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <Button
+            onClick={onPrevious}
+            variant="outline"
+            disabled={!showPrevious}
+            className="px-4 sm:px-6 md:px-8 text-sm sm:text-base"
+          >
+            Anterior
+          </Button>
+        </motion.div>
 
-        <Button
-          onClick={onNext}
-          disabled={!canProceed()}
-          className="px-4 sm:px-6 md:px-8 bg-blue-600 hover:bg-blue-700 text-sm sm:text-base"
-        >
-          {currentQuestionIndex === questions.length - 1
-            ? "Finalizar"
-            : "Siguiente →"}
-        </Button>
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <Button
+            onClick={onNext}
+            disabled={!canProceed()}
+            className="px-4 sm:px-6 md:px-8 bg-blue-600 hover:bg-blue-700 text-sm sm:text-base"
+          >
+            {currentQuestionIndex === questions.length - 1
+              ? "Finalizar"
+              : "Siguiente →"}
+          </Button>
+        </motion.div>
       </div>
     </div>
   );

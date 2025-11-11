@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { IntroductionPage } from "@/components/introduction-page";
 import { ModuleIntroduction } from "@/components/module-introduction";
 import { CharacterizationForm } from "@/components/characterization-form";
@@ -229,18 +230,28 @@ export default function HomePage() {
         score={score}
         title={currentModule?.name || "Evaluación"}
       >
-        <QuestionCard
-          question={currentQuestion}
-          responseOptions={responseOptions}
-          onAnswer={handleAnswer}
-          onNext={handleNext}
-          onPrevious={handlePrevious}
-          showPrevious={currentQuestionIndex > 0}
-          showNext={true}
-          currentAnswer={currentResponse}
-          currentQuestionIndex={currentQuestionIndex}
-          questions={questions}
-        />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentQuestionIndex}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <QuestionCard
+              question={currentQuestion}
+              responseOptions={responseOptions}
+              onAnswer={handleAnswer}
+              onNext={handleNext}
+              onPrevious={handlePrevious}
+              showPrevious={currentQuestionIndex > 0}
+              showNext={true}
+              currentAnswer={currentResponse}
+              currentQuestionIndex={currentQuestionIndex}
+              questions={questions}
+            />
+          </motion.div>
+        </AnimatePresence>
       </QuizLayout>
     );
   }

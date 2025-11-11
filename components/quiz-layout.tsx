@@ -2,6 +2,7 @@
 
 import type React from "react";
 
+import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
@@ -87,12 +88,23 @@ export function QuizLayout({
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-4 sm:mb-6">
+        <motion.div 
+          className="mb-4 sm:mb-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
           <Progress value={progress} className="h-2 sm:h-3" />
-          <div className="text-center text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">
+          <motion.div 
+            className="text-center text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2"
+            key={currentQuestion}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
             Progreso: {Math.round(progress)}%
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Main Content */}
         <Card className="shadow-lg border-0 bg-white/90 backdrop-blur">

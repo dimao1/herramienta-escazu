@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, FileText, Users, Scale } from "lucide-react";
@@ -12,24 +13,30 @@ interface IntroductionPageProps {
 export function IntroductionPage({ onContinue }: IntroductionPageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl shadow-2xl">
-        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white py-4 md:py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 md:gap-6 px-3 sm:px-4 md:px-6">
-            <Image
-              src="/logo-ambiente.png"
-              alt="Ministerio de Ambiente"
-              width={110}
-              height={73}
-              className="object-contain flex-shrink-0 w-16 h-auto sm:w-20 md:w-24 lg:w-28"
-            />
-            <div className="text-center flex-grow">
-              <CardTitle className="text-lg sm:text-xl md:text-2xl font-bold mb-1">
-                Herramienta de Autodiagnóstico
-              </CardTitle>
-              <p className="text-base sm:text-lg md:text-xl font-semibold text-green-100">
-                Ruta de Escazú 567
-              </p>
-            </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-5xl"
+      >
+        <Card className="w-full max-w-5xl shadow-2xl">
+          <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white py-4 md:py-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 md:gap-6 px-3 sm:px-4 md:px-6">
+              <Image
+                src="/logo-ambiente.png"
+                alt="Ministerio de Ambiente"
+                width={110}
+                height={73}
+                className="object-contain flex-shrink-0 w-16 h-auto sm:w-20 md:w-24 lg:w-28"
+              />
+              <div className="text-center flex-grow">
+                <CardTitle className="text-lg sm:text-xl md:text-2xl font-bold mb-1">
+                  Herramienta de Autodiagnóstico
+                </CardTitle>
+                <p className="text-base sm:text-lg md:text-xl font-semibold text-green-100">
+                  Ruta de Escazú 567
+                </p>
+              </div>
             <Image
               src="/logo-ruta-567-escazu.png"
               alt="Logo Ruta 567 Escazú"
@@ -126,6 +133,7 @@ export function IntroductionPage({ onContinue }: IntroductionPageProps) {
           </div>
         </CardContent>
       </Card>
+      </motion.div>
     </div>
   );
 }

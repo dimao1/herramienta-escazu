@@ -3,6 +3,7 @@
 import type React from "react";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -45,6 +46,12 @@ export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-2xl"
+      >
       <Card className="w-full max-w-2xl shadow-xl">
         <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white py-4 sm:py-5">
           <CardTitle className="text-xl sm:text-2xl text-center">
@@ -172,6 +179,7 @@ export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
           </form>
         </CardContent>
       </Card>
+      </motion.div>
     </div>
   );
 }

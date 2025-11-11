@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, AlertCircle } from "lucide-react";
@@ -103,6 +104,12 @@ export function ModuleIntroduction({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-5xl"
+      >
       <Card className="w-full max-w-5xl shadow-2xl max-h-[90vh] overflow-y-auto">
         <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white sticky top-0 z-10 py-3 sm:py-4 md:py-5">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3 md:gap-4 px-2 sm:px-3 md:px-4">
@@ -191,6 +198,7 @@ export function ModuleIntroduction({
           </div>
         </CardContent>
       </Card>
+      </motion.div>
     </div>
   );
 }
