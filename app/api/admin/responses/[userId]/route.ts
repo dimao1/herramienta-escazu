@@ -18,7 +18,7 @@ export async function GET(
         r.*,
         q.question_text,
         q.question_type,
-        q.recommendation,
+        COALESCE(q.recommendations, q.recommendation) as recommendation,
         ro.option_text,
         ro.points,
         m.name as module_name

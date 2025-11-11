@@ -9,7 +9,9 @@ const pool = new Pool({
 export async function GET() {
   try {
     const result = await pool.query(`
-      SELECT q.*, m.name as module_name
+      SELECT q.*, 
+             COALESCE(q.recommendations, q.recommendation) as recommendation,
+             m.name as module_name
       FROM questions q
       JOIN modules m ON q.module_id = m.id
       ORDER BY q.module_id, q.order_index
@@ -34,13 +36,26 @@ export async function POST(request: NextRequest) {
       recommendations,
     } = await request.json();
 
-    const result = await pool.query(
-      `INSERT INTO questions (module_id, question_text, question_type, order_index, recommendation)
-       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [module_id, question_text, question_type, order_index, JSON.stringify(recommendations)]
-    );
-
-    return NextResponse.json(result.rows[0]);
+    // Intentar con recommendations (Neon) primero, luego recommendation (local)
+    try {
+      const result = await pool.query(
+        `INSERT INTO questions (module_id, question_text, question_type, order_index, recommendations)
+         VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+        [module_id, question_text, question_type, order_index, recommendations || null]
+      );
+      return NextResponse.json(result.rows[0]);
+    } catch (err: any) {
+      if (err.code === '42703') { // Column does not exist
+        // Usar recommendation (local)
+        const result = await pool.query(
+          `INSERT INTO questions (module_id, question_text, question_type, order_index, recommendation)
+           VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+          [module_id, question_text, question_type, order_index, JSON.stringify(recommendations)]
+        );
+        return NextResponse.json(result.rows[0]);
+      }
+      throw err;
+    }
   } catch (error) {
     console.error("Error creando pregunta:", error);
     return NextResponse.json(
@@ -61,14 +76,28 @@ export async function PUT(request: NextRequest) {
       recommendations,
     } = await request.json();
 
-    const result = await pool.query(
-      `UPDATE questions 
-       SET module_id = $1, question_text = $2, question_type = $3, order_index = $4, recommendation = $5
-       WHERE id = $6 RETURNING *`,
-      [module_id, question_text, question_type, order_index, JSON.stringify(recommendations), id]
-    );
-
-    return NextResponse.json(result.rows[0]);
+    // Intentar con recommendations (Neon) primero, luego recommendation (local)
+    try {
+      const result = await pool.query(
+        `UPDATE questions 
+         SET module_id = $1, question_text = $2, question_type = $3, order_index = $4, recommendations = $5
+         WHERE id = $6 RETURNING *`,
+        [module_id, question_text, question_type, order_index, recommendations || null, id]
+      );
+      return NextResponse.json(result.rows[0]);
+    } catch (err: any) {
+      if (err.code === '42703') { // Column does not exist
+        // Usar recommendation (local)
+        const result = await pool.query(
+          `UPDATE questions 
+           SET module_id = $1, question_text = $2, question_type = $3, order_index = $4, recommendation = $5
+           WHERE id = $6 RETURNING *`,
+          [module_id, question_text, question_type, order_index, JSON.stringify(recommendations), id]
+        );
+        return NextResponse.json(result.rows[0]);
+      }
+      throw err;
+    }
   } catch (error) {
     console.error("Error actualizando pregunta:", error);
     return NextResponse.json(

@@ -12,7 +12,11 @@
     "db:restart": "docker compose restart",
     "db:logs": "docker compose logs -f postgres",
     "db:reset": "docker compose down -v && docker compose up -d",
-    "db:connect": "docker compose exec postgres psql -U escazu_user -d herramienta_escazu"
+    "db:connect": "docker compose exec postgres psql -U escazu_user -d herramienta_escazu",
+    "db:seed": "node scripts/seed-database.js",
+    "neon:test": "node scripts/test-neon-connection.js",
+    "neon:init": "node scripts/init-neon-db.js",
+    "neon:copy": "node scripts/copy-local-to-neon.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -59,6 +63,7 @@
     "lucide-react": "^0.454.0",
     "next": "15.2.4",
     "next-themes": "^0.4.4",
+    "pg": "^8.16.3",
     "react": "^19",
     "react-day-picker": "8.10.1",
     "react-dom": "^19",
@@ -75,7 +80,6 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "pg": "^8.16.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"

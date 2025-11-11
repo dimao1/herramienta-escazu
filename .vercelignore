@@ -1,0 +1,17 @@
+# Archivos de Docker (solo para desarrollo local)
+compose.yaml
+init.sql
+
+# Archivos de configuración local
+.env.local
+test-db-connection.js
+
+# Scripts de desarrollo local
+scripts/seed-database.js
+
+# Documentación de desarrollo
+README.md
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
