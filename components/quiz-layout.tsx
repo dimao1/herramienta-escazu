@@ -69,7 +69,8 @@ export function QuizLayout({
             {/* Título - Oculto en móvil, visible en tablet+ */}
             <div className="hidden sm:flex items-center flex-grow justify-center px-2">
               <h1 className="text-sm md:text-base lg:text-lg font-bold text-green-800 text-center leading-tight">
-                Herramienta Diagnóstica para identificar mejoras en la Transparencia, Participación y Evaluación Ambiental
+                Herramienta Diagnóstica para identificar mejoras<br />
+                en la Transparencia, Participación y Evaluación Ambiental
               </h1>
             </div>
             
