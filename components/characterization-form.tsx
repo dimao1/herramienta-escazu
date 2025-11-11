@@ -53,8 +53,8 @@ export function CharacterizationForm({ onSubmit }: CharacterizationFormProps) {
         className="w-full max-w-2xl"
       >
       <Card className="w-full max-w-2xl shadow-xl">
-        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white py-4 sm:py-5">
-          <CardTitle className="text-xl sm:text-2xl text-center">
+        <CardHeader className="bg-white border-b-2 border-gray-200 py-4 sm:py-5">
+          <CardTitle className="text-xl sm:text-2xl text-center text-gray-800">
             Datos de contacto
           </CardTitle>
         </CardHeader>

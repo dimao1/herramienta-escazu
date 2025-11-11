@@ -69,9 +69,9 @@ export function RecoveryDialog({
               onClick={(e) => e.stopPropagation()}
             >
               <Card className="w-full max-w-lg shadow-2xl border-2 border-green-200">
-                <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white">
-                  <CardTitle className="flex items-center gap-3 text-xl">
-                    <Clock className="h-6 w-6" />
+                <CardHeader className="bg-white border-b-2 border-gray-200">
+                  <CardTitle className="flex items-center gap-3 text-xl text-gray-800">
+                    <Clock className="h-6 w-6 text-green-600" />
                     Progreso Guardado Encontrado
                   </CardTitle>
                 </CardHeader>

@@ -782,8 +782,8 @@ export function ResultsPage({
 
         {/* Información del Evaluado */}
         <Card className="mb-4 sm:mb-6 shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white py-3 sm:py-4">
-            <CardTitle className="text-base sm:text-lg md:text-xl">Información del Evaluado</CardTitle>
+          <CardHeader className="bg-white border-b-2 border-gray-200 py-3 sm:py-4">
+            <CardTitle className="text-base sm:text-lg md:text-xl text-gray-800">Información del Evaluado</CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 text-sm sm:text-base">

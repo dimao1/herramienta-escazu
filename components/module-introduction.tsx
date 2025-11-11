@@ -111,7 +111,7 @@ export function ModuleIntroduction({
         className="w-full max-w-5xl"
       >
       <Card className="w-full max-w-5xl shadow-2xl max-h-[90vh] overflow-y-auto">
-        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white sticky top-0 z-10 py-3 sm:py-4 md:py-5">
+        <CardHeader className="bg-white border-b-2 border-gray-200 sticky top-0 z-10 py-3 sm:py-4 md:py-5">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3 md:gap-4 px-2 sm:px-3 md:px-4">
             <Image
               src="/logo-ambiente.png"
@@ -121,10 +121,10 @@ export function ModuleIntroduction({
               className="object-contain flex-shrink-0 w-12 h-auto sm:w-16 md:w-20 lg:w-24"
             />
             <div className="text-center flex-grow">
-              <CardTitle className="text-base sm:text-lg md:text-xl font-bold leading-tight mb-1">
+              <CardTitle className="text-base sm:text-lg md:text-xl font-bold leading-tight mb-1 text-gray-800">
                 Introducción al {moduleName}
               </CardTitle>
-              <p className="text-green-100 text-xs sm:text-sm">
+              <p className="text-gray-600 text-xs sm:text-sm">
                 Este módulo contiene {questionCount} preguntas
               </p>
             </div>

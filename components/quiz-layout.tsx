@@ -108,8 +108,8 @@ export function QuizLayout({
 
         {/* Main Content */}
         <Card className="shadow-lg border-0 bg-white/90 backdrop-blur">
-          <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-t-lg py-3 sm:py-4">
-            <h3 className="text-base sm:text-lg md:text-xl font-semibold text-center">{title}</h3>
+          <CardHeader className="bg-white border-b-2 border-gray-200 rounded-t-lg py-3 sm:py-4">
+            <h3 className="text-base sm:text-lg md:text-xl font-semibold text-center text-gray-800">{title}</h3>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 md:p-8">{children}</CardContent>
         </Card>

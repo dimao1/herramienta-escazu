@@ -20,7 +20,7 @@ export function IntroductionPage({ onContinue }: IntroductionPageProps) {
         className="w-full max-w-5xl"
       >
         <Card className="w-full max-w-5xl shadow-2xl">
-          <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white py-4 md:py-6">
+          <CardHeader className="bg-white border-b-2 border-gray-200 py-4 md:py-6">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 md:gap-6 px-3 sm:px-4 md:px-6">
               <Image
                 src="/logo-ambiente.png"
@@ -30,10 +30,10 @@ export function IntroductionPage({ onContinue }: IntroductionPageProps) {
                 className="object-contain flex-shrink-0 w-16 h-auto sm:w-20 md:w-24 lg:w-28"
               />
               <div className="text-center flex-grow">
-                <CardTitle className="text-lg sm:text-xl md:text-2xl font-bold mb-1">
+                <CardTitle className="text-lg sm:text-xl md:text-2xl font-bold mb-1 text-gray-800">
                   Herramienta de Autodiagnóstico
                 </CardTitle>
-                <p className="text-base sm:text-lg md:text-xl font-semibold text-green-100">
+                <p className="text-base sm:text-lg md:text-xl font-semibold text-green-600">
                   Ruta de Escazú 567
                 </p>
               </div>
