@@ -14,6 +14,7 @@ import {
   responseOptionsData,
 } from "@/lib/questions-data";
 import { AdminAccessButton } from "@/components/admin-access-button";
+import { RecoveryDialog } from "@/components/recovery-dialog";
 
 interface CharacterizationData {
   name: string;
@@ -75,6 +76,8 @@ export default function HomePage() {
   const [responses, setResponses] = useState<UserResponse[]>([]);
   const [score, setScore] = useState(0);
   const [shownModuleIntros, setShownModuleIntros] = useState<Set<number>>(new Set());
+  const [showRecoveryDialog, setShowRecoveryDialog] = useState(false);
+  const [savedProgress, setSavedProgress] = useState<any>(null);
 
   // Calculate score whenever responses change
   useEffect(() => {
@@ -103,6 +106,71 @@ export default function HomePage() {
     console.log("Final score calculation:", { totalScore, questionsIncluded });
     setScore(totalScore);
   }, [responses, responseOptions]);
+
+  // Auto-save: Guardar progreso automáticamente
+  useEffect(() => {
+    // Solo guardar si hay un usuario y no estamos en introduction
+    if (user && appState !== "introduction" && appState !== "results") {
+      const progressData = {
+        user,
+        appState,
+        currentQuestionIndex,
+        responses,
+        score,
+        shownModuleIntros: Array.from(shownModuleIntros),
+        lastSaved: new Date().toISOString(),
+      };
+
+      localStorage.setItem("herramienta-escazu-progress", JSON.stringify(progressData));
+      console.log("💾 Progreso guardado automáticamente:", progressData);
+    }
+  }, [user, appState, currentQuestionIndex, responses, score, shownModuleIntros]);
+
+  // Cargar progreso guardado al iniciar
+  useEffect(() => {
+    const savedData = localStorage.getItem("herramienta-escazu-progress");
+    if (savedData) {
+      try {
+        const parsed = JSON.parse(savedData);
+        // Verificar que no sea muy antiguo (más de 7 días)
+        const savedDate = new Date(parsed.lastSaved);
+        const daysSinceLastSave = (Date.now() - savedDate.getTime()) / (1000 * 60 * 60 * 24);
+        
+        if (daysSinceLastSave < 7) {
+          setSavedProgress(parsed);
+          setShowRecoveryDialog(true);
+          console.log("📂 Progreso guardado encontrado:", parsed);
+        } else {
+          // Limpiar progreso antiguo
+          localStorage.removeItem("herramienta-escazu-progress");
+          console.log("🗑️ Progreso antiguo eliminado");
+        }
+      } catch (error) {
+        console.error("Error al cargar progreso guardado:", error);
+        localStorage.removeItem("herramienta-escazu-progress");
+      }
+    }
+  }, []); // Solo ejecutar al montar el componente
+
+  const handleRecoverProgress = () => {
+    if (savedProgress) {
+      setUser(savedProgress.user);
+      setAppState(savedProgress.appState);
+      setCurrentQuestionIndex(savedProgress.currentQuestionIndex);
+      setResponses(savedProgress.responses);
+      setScore(savedProgress.score);
+      setShownModuleIntros(new Set(savedProgress.shownModuleIntros || []));
+      setShowRecoveryDialog(false);
+      console.log("✅ Progreso recuperado exitosamente");
+    }
+  };
+
+  const handleStartFresh = () => {
+    localStorage.removeItem("herramienta-escazu-progress");
+    setShowRecoveryDialog(false);
+    setSavedProgress(null);
+    console.log("🆕 Comenzando evaluación nueva");
+  };
 
   const handleCharacterizationSubmit = (data: CharacterizationData) => {
     const newUser: User = {
@@ -169,6 +237,9 @@ export default function HomePage() {
         "Quiz completed, going to results with responses:",
         responses,
       );
+      // Limpiar el progreso guardado al completar exitosamente
+      localStorage.removeItem("herramienta-escazu-progress");
+      console.log("✅ Evaluación completada - Progreso guardado eliminado");
       setAppState("results");
     }
   };
@@ -191,7 +262,20 @@ export default function HomePage() {
   };
 
   if (appState === "introduction") {
-    return <IntroductionPage onContinue={() => setAppState("characterization")} />;
+    return (
+      <>
+        <RecoveryDialog
+          show={showRecoveryDialog}
+          userName={savedProgress?.user?.name || ""}
+          lastSaved={savedProgress?.lastSaved || ""}
+          currentQuestion={savedProgress?.currentQuestionIndex + 1 || 0}
+          totalQuestions={questions.length}
+          onRecover={handleRecoverProgress}
+          onStartFresh={handleStartFresh}
+        />
+        <IntroductionPage onContinue={() => setAppState("characterization")} />
+      </>
+    );
   }
 
   if (appState === "characterization") {
