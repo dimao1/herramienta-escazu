@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Download, RotateCcw } from "lucide-react";
 import Image from "next/image";
+import { jsPDF } from "jspdf";
 
 interface User {
   id: number;
@@ -139,8 +140,6 @@ export function ResultsPage({
   const handleDownloadPDF = async () => {
     try {
       // Crear el contenido del PDF usando jsPDF
-      const { jsPDF } = await import("jspdf");
-
       const doc = new jsPDF();
       const pageWidth = doc.internal.pageSize.width;
       const pageHeight = doc.internal.pageSize.height;
@@ -172,50 +171,55 @@ export function ResultsPage({
       // Configurar fuente
       doc.setFont("helvetica");
 
-      // Agregar logo del ministerio
-      try {
-        // Convertir la imagen a base64 para incluirla en el PDF
-        const logoImg = new Image();
-        logoImg.crossOrigin = "anonymous";
-        logoImg.src = "/logo-ambiente.png";
-
-        await new Promise((resolve, reject) => {
-          logoImg.onload = () => {
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d");
-            canvas.width = logoImg.width;
-            canvas.height = logoImg.height;
-            ctx.drawImage(logoImg, 0, 0);
-            const logoDataUrl = canvas.toDataURL("image/png");
-
-            // Agregar logo al PDF (esquina superior derecha)
-            doc.addImage(logoDataUrl, "PNG", pageWidth - 50, 10, 40, 25);
-            resolve();
-          };
-          logoImg.onerror = reject;
+      // Función helper para convertir imagen a base64
+      const getImageBase64 = async (url: string): Promise<string> => {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
         });
+      };
+
+      // Agregar logo del Ministerio de Ambiente a la izquierda
+      try {
+        const logoMinisterioBase64 = await getImageBase64("/logo-ambiente.png");
+        doc.addImage(logoMinisterioBase64, "PNG", 15, 10, 40, 25);
       } catch (error) {
-        console.log("No se pudo cargar el logo:", error);
+        console.log("No se pudo cargar el logo del ministerio:", error);
       }
 
-      // Header con logo y título
-      doc.setFontSize(18);
+      // Agregar logo de Ruta 567 a la derecha
+      try {
+        const logoRutaBase64 = await getImageBase64("/logo-ruta-567-escazu.png");
+        const logoWidth = 35;
+        const logoHeight = 35;
+        doc.addImage(logoRutaBase64, "PNG", pageWidth - 50, 10, logoWidth, logoHeight);
+      } catch (error) {
+        console.log("No se pudo cargar el logo de Ruta 567:", error);
+      }
+
+      // Header con título compacto
+      doc.setFontSize(16);
       doc.setTextColor(34, 139, 34); // Verde
-      doc.text("Resultados del Diagnóstico", 20, 25);
+      doc.text("Resultados del Diagnóstico", pageWidth / 2, 50, { align: "center" });
 
-      doc.setFontSize(12);
+      doc.setFontSize(11);
       doc.setTextColor(0, 100, 0); // Verde más oscuro
-      doc.text("Transparencia, Participación y Evaluación Ambiental", 20, 35);
+      doc.text("Transparencia, Participación y Evaluación Ambiental", pageWidth / 2, 58, { align: "center" });
 
-      doc.setFontSize(10);
-      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(9);
+      doc.setTextColor(100, 100, 100);
       doc.text(
         `Fecha de generación: ${new Date().toLocaleDateString("es-CO")}`,
-        20,
-        45,
+        pageWidth / 2,
+        65,
+        { align: "center" }
       );
 
-      let yPos = 55;
+      let yPos = 75;
 
       // Información del Evaluado con fondo verde
       const greenColor = hexToRgb("#22c55e");
@@ -658,6 +662,13 @@ export function ResultsPage({
                 Transparencia, Participación y Evaluación Ambiental
               </p>
             </div>
+            <Image
+              src="/logo-ruta-567-escazu.png"
+              alt="Logo Ruta 567 Escazú"
+              width={100}
+              height={100}
+              className="object-contain ml-4"
+            />
           </div>
           <div className="flex gap-3">
             <Button

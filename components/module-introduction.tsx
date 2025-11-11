@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, AlertCircle } from "lucide-react";
+import Image from "next/image";
 
 interface ModuleIntroductionProps {
   moduleId: number;
@@ -103,13 +104,31 @@ export function ModuleIntroduction({
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-5xl shadow-2xl max-h-[90vh] overflow-y-auto">
-        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white sticky top-0 z-10">
-          <CardTitle className="text-2xl text-center font-bold">
-            Introducción al {moduleName}
-          </CardTitle>
-          <p className="text-center text-green-100 text-sm mt-2">
-            Este módulo contiene {questionCount} preguntas
-          </p>
+        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white sticky top-0 z-10 py-5">
+          <div className="flex items-center justify-between gap-4 px-4">
+            <Image
+              src="/logo-ambiente.png"
+              alt="Ministerio de Ambiente"
+              width={95}
+              height={63}
+              className="object-contain flex-shrink-0"
+            />
+            <div className="text-center flex-grow">
+              <CardTitle className="text-xl font-bold leading-tight mb-1">
+                Introducción al {moduleName}
+              </CardTitle>
+              <p className="text-green-100 text-sm">
+                Este módulo contiene {questionCount} preguntas
+              </p>
+            </div>
+            <Image
+              src="/logo-ruta-567-escazu.png"
+              alt="Logo Ruta 567 Escazú"
+              width={85}
+              height={85}
+              className="object-contain flex-shrink-0"
+            />
+          </div>
         </CardHeader>
         <CardContent className="p-8 space-y-6">
           {/* Descripción */}

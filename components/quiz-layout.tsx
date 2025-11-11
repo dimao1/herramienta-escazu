@@ -24,8 +24,18 @@ export function QuizLayout({
   const progress = (currentQuestion / totalQuestions) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4 relative">
+      {/* Marca de agua */}
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none opacity-5 z-0">
+        <Image
+          src="/logo-ruta-567-escazu.png"
+          alt="Marca de agua Ruta 567"
+          width={500}
+          height={500}
+          className="object-contain"
+        />
+      </div>
+      <div className="max-w-4xl mx-auto relative z-10">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
@@ -36,14 +46,18 @@ export function QuizLayout({
               height={80}
               className="object-contain"
             />
-            <div>
+            <div className="flex items-center">
               <h1 className="text-xl font-bold text-green-800">
-                Herramienta Diagnóstica para identificar mejoras en la
+                Herramienta Diagnóstica para identificar mejoras en la Transparencia, Participación y Evaluación Ambiental
               </h1>
-              <h2 className="text-lg font-semibold text-green-700">
-                Transparencia, Participación y Evaluación Ambiental
-              </h2>
             </div>
+            <Image
+              src="/logo-ruta-567-escazu.png"
+              alt="Logo Ruta 567 Escazú"
+              width={100}
+              height={100}
+              className="object-contain ml-4"
+            />
           </div>
           <div className="text-right">
             <div className="text-sm text-gray-600">

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, FileText, Users, Scale } from "lucide-react";
+import Image from "next/image";
 
 interface IntroductionPageProps {
   onContinue: () => void;
@@ -12,10 +13,31 @@ export function IntroductionPage({ onContinue }: IntroductionPageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-4xl shadow-2xl">
-        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white">
-          <CardTitle className="text-3xl text-center font-bold">
-            Bienvenida/o a la Herramienta de Autodiagnóstico Ruta de Escazú 567
-          </CardTitle>
+        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white py-6">
+          <div className="flex items-center justify-between gap-6 px-6">
+            <Image
+              src="/logo-ambiente.png"
+              alt="Ministerio de Ambiente"
+              width={110}
+              height={73}
+              className="object-contain flex-shrink-0"
+            />
+            <div className="text-center flex-grow">
+              <CardTitle className="text-2xl font-bold mb-1">
+                Herramienta de Autodiagnóstico
+              </CardTitle>
+              <p className="text-xl font-semibold text-green-100">
+                Ruta de Escazú 567
+              </p>
+            </div>
+            <Image
+              src="/logo-ruta-567-escazu.png"
+              alt="Logo Ruta 567 Escazú"
+              width={100}
+              height={100}
+              className="object-contain flex-shrink-0"
+            />
+          </div>
         </CardHeader>
         <CardContent className="p-8 space-y-6">
           {/* Descripción principal */}
