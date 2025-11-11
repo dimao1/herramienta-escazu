@@ -17,6 +17,12 @@ export const modulesData = [
     description: "Evaluación de participación en decisiones",
     order_index: 3,
   },
+  {
+    id: 4,
+    name: "Preguntas Generales",
+    description: "Preguntas abiertas de reflexión y buenas prácticas (no califican)",
+    order_index: 4,
+  },
 ];
 
 export const responseOptionsData = [
@@ -714,10 +720,10 @@ export const questionsData = [
         "¡ALERTA! Los diálogos de rendición de cuentas son cruciales porque permiten a los ciudadanos ejercer control sobre las acciones y decisiones de las entidades públicas, promoviendo la transparencia y la participación ciudadana. Estos espacios facilitan la explicación y justificación de la gestión pública, fomentando la confianza y el compromiso cívico. Pidan un concepto al área juridica para asegurar que en realidad esto no aplica a su entidad.",
     },
   },
-  // Preguntas adicionales 36 y 37
+  // Preguntas adicionales 36 y 37 - Módulo 4 (Preguntas Generales)
   {
     id: 36,
-    module_id: 3,
+    module_id: 4,
     question_text:
       "36. Describan las principales fortalezas de nuestra entidad en materia de transparencia, participación y evaluación ambiental",
     question_type: "open" as const,
@@ -729,7 +735,7 @@ export const questionsData = [
   },
   {
     id: 37,
-    module_id: 3,
+    module_id: 4,
     question_text:
       "37. Identifiquen los principales retos y oportunidades de mejora en la implementación de los derechos de acceso en asuntos ambientales",
     question_type: "open" as const,
@@ -741,7 +747,7 @@ export const questionsData = [
   },
   {
     id: 38,
-    module_id: 3,
+    module_id: 4,
     question_text:
       "38. Los mecanismos de participación ambiental que promueven aseguran la inclusión activa de mujeres y diversidades de género, en condiciones de equidad frente a la toma de decisiones y el acceso a la información ambiental",
     question_type: "open" as const,
@@ -750,7 +756,7 @@ export const questionsData = [
   },
   {
     id: 39,
-    module_id: 3,
+    module_id: 4,
     question_text:
       "39. Han implementado protocolos, indicadores o acciones específicas para identificar y reducir las barreras que enfrentan las mujeres y poblaciones con enfoque diferencial (edad, etnia, discapacidad, orientación sexual) en los procesos de licenciamiento, consultas y participación ambiental",
     question_type: "open" as const,

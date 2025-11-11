@@ -25,7 +25,8 @@ ON CONFLICT (id) DO NOTHING;
 INSERT INTO modules (id, name, description, order_index) VALUES
 (1, 'Módulo 1: Transparencia y Acceso a la Información Ambiental', 'Evaluación de transparencia y acceso a información', 1),
 (2, 'Módulo 2: Divulgación y publicación de información ambiental', 'Evaluación de divulgación y publicación de información ambiental', 2),
-(3, 'Módulo 3: Participación ciudadana en la toma de decisiones ambientales', 'Evaluación de participación en decisiones', 3)
+(3, 'Módulo 3: Participación ciudadana en la toma de decisiones ambientales', 'Evaluación de participación en decisiones', 3),
+(4, 'Preguntas Generales', 'Preguntas abiertas de reflexión y buenas prácticas (no califican)', 4)
 ON CONFLICT (id) DO NOTHING;
 
 -- ============================================
@@ -62,7 +63,17 @@ INSERT INTO questions (id, module_id, question_text, question_type, order_index,
 ON CONFLICT (id) DO NOTHING;
 
 -- ============================================
--- 7. VERIFICAR DATOS
+-- 7. CREAR PREGUNTAS - MÓDULO 4 (PREGUNTAS GENERALES ABIERTAS)
+-- ============================================
+INSERT INTO questions (id, module_id, question_text, question_type, order_index, recommendations) VALUES
+(36, 4, '36. Describan las principales fortalezas de nuestra entidad en materia de transparencia, participación y evaluación ambiental', 'open', 36, '{"general": "Sistematicen y documenten las fortalezas identificadas como buenas prácticas institucionales"}'),
+(37, 4, '37. Identifiquen los principales retos y oportunidades de mejora en la implementación de los derechos de acceso en asuntos ambientales', 'open', 37, '{"general": "Elaboren un plan de mejoramiento institucional integral basado en los retos identificados"}'),
+(38, 4, '38. Los mecanismos de participación ambiental que promueven aseguran la inclusión activa de mujeres y diversidades de género, en condiciones de equidad frente a la toma de decisiones y el acceso a la información ambiental', 'open', 38, '{}'),
+(39, 4, '39. Han implementado protocolos, indicadores o acciones específicas para identificar y reducir las barreras que enfrentan las mujeres y poblaciones con enfoque diferencial (edad, etnia, discapacidad, orientación sexual) en los procesos de licenciamiento, consultas y participación ambiental', 'open', 39, '{}')
+ON CONFLICT (id) DO NOTHING;
+
+-- ============================================
+-- 8. VERIFICAR DATOS
 -- ============================================
 SELECT 'Verificación de datos:' as mensaje;
 SELECT COUNT(*) as total_admins FROM admins;

@@ -59,6 +59,18 @@ const moduleContent = {
     closing:
       "Este módulo busca identificar el nivel de madurez institucional en la garantía del derecho a participar, incidir y evaluar la gestión ambiental pública. Responder con honestidad y precisión permitirá generar recomendaciones útiles para fortalecer la gobernanza ambiental participativa. Gracias por contribuir a una gestión ambiental más democrática y efectiva.",
   },
+  4: {
+    description:
+      "Bienvenida/o a la sección final del instrumento de autodiagnóstico. Las siguientes preguntas son de carácter abierto y tienen como objetivo recoger reflexiones, aprendizajes y percepciones sobre la implementación de los derechos de acceso en asuntos ambientales en tu entidad.",
+    aspects: [
+      "Identificación de fortalezas institucionales en transparencia, participación y evaluación ambiental",
+      "Reconocimiento de retos y oportunidades de mejora",
+      "Análisis de inclusión de mujeres y diversidades de género en procesos ambientales",
+      "Evaluación de acciones con enfoque diferencial para reducir barreras de acceso",
+    ],
+    closing:
+      "IMPORTANTE: Estas preguntas NO generan puntuación y NO afectan tu calificación final. Son preguntas de reflexión y buenas prácticas que ayudarán a enriquecer el diagnóstico institucional. Tómate el tiempo necesario para responder de forma clara y detallada. Tus aportes son valiosos para construir una hoja de ruta hacia una gestión ambiental más inclusiva y transparente.",
+  },
 };
 
 const scaleOptions = [
@@ -166,26 +178,28 @@ export function ModuleIntroduction({
             </ul>
           </div>
 
-          {/* Escala de respuestas */}
-          <div className="bg-blue-50 p-4 sm:p-5 md:p-6 rounded-lg border border-blue-200">
-            <h3 className="text-lg font-bold text-blue-800 mb-4 flex items-center gap-2">
-              <AlertCircle className="w-5 h-5" />
-              Escala de respuestas:
-            </h3>
-            <div className="space-y-4">
-              {scaleOptions.map((option, index) => (
-                <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
-                  <div className="flex items-start justify-between gap-4 mb-2">
-                    <strong className="text-gray-800">{option.label}</strong>
-                    <span className="text-sm text-green-600 font-semibold whitespace-nowrap">
-                      {option.points}
-                    </span>
+          {/* Escala de respuestas - Solo para módulos con calificación */}
+          {moduleId !== 4 && (
+            <div className="bg-blue-50 p-4 sm:p-5 md:p-6 rounded-lg border border-blue-200">
+              <h3 className="text-lg font-bold text-blue-800 mb-4 flex items-center gap-2">
+                <AlertCircle className="w-5 h-5" />
+                Escala de respuestas:
+              </h3>
+              <div className="space-y-4">
+                {scaleOptions.map((option, index) => (
+                  <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
+                    <div className="flex items-start justify-between gap-4 mb-2">
+                      <strong className="text-gray-800">{option.label}</strong>
+                      <span className="text-sm text-green-600 font-semibold whitespace-nowrap">
+                        {option.points}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-600">{option.description}</p>
                   </div>
-                  <p className="text-sm text-gray-600">{option.description}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Cierre */}
           <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 sm:p-5 md:p-6 rounded-lg border-2 border-green-300">
