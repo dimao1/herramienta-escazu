@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
-import { neon } from "@neondatabase/serverless";
+import { Pool } from "pg";
 
-const sql = neon(
-  process.env.DATABASE_URL ||
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL ||
     "postgresql://placeholder:placeholder@placeholder.neon.tech/placeholder?sslmode=require",
-);
+});
 
 export async function GET() {
   try {
-    const assessments = await sql`
+    const result = await pool.query(`
       SELECT 
         a.*,
         u.name,
@@ -21,9 +21,9 @@ export async function GET() {
       LEFT JOIN responses r ON r.user_id = u.id
       GROUP BY a.id, u.id
       ORDER BY a.completed_at DESC
-    `;
+    `);
 
-    return NextResponse.json(assessments);
+    return NextResponse.json(result.rows);
   } catch (error) {
     console.error("Error obteniendo evaluaciones:", error);
     return NextResponse.json(

@@ -14,16 +14,37 @@ export function DataExport() {
       const response = await fetch(endpoint);
       const data = await response.json();
 
-      // Convertir a CSV
+      // Convertir a CSV con formato correcto
       if (data.length > 0) {
-        const headers = Object.keys(data[0]).join(",");
+        // Función para escapar valores CSV
+        const escapeCSV = (value: any) => {
+          if (value === null || value === undefined) return '';
+          const stringValue = String(value);
+          // Si contiene coma, comilla doble o salto de línea, envolver en comillas
+          if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+            return `"${stringValue.replace(/"/g, '""')}"`;
+          }
+          return stringValue;
+        };
+
+        // Generar headers
+        const headers = Object.keys(data[0]).map(escapeCSV).join(",");
+        
+        // Generar rows
         const rows = data
-          .map((row: any) => Object.values(row).join(","))
+          .map((row: any) => 
+            Object.values(row).map(escapeCSV).join(",")
+          )
           .join("\n");
+        
         const csv = `${headers}\n${rows}`;
 
-        // Descargar archivo
-        const blob = new Blob([csv], { type: "text/csv" });
+        // Agregar BOM UTF-8 para que Excel reconozca la codificación
+        const BOM = '\uFEFF';
+        const csvWithBOM = BOM + csv;
+
+        // Descargar archivo con codificación UTF-8
+        const blob = new Blob([csvWithBOM], { type: "text/csv;charset=utf-8;" });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;

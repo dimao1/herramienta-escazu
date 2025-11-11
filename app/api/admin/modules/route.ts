@@ -1,17 +1,17 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { neon } from "@neondatabase/serverless";
+import { Pool } from "pg";
 
-const sql = neon(
-  process.env.DATABASE_URL ||
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL ||
     "postgresql://placeholder:placeholder@placeholder.neon.tech/placeholder?sslmode=require",
-);
+});
 
 export async function GET() {
   try {
-    const modules = await sql`
-      SELECT * FROM modules ORDER BY order_index
-    `;
-    return NextResponse.json(modules);
+    const result = await pool.query(
+      "SELECT * FROM modules ORDER BY order_index"
+    );
+    return NextResponse.json(result.rows);
   } catch (error) {
     console.error("Error obteniendo módulos:", error);
     return NextResponse.json(
@@ -25,13 +25,12 @@ export async function POST(request: NextRequest) {
   try {
     const { name, description, order_index } = await request.json();
 
-    const newModule = await sql`
-      INSERT INTO modules (name, description, order_index)
-      VALUES (${name}, ${description}, ${order_index})
-      RETURNING *
-    `;
+    const result = await pool.query(
+      "INSERT INTO modules (name, description, order_index) VALUES ($1, $2, $3) RETURNING *",
+      [name, description, order_index]
+    );
 
-    return NextResponse.json(newModule[0]);
+    return NextResponse.json(result.rows[0]);
   } catch (error) {
     console.error("Error creando módulo:", error);
     return NextResponse.json(
@@ -45,14 +44,12 @@ export async function PUT(request: NextRequest) {
   try {
     const { id, name, description, order_index } = await request.json();
 
-    const updatedModule = await sql`
-      UPDATE modules 
-      SET name = ${name}, description = ${description}, order_index = ${order_index}
-      WHERE id = ${id}
-      RETURNING *
-    `;
+    const result = await pool.query(
+      "UPDATE modules SET name = $1, description = $2, order_index = $3 WHERE id = $4 RETURNING *",
+      [name, description, order_index, id]
+    );
 
-    return NextResponse.json(updatedModule[0]);
+    return NextResponse.json(result.rows[0]);
   } catch (error) {
     console.error("Error actualizando módulo:", error);
     return NextResponse.json(
@@ -67,7 +64,7 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
-    await sql`DELETE FROM modules WHERE id = ${id}`;
+    await pool.query("DELETE FROM modules WHERE id = $1", [id]);
 
     return NextResponse.json({ success: true });
   } catch (error) {

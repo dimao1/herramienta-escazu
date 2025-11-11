@@ -71,11 +71,82 @@ export function ResultsPage({
     percentage: number;
     classification: string;
   } | null>(null);
+  const [isSaved, setIsSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     console.log("Calculating assessment with:", { responses, responseOptions });
     calculateAssessment();
   }, [responses, questions, responseOptions]);
+
+  // Guardar en base de datos cuando se calcule el assessment
+  useEffect(() => {
+    if (assessment && !isSaved) {
+      saveToDatabase();
+    }
+  }, [assessment]);
+
+  const saveToDatabase = async () => {
+    try {
+      console.log("💾 Guardando evaluación en base de datos...");
+      console.log("📊 Datos a enviar:", {
+        userName: user.name,
+        responsesCount: responses.length,
+        score: assessment!.total_score,
+      });
+      
+      const response = await fetch("/api/save-assessment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: {
+            name: user.name,
+            phone: user.phone,
+            email: user.email,
+            entity: user.entity,
+            municipality: user.municipality,
+          },
+          responses: responses.map(r => ({
+            questionId: r.questionId,
+            response_option_id: r.response_option_id,
+            open_response: r.open_response,
+            justification: r.justification,
+          })),
+          assessment: {
+            total_score: assessment!.total_score,
+            max_possible_score: assessment!.max_possible_score,
+            percentage: assessment!.percentage,
+            classification: assessment!.classification,
+          },
+        }),
+      });
+
+      console.log("📡 Respuesta recibida, status:", response.status);
+      
+      if (!response.ok) {
+        console.error("❌ Respuesta HTTP no exitosa:", response.status, response.statusText);
+      }
+
+      const result = await response.json();
+      console.log("📦 Resultado JSON:", result);
+
+      if (result.success) {
+        setIsSaved(true);
+        console.log("✅ Evaluación guardada exitosamente:", result);
+      } else {
+        const errorMsg = result.error || result.details || "Error desconocido";
+        const hint = result.hint ? `\n${result.hint}` : "";
+        setSaveError(errorMsg + hint);
+        console.error("❌ Error al guardar:", result);
+      }
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      setSaveError("Error de conexión: " + errorMsg);
+      console.error("❌ Error guardando evaluación:", error);
+    }
+  };
 
   const calculateAssessment = () => {
     let totalScore = 0;
@@ -689,6 +760,25 @@ export function ResultsPage({
             </Button>
           </div>
         </div>
+
+        {/* Estado de guardado */}
+        {isSaved && (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+            <p className="text-sm sm:text-base text-green-800 flex items-center gap-2">
+              <span className="text-green-600 font-bold">✅</span>
+              <strong>Evaluación guardada exitosamente.</strong> Los administradores pueden consultar estos resultados en el panel de administración.
+            </p>
+          </div>
+        )}
+
+        {saveError && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+            <p className="text-sm sm:text-base text-red-800 flex items-center gap-2">
+              <span className="text-red-600 font-bold">❌</span>
+              <strong>Error al guardar:</strong> {saveError}. Los resultados se pueden descargar en PDF de todas formas.
+            </p>
+          </div>
+        )}
 
         {/* Información del Evaluado */}
         <Card className="mb-4 sm:mb-6 shadow-lg">

@@ -76,7 +76,19 @@ export function AssessmentsViewer() {
     try {
       const response = await fetch(`/api/admin/responses/${userId}`);
       const data = await response.json();
-      setSelectedAssessment(data);
+      
+      // Parsear el campo recommendation si viene como string JSON
+      const parsedData = {
+        ...data,
+        responses: data.responses.map((r: any) => ({
+          ...r,
+          recommendations: typeof r.recommendation === 'string' && r.recommendation
+            ? JSON.parse(r.recommendation)
+            : (r.recommendation || {}),
+        })),
+      };
+      
+      setSelectedAssessment(parsedData);
       setIsDialogOpen(true);
     } catch (error) {
       console.error("Error fetching assessment details:", error);
@@ -245,6 +257,7 @@ export function AssessmentsViewer() {
                               </div>
                             )}
                             {response.option_text &&
+                              response.recommendations &&
                               response.recommendations[
                                 response.option_text
                               ] && (

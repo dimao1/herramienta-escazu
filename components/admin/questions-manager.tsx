@@ -58,7 +58,14 @@ export function QuestionsManager() {
     try {
       const response = await fetch("/api/admin/questions");
       const data = await response.json();
-      setQuestions(data);
+      // Parsear el campo recommendation si viene como string JSON
+      const parsedData = data.map((q: any) => ({
+        ...q,
+        recommendations: typeof q.recommendation === 'string' 
+          ? JSON.parse(q.recommendation) 
+          : (q.recommendation || {}),
+      }));
+      setQuestions(parsedData);
     } catch (error) {
       console.error("Error fetching questions:", error);
     } finally {
@@ -202,12 +209,16 @@ export function QuestionsManager() {
             <CardContent>
               <div className="space-y-2">
                 <h4 className="font-medium">Recomendaciones:</h4>
-                {Object.entries(question.recommendations).map(
-                  ([key, value]) => (
-                    <div key={key} className="text-sm">
-                      <strong>{key}:</strong> {value}
-                    </div>
-                  ),
+                {question.recommendations && Object.keys(question.recommendations).length > 0 ? (
+                  Object.entries(question.recommendations).map(
+                    ([key, value]) => (
+                      <div key={key} className="text-sm">
+                        <strong>{key}:</strong> {value}
+                      </div>
+                    ),
+                  )
+                ) : (
+                  <p className="text-sm text-gray-500 italic">Sin recomendaciones</p>
                 )}
               </div>
             </CardContent>
