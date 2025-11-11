@@ -50,6 +50,7 @@ interface UserData {
 export function AssessmentsViewer() {
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingDetails, setLoadingDetails] = useState(false);
   const [selectedAssessment, setSelectedAssessment] = useState<{
     user: UserData;
     responses: UserResponse[];
@@ -73,25 +74,53 @@ export function AssessmentsViewer() {
   };
 
   const viewAssessmentDetails = async (userId: number) => {
+    setLoadingDetails(true);
     try {
+      console.log('Fetching details for user:', userId);
       const response = await fetch(`/api/admin/responses/${userId}`);
-      const data = await response.json();
       
-      // Parsear el campo recommendation si viene como string JSON
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API Error:', response.status, errorText);
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log('Received data:', data);
+      
+      // Parsear el campo recommendation si viene como string JSON, o usar directamente si ya es objeto
       const parsedData = {
         ...data,
-        responses: data.responses.map((r: any) => ({
-          ...r,
-          recommendations: typeof r.recommendation === 'string' && r.recommendation
-            ? JSON.parse(r.recommendation)
-            : (r.recommendation || {}),
-        })),
+        responses: data.responses?.map((r: any) => {
+          let recommendations = {};
+          
+          // Si ya es un objeto (JSONB desde Neon), usarlo directamente
+          if (typeof r.recommendation === 'object' && r.recommendation !== null) {
+            recommendations = r.recommendation;
+          } 
+          // Si es string, intentar parsear
+          else if (typeof r.recommendation === 'string' && r.recommendation) {
+            try {
+              recommendations = JSON.parse(r.recommendation);
+            } catch (e) {
+              console.warn(`No se pudo parsear recommendation para respuesta`, e);
+            }
+          }
+          
+          return {
+            ...r,
+            recommendations,
+          };
+        }) || [],
       };
       
       setSelectedAssessment(parsedData);
       setIsDialogOpen(true);
     } catch (error) {
       console.error("Error fetching assessment details:", error);
+      alert("Error al cargar los detalles de la evaluación. Por favor intenta de nuevo.");
+    } finally {
+      setLoadingDetails(false);
     }
   };
 
@@ -166,9 +195,10 @@ export function AssessmentsViewer() {
                   size="sm"
                   variant="outline"
                   onClick={() => viewAssessmentDetails(assessment.user_id)}
+                  disabled={loadingDetails}
                 >
                   <Eye className="h-4 w-4 mr-2" />
-                  Ver Detalles
+                  {loadingDetails ? "Cargando..." : "Ver Detalles"}
                 </Button>
               </div>
             </CardContent>

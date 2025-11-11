@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { neon } from "@neondatabase/serverless";
+import { Pool } from "pg";
 
 export async function GET() {
   try {
@@ -8,7 +8,7 @@ export async function GET() {
       return NextResponse.json({
         status: "error",
         message: "DATABASE_URL no está configurado",
-        hint: "Verifica que .env.local existe y contiene DATABASE_URL",
+        hint: "Verifica las variables de entorno en Vercel",
       }, { status: 500 });
     }
 
@@ -16,24 +16,28 @@ export async function GET() {
       return NextResponse.json({
         status: "warning",
         message: "DATABASE_URL tiene valores placeholder",
-        hint: "Actualiza .env.local con la cadena de conexión correcta",
+        hint: "Actualiza la variable de entorno con la cadena de conexión correcta",
         currentUrl: "postgresql://placeholder:***@placeholder.neon.tech/...",
       }, { status: 500 });
     }
 
     // Intentar conectar a la base de datos
-    const sql = neon(process.env.DATABASE_URL);
+    const pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+    });
     
     // Verificar conexión simple
-    const result = await sql`SELECT NOW() as current_time`;
+    const timeResult = await pool.query("SELECT NOW() as current_time");
     
     // Verificar que las tablas existen
-    const tables = await sql`
+    const tablesResult = await pool.query(`
       SELECT table_name 
       FROM information_schema.tables 
       WHERE table_schema = 'public'
       ORDER BY table_name
-    `;
+    `);
+    
+    const tables = tablesResult.rows;
 
     const tableNames = tables.map((t: any) => t.table_name);
     const requiredTables = [
@@ -57,11 +61,14 @@ export async function GET() {
       }, { status: 500 });
     }
 
+    await pool.end();
+    
     return NextResponse.json({
       status: "ok",
       message: "Base de datos conectada correctamente",
-      database: process.env.DATABASE_URL.includes("localhost") ? "PostgreSQL Local" : "PostgreSQL Remoto",
-      timestamp: result[0].current_time,
+      database: process.env.DATABASE_URL.includes("localhost") ? "PostgreSQL Local" : 
+                process.env.DATABASE_URL.includes("neon.tech") ? "Neon Database" : "PostgreSQL Remoto",
+      timestamp: timeResult.rows[0].current_time,
       tables: tableNames,
     });
 
