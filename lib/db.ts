@@ -2,15 +2,16 @@
 import { Pool } from "pg";
 
 // Detectar si estamos usando Neon (producción) o PostgreSQL local
-export const isNeon = process.env.DATABASE_URL?.includes("neon.tech") || false;
+const isNeonDatabase = process.env.DATABASE_URL?.includes("neon.tech") || false;
 
 // Configurar pool con opciones apropiadas para cada ambiente
-export const pool = new Pool({
+const dbPool = new Pool({
   connectionString: process.env.DATABASE_URL,
   // Configuración específica para serverless (Vercel)
-  max: isNeon ? 1 : 10, // En serverless, usar conexiones mínimas
-  idleTimeoutMillis: isNeon ? 0 : 30000,
-  connectionTimeoutMillis: isNeon ? 10000 : 2000,
+  max: isNeonDatabase ? 1 : 10, // En serverless, usar conexiones mínimas
+  idleTimeoutMillis: isNeonDatabase ? 0 : 30000,
+  connectionTimeoutMillis: isNeonDatabase ? 10000 : 2000,
 });
 
-export default pool;
+export { dbPool as pool, isNeonDatabase as isNeon };
+export default dbPool;
