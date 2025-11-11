@@ -37,6 +37,13 @@ export function IntroductionPage({ onContinue }: IntroductionPageProps) {
                   Ruta de Escazú 567
                 </p>
               </div>
+              <Image
+                src="/logo-alerta-por-mi-ambiente.png"
+                alt="Alerta por mi Ambiente"
+                width={100}
+                height={100}
+                className="object-contain flex-shrink-0 w-16 h-auto sm:w-20 md:w-24 lg:w-28"
+              />
             <Image
               src="/logo-ruta-567-escazu.png"
               alt="Logo Ruta 567 Escazú"

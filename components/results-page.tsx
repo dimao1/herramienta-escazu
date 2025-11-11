@@ -262,12 +262,22 @@ export function ResultsPage({
         console.log("No se pudo cargar el logo del ministerio:", error);
       }
 
+      // Agregar logo Alerta por mi Ambiente al centro-derecha
+      try {
+        const logoAlertaBase64 = await getImageBase64("/logo-alerta-por-mi-ambiente.png");
+        const logoWidth = 30;
+        const logoHeight = 30;
+        doc.addImage(logoAlertaBase64, "PNG", pageWidth - 85, 12, logoWidth, logoHeight);
+      } catch (error) {
+        console.log("No se pudo cargar el logo de Alerta por mi Ambiente:", error);
+      }
+
       // Agregar logo de Ruta 567 a la derecha
       try {
         const logoRutaBase64 = await getImageBase64("/logo-ruta-567-escazu.png");
-        const logoWidth = 35;
-        const logoHeight = 35;
-        doc.addImage(logoRutaBase64, "PNG", pageWidth - 50, 10, logoWidth, logoHeight);
+        const logoWidth = 30;
+        const logoHeight = 30;
+        doc.addImage(logoRutaBase64, "PNG", pageWidth - 50, 12, logoWidth, logoHeight);
       } catch (error) {
         console.log("No se pudo cargar el logo de Ruta 567:", error);
       }
@@ -719,7 +729,7 @@ export function ResultsPage({
         <div className="bg-white/80 backdrop-blur rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 shadow-md">
           {/* Logos y Título */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 mb-3 sm:mb-0">
-            <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto justify-center sm:justify-start">
+            <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center sm:justify-start">
               <Image
                 src="/logo-ambiente.png"
                 alt="Ministerio de Ambiente"
@@ -735,6 +745,13 @@ export function ResultsPage({
                   Transparencia, Participación y Evaluación Ambiental
                 </p>
               </div>
+              <Image
+                src="/logo-alerta-por-mi-ambiente.png"
+                alt="Alerta por mi Ambiente"
+                width={100}
+                height={100}
+                className="object-contain w-14 h-auto sm:w-20 md:w-24"
+              />
               <Image
                 src="/logo-ruta-567-escazu.png"
                 alt="Logo Ruta 567 Escazú"

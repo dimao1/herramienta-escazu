@@ -41,8 +41,8 @@ export function QuizLayout({
         <div className="bg-white/80 backdrop-blur rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 shadow-md">
           {/* Logos y Título */}
           <div className="flex flex-col lg:flex-row items-center justify-between gap-3 lg:gap-4 mb-3 lg:mb-0">
-            {/* Logos en móvil */}
-            <div className="flex items-center justify-between w-full lg:w-auto gap-4">
+            {/* Logo Ministerio en móvil */}
+            <div className="flex items-center justify-between w-full lg:w-auto gap-2 sm:gap-3">
               <Image
                 src="/logo-ambiente.png"
                 alt="Ministerio de Ambiente"
@@ -50,13 +50,23 @@ export function QuizLayout({
                 height={80}
                 className="object-contain w-16 h-auto sm:w-20 md:w-24 lg:w-28"
               />
-              <Image
-                src="/logo-ruta-567-escazu.png"
-                alt="Logo Ruta 567 Escazú"
-                width={100}
-                height={100}
-                className="object-contain w-16 h-auto sm:w-20 md:w-24 lg:w-28 lg:hidden"
-              />
+              {/* Logos adicionales solo en móvil/tablet */}
+              <div className="flex items-center gap-2 sm:gap-3 lg:hidden">
+                <Image
+                  src="/logo-alerta-por-mi-ambiente.png"
+                  alt="Alerta por mi Ambiente"
+                  width={100}
+                  height={100}
+                  className="object-contain w-16 h-auto sm:w-20 md:w-24"
+                />
+                <Image
+                  src="/logo-ruta-567-escazu.png"
+                  alt="Logo Ruta 567 Escazú"
+                  width={100}
+                  height={100}
+                  className="object-contain w-16 h-auto sm:w-20 md:w-24"
+                />
+              </div>
             </div>
             
             {/* Título - Oculto en móvil, visible en tablet+ */}
@@ -66,14 +76,23 @@ export function QuizLayout({
               </h1>
             </div>
             
-            {/* Logo Ruta 567 en desktop */}
-            <Image
-              src="/logo-ruta-567-escazu.png"
-              alt="Logo Ruta 567 Escazú"
-              width={100}
-              height={100}
-              className="hidden lg:block object-contain w-20 h-auto"
-            />
+            {/* Logos en desktop */}
+            <div className="hidden lg:flex items-center gap-3">
+              <Image
+                src="/logo-alerta-por-mi-ambiente.png"
+                alt="Alerta por mi Ambiente"
+                width={100}
+                height={100}
+                className="object-contain w-20 h-auto"
+              />
+              <Image
+                src="/logo-ruta-567-escazu.png"
+                alt="Logo Ruta 567 Escazú"
+                width={100}
+                height={100}
+                className="object-contain w-20 h-auto"
+              />
+            </div>
           </div>
           
           {/* Progreso y Puntuación */}

@@ -129,6 +129,13 @@ export function ModuleIntroduction({
               </p>
             </div>
             <Image
+              src="/logo-alerta-por-mi-ambiente.png"
+              alt="Alerta por mi Ambiente"
+              width={85}
+              height={85}
+              className="object-contain flex-shrink-0 w-12 h-auto sm:w-16 md:w-20 lg:w-24"
+            />
+            <Image
               src="/logo-ruta-567-escazu.png"
               alt="Logo Ruta 567 Escazú"
               width={85}
