@@ -180,7 +180,7 @@ export function QuestionCard({
     <div className="space-y-6">
       {/* Question */}
       <div className="text-center">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-3 sm:mb-4">
           {question.question_text}
         </h2>
       </div>
@@ -199,7 +199,7 @@ export function QuestionCard({
                   />
                   <Label
                     htmlFor={`option-${option.id}`}
-                    className="flex-1 p-4 border rounded-lg cursor-pointer hover:bg-green-50 transition-colors"
+                    className="flex-1 p-3 sm:p-4 border rounded-lg cursor-pointer hover:bg-green-50 transition-colors text-sm sm:text-base"
                   >
                     {option.option_text} ({option.points}{" "}
                     {option.points === 1 ? "punto" : "puntos"})
@@ -211,10 +211,10 @@ export function QuestionCard({
 
           {/* Justification field for No/No aplica */}
           {needsJustification && (
-            <div className="mt-4">
+            <div className="mt-3 sm:mt-4">
               <Label
                 htmlFor="justification"
-                className="text-sm font-medium text-gray-700"
+                className="text-xs sm:text-sm font-medium text-gray-700"
               >
                 Justifique su respuesta: <span className="text-red-500">*</span>
               </Label>
@@ -223,7 +223,7 @@ export function QuestionCard({
                 value={justification}
                 onChange={(e) => handleJustificationChange(e.target.value)}
                 placeholder="Explique por qué seleccionó esta opción..."
-                className="mt-2"
+                className="mt-2 text-sm sm:text-base"
                 rows={3}
                 required={needsJustification}
               />
@@ -234,7 +234,7 @@ export function QuestionCard({
         <div>
           <Label
             htmlFor="open-response"
-            className="text-sm font-medium text-gray-700"
+            className="text-xs sm:text-sm font-medium text-gray-700"
           >
             Su respuesta: <span className="text-red-500">*</span>
           </Label>
@@ -243,7 +243,7 @@ export function QuestionCard({
             value={openResponse}
             onChange={(e) => handleOpenResponseChange(e.target.value)}
             placeholder="Escriba su respuesta aquí..."
-            className="mt-2"
+            className="mt-2 text-sm sm:text-base"
             rows={4}
             required
           />
@@ -253,14 +253,14 @@ export function QuestionCard({
       {/* Recommendation */}
       {currentRecommendation && (
         <Card className="bg-blue-50 border-blue-200">
-          <CardContent className="p-4">
+          <CardContent className="p-3 sm:p-4">
             <div className="flex items-start gap-3">
               <Lightbulb className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
               <div>
-                <h4 className="font-medium text-blue-800 mb-2">
+                <h4 className="font-medium text-blue-800 mb-1 sm:mb-2 text-sm sm:text-base">
                   Recomendación
                 </h4>
-                <p className="text-blue-700 text-sm">{currentRecommendation}</p>
+                <p className="text-blue-700 text-xs sm:text-sm">{currentRecommendation}</p>
               </div>
             </div>
           </CardContent>
@@ -268,12 +268,12 @@ export function QuestionCard({
       )}
 
       {/* Action Buttons */}
-      <div className="flex justify-between pt-6">
+      <div className="flex justify-between gap-2 sm:gap-4 pt-4 sm:pt-6">
         <Button
           onClick={onPrevious}
           variant="outline"
           disabled={!showPrevious}
-          className="px-8"
+          className="px-4 sm:px-6 md:px-8 text-sm sm:text-base"
         >
           Anterior
         </Button>
@@ -281,7 +281,7 @@ export function QuestionCard({
         <Button
           onClick={onNext}
           disabled={!canProceed()}
-          className="px-8 bg-blue-600 hover:bg-blue-700"
+          className="px-4 sm:px-6 md:px-8 bg-blue-600 hover:bg-blue-700 text-sm sm:text-base"
         >
           {currentQuestionIndex === questions.length - 1
             ? "Finalizar"

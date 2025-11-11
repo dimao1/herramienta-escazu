@@ -104,20 +104,20 @@ export function ModuleIntroduction({
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-5xl shadow-2xl max-h-[90vh] overflow-y-auto">
-        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white sticky top-0 z-10 py-5">
-          <div className="flex items-center justify-between gap-4 px-4">
+        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white sticky top-0 z-10 py-3 sm:py-4 md:py-5">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3 md:gap-4 px-2 sm:px-3 md:px-4">
             <Image
               src="/logo-ambiente.png"
               alt="Ministerio de Ambiente"
               width={95}
               height={63}
-              className="object-contain flex-shrink-0"
+              className="object-contain flex-shrink-0 w-12 h-auto sm:w-16 md:w-20 lg:w-24"
             />
             <div className="text-center flex-grow">
-              <CardTitle className="text-xl font-bold leading-tight mb-1">
+              <CardTitle className="text-base sm:text-lg md:text-xl font-bold leading-tight mb-1">
                 Introducción al {moduleName}
               </CardTitle>
-              <p className="text-green-100 text-sm">
+              <p className="text-green-100 text-xs sm:text-sm">
                 Este módulo contiene {questionCount} preguntas
               </p>
             </div>
@@ -126,18 +126,18 @@ export function ModuleIntroduction({
               alt="Logo Ruta 567 Escazú"
               width={85}
               height={85}
-              className="object-contain flex-shrink-0"
+              className="object-contain flex-shrink-0 w-12 h-auto sm:w-16 md:w-20 lg:w-24"
             />
           </div>
         </CardHeader>
-        <CardContent className="p-8 space-y-6">
+        <CardContent className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 md:space-y-6">
           {/* Descripción */}
           <div>
             <p className="text-gray-700 leading-relaxed">{content.description}</p>
           </div>
 
           {/* Aspectos clave */}
-          <div className="bg-green-50 p-6 rounded-lg border border-green-200">
+          <div className="bg-green-50 p-4 sm:p-5 md:p-6 rounded-lg border border-green-200">
             <h3 className="text-lg font-bold text-green-800 mb-4 flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5" />
               Aspectos clave que se evalúan:
@@ -153,7 +153,7 @@ export function ModuleIntroduction({
           </div>
 
           {/* Escala de respuestas */}
-          <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
+          <div className="bg-blue-50 p-4 sm:p-5 md:p-6 rounded-lg border border-blue-200">
             <h3 className="text-lg font-bold text-blue-800 mb-4 flex items-center gap-2">
               <AlertCircle className="w-5 h-5" />
               Escala de respuestas:
@@ -174,7 +174,7 @@ export function ModuleIntroduction({
           </div>
 
           {/* Cierre */}
-          <div className="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-lg border-2 border-green-300">
+          <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 sm:p-5 md:p-6 rounded-lg border-2 border-green-300">
             <p className="text-gray-700 leading-relaxed font-medium">
               {content.closing}
             </p>
@@ -184,7 +184,7 @@ export function ModuleIntroduction({
           <div className="pt-4">
             <Button
               onClick={onContinue}
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-6 text-lg font-semibold"
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-4 sm:py-5 md:py-6 text-base sm:text-lg font-semibold"
             >
               Iniciar {moduleName}
             </Button>

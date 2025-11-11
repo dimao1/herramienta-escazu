@@ -642,56 +642,61 @@ export function ResultsPage({
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-2 sm:p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <Image
-              src="/logo-ambiente.png"
-              alt="Ministerio de Ambiente"
-              width={120}
-              height={80}
-              className="object-contain"
-            />
-            <div>
-              <h1 className="text-2xl font-bold text-green-800">
-                Resultados del Diagnóstico
-              </h1>
-              <p className="text-green-700">
-                Transparencia, Participación y Evaluación Ambiental
-              </p>
+        <div className="bg-white/80 backdrop-blur rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 shadow-md">
+          {/* Logos y Título */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 mb-3 sm:mb-0">
+            <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto justify-center sm:justify-start">
+              <Image
+                src="/logo-ambiente.png"
+                alt="Ministerio de Ambiente"
+                width={120}
+                height={80}
+                className="object-contain w-14 h-auto sm:w-20 md:w-24"
+              />
+              <div className="text-center sm:text-left">
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-green-800">
+                  Resultados del Diagnóstico
+                </h1>
+                <p className="text-xs sm:text-sm md:text-base text-green-700">
+                  Transparencia, Participación y Evaluación Ambiental
+                </p>
+              </div>
+              <Image
+                src="/logo-ruta-567-escazu.png"
+                alt="Logo Ruta 567 Escazú"
+                width={100}
+                height={100}
+                className="object-contain w-14 h-auto sm:w-20 md:w-24"
+              />
             </div>
-            <Image
-              src="/logo-ruta-567-escazu.png"
-              alt="Logo Ruta 567 Escazú"
-              width={100}
-              height={100}
-              className="object-contain ml-4"
-            />
           </div>
-          <div className="flex gap-3">
+          
+          {/* Botones de Acción */}
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-3 sm:mt-0">
             <Button
               onClick={handleDownloadPDF}
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto text-sm sm:text-base"
             >
-              <Download className="h-4 w-4 mr-2" />
+              <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
               Descargar PDF
             </Button>
-            <Button onClick={handleStartNew} variant="outline">
-              <RotateCcw className="h-4 w-4 mr-2" />
+            <Button onClick={handleStartNew} variant="outline" className="w-full sm:w-auto text-sm sm:text-base">
+              <RotateCcw className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
               Nueva Evaluación
             </Button>
           </div>
         </div>
 
         {/* Información del Evaluado */}
-        <Card className="mb-6 shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white">
-            <CardTitle className="text-xl">Información del Evaluado</CardTitle>
+        <Card className="mb-4 sm:mb-6 shadow-lg">
+          <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white py-3 sm:py-4">
+            <CardTitle className="text-base sm:text-lg md:text-xl">Información del Evaluado</CardTitle>
           </CardHeader>
-          <CardContent className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <CardContent className="p-4 sm:p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 text-sm sm:text-base">
               <div>
                 <strong>Nombre:</strong> {user.name}
               </div>
@@ -712,40 +717,40 @@ export function ResultsPage({
         </Card>
 
         {/* Summary Card */}
-        <Card className="mb-6 shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-            <CardTitle className="text-xl">¿Cómo estamos?</CardTitle>
+        <Card className="mb-4 sm:mb-6 shadow-lg">
+          <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 sm:py-4">
+            <CardTitle className="text-base sm:text-lg md:text-xl">¿Cómo estamos?</CardTitle>
           </CardHeader>
-          <CardContent className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <CardContent className="p-4 sm:p-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               <div className="text-center">
-                <div className="text-3xl font-bold text-green-600">
+                <div className="text-2xl sm:text-3xl font-bold text-green-600">
                   {assessment.total_score}
                 </div>
-                <div className="text-sm text-gray-600">Puntuación Total</div>
+                <div className="text-xs sm:text-sm text-gray-600">Puntuación Total</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600">
+                <div className="text-2xl sm:text-3xl font-bold text-blue-600">
                   {assessment.max_possible_score}
                 </div>
-                <div className="text-sm text-gray-600">Puntuación Máxima</div>
+                <div className="text-xs sm:text-sm text-gray-600">Puntuación Máxima</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-purple-600">
+                <div className="text-2xl sm:text-3xl font-bold text-purple-600">
                   {assessment.percentage}%
                 </div>
-                <div className="text-sm text-gray-600">Porcentaje</div>
+                <div className="text-xs sm:text-sm text-gray-600">Porcentaje</div>
               </div>
-              <div className="text-center">
+              <div className="text-center col-span-2 lg:col-span-1">
                 <Badge
-                  className={`text-lg px-4 py-2 ${getClassificationColor(assessment.classification)}`}
+                  className={`text-sm sm:text-base md:text-lg px-3 sm:px-4 py-1.5 sm:py-2 ${getClassificationColor(assessment.classification)}`}
                 >
                   {assessment.classification}
                 </Badge>
               </div>
             </div>
-            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-              <p className="text-sm text-gray-700 text-center">
+            <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-gray-50 rounded-lg">
+              <p className="text-xs sm:text-sm text-gray-700 text-center">
                 <strong>Descripción breve:</strong>{" "}
                 {getClassificationDescription(assessment.classification)}
               </p>
@@ -754,8 +759,8 @@ export function ResultsPage({
         </Card>
 
         {/* Detailed Results by Module */}
-        <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+        <div className="space-y-4 sm:space-y-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-3 sm:mb-4">
             Respuestas Detalladas
           </h2>
 

@@ -13,20 +13,20 @@ export function IntroductionPage({ onContinue }: IntroductionPageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-4xl shadow-2xl">
-        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white py-6">
-          <div className="flex items-center justify-between gap-6 px-6">
+        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white py-4 md:py-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 md:gap-6 px-3 sm:px-4 md:px-6">
             <Image
               src="/logo-ambiente.png"
               alt="Ministerio de Ambiente"
               width={110}
               height={73}
-              className="object-contain flex-shrink-0"
+              className="object-contain flex-shrink-0 w-16 h-auto sm:w-20 md:w-24 lg:w-28"
             />
             <div className="text-center flex-grow">
-              <CardTitle className="text-2xl font-bold mb-1">
+              <CardTitle className="text-lg sm:text-xl md:text-2xl font-bold mb-1">
                 Herramienta de Autodiagnóstico
               </CardTitle>
-              <p className="text-xl font-semibold text-green-100">
+              <p className="text-base sm:text-lg md:text-xl font-semibold text-green-100">
                 Ruta de Escazú 567
               </p>
             </div>
@@ -35,11 +35,11 @@ export function IntroductionPage({ onContinue }: IntroductionPageProps) {
               alt="Logo Ruta 567 Escazú"
               width={100}
               height={100}
-              className="object-contain flex-shrink-0"
+              className="object-contain flex-shrink-0 w-16 h-auto sm:w-20 md:w-24 lg:w-28"
             />
           </div>
         </CardHeader>
-        <CardContent className="p-8 space-y-6">
+        <CardContent className="p-4 sm:p-6 md:p-8 space-y-4 md:space-y-6">
           {/* Descripción principal */}
           <div className="space-y-4">
             <p className="text-gray-700 leading-relaxed">
@@ -62,7 +62,7 @@ export function IntroductionPage({ onContinue }: IntroductionPageProps) {
           </div>
 
           {/* Módulos */}
-          <div className="bg-green-50 p-6 rounded-lg border border-green-200">
+          <div className="bg-green-50 p-4 md:p-6 rounded-lg border border-green-200">
             <h3 className="text-xl font-bold text-green-800 mb-4">
               La herramienta está conformada por tres módulos:
             </h3>
@@ -101,7 +101,7 @@ export function IntroductionPage({ onContinue }: IntroductionPageProps) {
           </div>
 
           {/* Objetivo */}
-          <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
+          <div className="bg-blue-50 p-4 md:p-6 rounded-lg border border-blue-200">
             <div className="flex items-start gap-3">
               <CheckCircle2 className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
               <p className="text-gray-700 leading-relaxed">
@@ -119,7 +119,7 @@ export function IntroductionPage({ onContinue }: IntroductionPageProps) {
           <div className="pt-4">
             <Button
               onClick={onContinue}
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-6 text-lg font-semibold"
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-4 sm:py-5 md:py-6 text-base sm:text-lg font-semibold"
             >
               Continuar al Registro
             </Button>

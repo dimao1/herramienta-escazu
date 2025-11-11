@@ -37,52 +37,69 @@ export function QuizLayout({
       </div>
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <Image
-              src="/logo-ambiente.png"
-              alt="Ministerio de Ambiente"
-              width={120}
-              height={80}
-              className="object-contain"
-            />
-            <div className="flex items-center">
-              <h1 className="text-xl font-bold text-green-800">
+        <div className="bg-white/80 backdrop-blur rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 shadow-md">
+          {/* Logos y Título */}
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-3 lg:gap-4 mb-3 lg:mb-0">
+            {/* Logos en móvil */}
+            <div className="flex items-center justify-between w-full lg:w-auto gap-4">
+              <Image
+                src="/logo-ambiente.png"
+                alt="Ministerio de Ambiente"
+                width={120}
+                height={80}
+                className="object-contain w-16 h-auto sm:w-20 md:w-24 lg:w-28"
+              />
+              <Image
+                src="/logo-ruta-567-escazu.png"
+                alt="Logo Ruta 567 Escazú"
+                width={100}
+                height={100}
+                className="object-contain w-16 h-auto sm:w-20 md:w-24 lg:w-28 lg:hidden"
+              />
+            </div>
+            
+            {/* Título - Oculto en móvil, visible en tablet+ */}
+            <div className="hidden sm:flex items-center flex-grow justify-center px-2">
+              <h1 className="text-sm md:text-base lg:text-lg font-bold text-green-800 text-center leading-tight">
                 Herramienta Diagnóstica para identificar mejoras en la Transparencia, Participación y Evaluación Ambiental
               </h1>
             </div>
+            
+            {/* Logo Ruta 567 en desktop */}
             <Image
               src="/logo-ruta-567-escazu.png"
               alt="Logo Ruta 567 Escazú"
               width={100}
               height={100}
-              className="object-contain ml-4"
+              className="hidden lg:block object-contain w-20 h-auto"
             />
           </div>
-          <div className="text-right">
-            <div className="text-sm text-gray-600">
-              {currentQuestion} de {totalQuestions}
+          
+          {/* Progreso y Puntuación */}
+          <div className="flex items-center justify-between gap-4 mt-3 pt-3 border-t border-gray-200">
+            <div className="text-xs sm:text-sm text-gray-600">
+              Pregunta {currentQuestion} de {totalQuestions}
             </div>
-            <div className="text-lg font-semibold text-green-700 bg-green-50 px-3 py-1 rounded-md border border-green-200 mt-1">
+            <div className="text-sm sm:text-base font-semibold text-green-700 bg-green-50 px-2 sm:px-3 py-1 rounded-md border border-green-200">
               Puntuación: {score}
             </div>
           </div>
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-6">
-          <Progress value={progress} className="h-3" />
-          <div className="text-center text-sm text-gray-600 mt-2">
+        <div className="mb-4 sm:mb-6">
+          <Progress value={progress} className="h-2 sm:h-3" />
+          <div className="text-center text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">
             Progreso: {Math.round(progress)}%
           </div>
         </div>
 
         {/* Main Content */}
         <Card className="shadow-lg border-0 bg-white/90 backdrop-blur">
-          <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-t-lg">
-            <h3 className="text-xl font-semibold text-center">{title}</h3>
+          <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-t-lg py-3 sm:py-4">
+            <h3 className="text-base sm:text-lg md:text-xl font-semibold text-center">{title}</h3>
           </CardHeader>
-          <CardContent className="p-8">{children}</CardContent>
+          <CardContent className="p-4 sm:p-6 md:p-8">{children}</CardContent>
         </Card>
       </div>
     </div>
