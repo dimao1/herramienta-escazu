@@ -34,6 +34,22 @@ export async function GET() {
       },
     });
 
+    // Formatear assessments recientes a snake_case
+    const formattedAssessments = recentAssessments.map(a => ({
+      id: a.id,
+      user_id: a.userId,
+      total_score: a.totalScore,
+      max_possible_score: a.maxPossibleScore,
+      percentage: a.percentage,
+      classification: a.classification,
+      completed_at: a.completedAt,
+      user: {
+        name: a.user.name,
+        entity: a.user.entity,
+        municipality: a.user.municipality,
+      },
+    }));
+
     return NextResponse.json({
       stats: {
         totalUsers,
@@ -41,7 +57,7 @@ export async function GET() {
         totalQuestions,
         totalModules,
       },
-      recentAssessments,
+      recentAssessments: formattedAssessments,
       classificationStats: classificationStats.map(stat => ({
         classification: stat.classification,
         count: stat._count.classification,

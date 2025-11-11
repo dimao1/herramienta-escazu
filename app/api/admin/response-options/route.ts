@@ -6,7 +6,16 @@ export async function GET() {
     const responseOptions = await prisma.responseOption.findMany({
       orderBy: { id: 'asc' },
     });
-    return NextResponse.json(responseOptions);
+    
+    // Transformar a snake_case
+    const formattedOptions = responseOptions.map(o => ({
+      id: o.id,
+      option_text: o.optionText,
+      points: o.points,
+      excludes_from_calculation: o.excludesFromCalculation,
+    }));
+    
+    return NextResponse.json(formattedOptions);
   } catch (error) {
     console.error("Error obteniendo opciones de respuesta:", error);
     return NextResponse.json(

@@ -17,10 +17,18 @@ export async function GET() {
       ],
     });
 
-    return NextResponse.json(questions.map(q => ({
-      ...q,
+    // Transformar a formato snake_case para compatibilidad
+    const formattedQuestions = questions.map(q => ({
+      id: q.id,
+      module_id: q.moduleId,
+      question_text: q.questionText,
+      question_type: q.questionType,
+      order_index: q.orderIndex,
+      recommendations: q.recommendations,
       module_name: q.module.name,
-    })));
+    }));
+
+    return NextResponse.json(formattedQuestions);
   } catch (error) {
     console.error("Error obteniendo preguntas:", error);
     return NextResponse.json(

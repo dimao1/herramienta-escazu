@@ -6,7 +6,16 @@ export async function GET() {
     const modules = await prisma.module.findMany({
       orderBy: { orderIndex: 'asc' },
     });
-    return NextResponse.json(modules);
+    
+    // Transformar a snake_case
+    const formattedModules = modules.map(m => ({
+      id: m.id,
+      name: m.name,
+      description: m.description,
+      order_index: m.orderIndex,
+    }));
+    
+    return NextResponse.json(formattedModules);
   } catch (error) {
     console.error("Error obteniendo módulos:", error);
     return NextResponse.json(
