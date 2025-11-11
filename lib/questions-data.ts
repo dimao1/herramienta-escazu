@@ -749,7 +749,7 @@ export const questionsData = [
     id: 38,
     module_id: 4,
     question_text:
-      "38. Los mecanismos de participación ambiental que promueven aseguran la inclusión activa de mujeres y diversidades de género, en condiciones de equidad frente a la toma de decisiones y el acceso a la información ambiental",
+      "38. ¿Los mecanismos de participación ambiental que promueve la entidad aseguran la inclusión activa de mujeres y diversidades de género, en condiciones de equidad frente a la toma de decisiones y el acceso a la información ambiental?",
     question_type: "open" as const,
     order_index: 38,
     recommendations: {},
@@ -758,7 +758,7 @@ export const questionsData = [
     id: 39,
     module_id: 4,
     question_text:
-      "39. Han implementado protocolos, indicadores o acciones específicas para identificar y reducir las barreras que enfrentan las mujeres y poblaciones con enfoque diferencial (edad, etnia, discapacidad, orientación sexual) en los procesos de licenciamiento, consultas y participación ambiental",
+      "39. ¿Se han implementado protocolos, indicadores o acciones específicas para identificar y reducir las barreras que enfrentan las mujeres y poblaciones con enfoque diferencial (edad, etnia, discapacidad, orientación sexual) en los procesos de licenciamiento, consultas y participación ambiental?",
     question_type: "open" as const,
     order_index: 39,
     recommendations: {},

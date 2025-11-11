@@ -68,8 +68,8 @@ ON CONFLICT (id) DO NOTHING;
 INSERT INTO questions (id, module_id, question_text, question_type, order_index, recommendations) VALUES
 (36, 4, '36. Describan las principales fortalezas de nuestra entidad en materia de transparencia, participación y evaluación ambiental', 'open', 36, '{"general": "Sistematicen y documenten las fortalezas identificadas como buenas prácticas institucionales"}'),
 (37, 4, '37. Identifiquen los principales retos y oportunidades de mejora en la implementación de los derechos de acceso en asuntos ambientales', 'open', 37, '{"general": "Elaboren un plan de mejoramiento institucional integral basado en los retos identificados"}'),
-(38, 4, '38. Los mecanismos de participación ambiental que promueven aseguran la inclusión activa de mujeres y diversidades de género, en condiciones de equidad frente a la toma de decisiones y el acceso a la información ambiental', 'open', 38, '{}'),
-(39, 4, '39. Han implementado protocolos, indicadores o acciones específicas para identificar y reducir las barreras que enfrentan las mujeres y poblaciones con enfoque diferencial (edad, etnia, discapacidad, orientación sexual) en los procesos de licenciamiento, consultas y participación ambiental', 'open', 39, '{}')
+(38, 4, '38. ¿Los mecanismos de participación ambiental que promueve la entidad aseguran la inclusión activa de mujeres y diversidades de género, en condiciones de equidad frente a la toma de decisiones y el acceso a la información ambiental?', 'open', 38, '{}'),
+(39, 4, '39. ¿Se han implementado protocolos, indicadores o acciones específicas para identificar y reducir las barreras que enfrentan las mujeres y poblaciones con enfoque diferencial (edad, etnia, discapacidad, orientación sexual) en los procesos de licenciamiento, consultas y participación ambiental?', 'open', 39, '{}')
 ON CONFLICT (id) DO NOTHING;
 
 -- ============================================
