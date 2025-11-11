@@ -38,33 +38,33 @@ export function QuizLayout({
       </div>
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Header */}
-        <div className="bg-white/80 backdrop-blur rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 shadow-md">
+        <div className="bg-white/80 backdrop-blur rounded-lg p-2 sm:p-3 md:p-4 mb-4 sm:mb-6 shadow-md">
           {/* Logos y Título */}
           <div className="flex flex-col lg:flex-row items-center justify-between gap-3 lg:gap-4 mb-3 lg:mb-0">
             {/* Logo Ministerio en móvil */}
-            <div className="flex items-center justify-between w-full lg:w-auto gap-2 sm:gap-3">
+            <div className="flex items-center justify-between w-full lg:w-auto gap-1 sm:gap-2">
               <Image
                 src="/logo-ambiente.png"
                 alt="Ministerio de Ambiente"
                 width={120}
                 height={80}
-                className="object-contain w-16 h-auto sm:w-20 md:w-24 lg:w-28"
+                className="object-contain w-12 h-auto sm:w-16 md:w-20 lg:w-28"
               />
               {/* Logos adicionales solo en móvil/tablet */}
-              <div className="flex items-center gap-2 sm:gap-3 lg:hidden">
+              <div className="flex items-center gap-1 sm:gap-2 lg:hidden">
                 <Image
                   src="/logo-alerta-por-mi-ambiente.png"
                   alt="Alerta por mi Ambiente"
                   width={100}
                   height={100}
-                  className="object-contain w-16 h-auto sm:w-20 md:w-24"
+                  className="object-contain w-12 h-auto sm:w-16 md:w-20"
                 />
                 <Image
                   src="/logo-ruta-567-escazu.png"
                   alt="Logo Ruta 567 Escazú"
                   width={100}
                   height={100}
-                  className="object-contain w-16 h-auto sm:w-20 md:w-24"
+                  className="object-contain w-12 h-auto sm:w-16 md:w-20"
                 />
               </div>
             </div>
