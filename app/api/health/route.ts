@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { pool, isNeon } from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
@@ -20,53 +20,44 @@ export async function GET() {
         currentUrl: "postgresql://placeholder:***@placeholder.neon.tech/...",
       }, { status: 500 });
     }
-    
-    // Verificar conexión simple
-    const timeResult = await pool.query("SELECT NOW() as current_time");
-    
-    // Verificar que las tablas existen
-    const tablesResult = await pool.query(`
-      SELECT table_name 
-      FROM information_schema.tables 
-      WHERE table_schema = 'public'
-      ORDER BY table_name
-    `);
-    
-    const tables = tablesResult.rows;
 
-    const tableNames = tables.map((t: any) => t.table_name);
-    const requiredTables = [
-      "users",
-      "modules",
-      "questions",
-      "response_options",
-      "responses",
-      "assessments",
-    ];
-
-    const missingTables = requiredTables.filter(t => !tableNames.includes(t));
-
-    if (missingTables.length > 0) {
-      return NextResponse.json({
-        status: "error",
-        message: "Faltan tablas en la base de datos",
-        missingTables,
-        existingTables: tableNames,
-        hint: "Ejecuta el script init.sql o reinicia Docker con: docker compose down -v && docker compose up -d",
-      }, { status: 500 });
-    }
+    const isNeon = process.env.DATABASE_URL?.includes("neon.tech") || false;
+    
+    // Verificar conexión y contar registros en cada tabla
+    const [
+      userCount,
+      moduleCount,
+      questionCount,
+      responseOptionCount,
+      responseCount,
+      assessmentCount,
+      adminCount
+    ] = await Promise.all([
+      prisma.user.count(),
+      prisma.module.count(),
+      prisma.question.count(),
+      prisma.responseOption.count(),
+      prisma.response.count(),
+      prisma.assessment.count(),
+      prisma.admin.count(),
+    ]);
 
     return NextResponse.json({
       status: "ok",
-      message: "Base de datos conectada correctamente",
+      message: "Base de datos conectada correctamente con Prisma",
       database: isNeon ? "Neon Database (Serverless)" : "PostgreSQL Local",
       environment: process.env.VERCEL ? "Vercel" : "Local",
-      timestamp: timeResult.rows[0].current_time,
-      tables: tableNames,
-      poolConfig: {
-        max: isNeon ? 1 : 10,
-        isNeon: isNeon,
-      }
+      timestamp: new Date().toISOString(),
+      tables: {
+        users: userCount,
+        modules: moduleCount,
+        questions: questionCount,
+        response_options: responseOptionCount,
+        responses: responseCount,
+        assessments: assessmentCount,
+        admins: adminCount,
+      },
+      prismaVersion: "6.19.0",
     });
 
   } catch (error) {
