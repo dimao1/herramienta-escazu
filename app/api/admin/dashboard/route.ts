@@ -1,39 +1,51 @@
 import { NextResponse } from "next/server";
-import { pool } from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    // Obtener estadísticas del dashboard
-    const totalUsers = await pool.query("SELECT COUNT(*) as count FROM users");
-    const totalAssessments = await pool.query("SELECT COUNT(*) as count FROM assessments");
-    const totalQuestions = await pool.query("SELECT COUNT(*) as count FROM questions");
-    const totalModules = await pool.query("SELECT COUNT(*) as count FROM modules");
+    // Obtener estadísticas del dashboard usando Prisma
+    const [totalUsers, totalAssessments, totalQuestions, totalModules] = await Promise.all([
+      prisma.user.count(),
+      prisma.assessment.count(),
+      prisma.question.count(),
+      prisma.module.count(),
+    ]);
 
-    // Obtener evaluaciones recientes
-    const recentAssessments = await pool.query(`
-      SELECT a.*, u.name, u.entity, u.municipality
-      FROM assessments a
-      JOIN users u ON a.user_id = u.id
-      ORDER BY a.completed_at DESC
-      LIMIT 10
-    `);
+    // Obtener evaluaciones recientes con datos del usuario
+    const recentAssessments = await prisma.assessment.findMany({
+      take: 10,
+      orderBy: { completedAt: 'desc' },
+      include: {
+        user: {
+          select: {
+            name: true,
+            entity: true,
+            municipality: true,
+          },
+        },
+      },
+    });
 
     // Obtener distribución por clasificación
-    const classificationStats = await pool.query(`
-      SELECT classification, COUNT(*) as count
-      FROM assessments
-      GROUP BY classification
-    `);
+    const classificationStats = await prisma.assessment.groupBy({
+      by: ['classification'],
+      _count: {
+        classification: true,
+      },
+    });
 
     return NextResponse.json({
       stats: {
-        totalUsers: Number.parseInt(totalUsers.rows[0].count),
-        totalAssessments: Number.parseInt(totalAssessments.rows[0].count),
-        totalQuestions: Number.parseInt(totalQuestions.rows[0].count),
-        totalModules: Number.parseInt(totalModules.rows[0].count),
+        totalUsers,
+        totalAssessments,
+        totalQuestions,
+        totalModules,
       },
-      recentAssessments: recentAssessments.rows,
-      classificationStats: classificationStats.rows,
+      recentAssessments,
+      classificationStats: classificationStats.map(stat => ({
+        classification: stat.classification,
+        count: stat._count.classification,
+      })),
     });
   } catch (error) {
     console.error("Error obteniendo datos del dashboard:", error);

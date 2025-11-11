@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { pool } from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 
 interface SaveAssessmentRequest {
   user: {
@@ -34,70 +34,53 @@ export async function POST(request: NextRequest) {
       assessment: body.assessment.classification,
     });
 
-    // Verificar que DATABASE_URL está configurado
-    if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes("placeholder")) {
-      throw new Error("DATABASE_URL no está configurado correctamente. Por favor configura .env.local");
-    }
+    // Usar transacción de Prisma para garantizar consistencia
+    const result = await prisma.$transaction(async (tx) => {
+      // 1. Crear usuario
+      console.log("👤 Guardando usuario...");
+      const user = await tx.user.create({
+        data: {
+          name: body.user.name,
+          contact: `${body.user.phone} / ${body.user.email}`,
+          entity: body.user.entity,
+          municipality: body.user.municipality,
+        },
+      });
+      console.log("✅ Usuario guardado con ID:", user.id);
 
-    // 1. Crear/guardar el usuario
-    console.log("👤 Guardando usuario...");
-    const userResult = await pool.query(
-      `INSERT INTO users (name, contact, entity, municipality)
-       VALUES ($1, $2, $3, $4)
-       RETURNING id`,
-      [
-        body.user.name,
-        body.user.phone + " / " + body.user.email,
-        body.user.entity,
-        body.user.municipality
-      ]
-    );
+      // 2. Crear evaluación
+      console.log("📈 Guardando evaluación...");
+      const assessment = await tx.assessment.create({
+        data: {
+          userId: user.id,
+          totalScore: body.assessment.total_score,
+          maxPossibleScore: body.assessment.max_possible_score,
+          percentage: body.assessment.percentage,
+          classification: body.assessment.classification,
+        },
+      });
+      console.log("✅ Evaluación guardada con ID:", assessment.id);
 
-    const userId = userResult.rows[0].id;
-    console.log("✅ Usuario guardado con ID:", userId);
+      // 3. Crear todas las respuestas
+      console.log("📝 Guardando", body.responses.length, "respuestas...");
+      await tx.response.createMany({
+        data: body.responses.map((response) => ({
+          userId: user.id,
+          questionId: response.questionId,
+          responseOptionId: response.response_option_id || null,
+          responseText: response.open_response || null,
+        })),
+      });
+      console.log("✅ Todas las respuestas guardadas");
 
-    // 2. Guardar la evaluación (assessment)
-    console.log("📈 Guardando evaluación...");
-    const assessmentResult = await pool.query(
-      `INSERT INTO assessments (user_id, total_score, max_possible_score, percentage, classification)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING id`,
-      [
-        userId,
-        body.assessment.total_score,
-        body.assessment.max_possible_score,
-        body.assessment.percentage,
-        body.assessment.classification
-      ]
-    );
-
-    const assessmentId = assessmentResult.rows[0].id;
-    console.log("✅ Evaluación guardada con ID:", assessmentId);
-
-    // 3. Guardar todas las respuestas
-    console.log("📝 Guardando", body.responses.length, "respuestas...");
-    const responsePromises = body.responses.map((response) =>
-      pool.query(
-        `INSERT INTO responses (user_id, question_id, response_option_id, open_response, justification)
-         VALUES ($1, $2, $3, $4, $5)`,
-        [
-          userId,
-          response.questionId,
-          response.response_option_id || null,
-          response.open_response || null,
-          response.justification || null
-        ]
-      )
-    );
-
-    await Promise.all(responsePromises);
-    console.log("✅ Todas las respuestas guardadas");
+      return { userId: user.id, assessmentId: assessment.id };
+    });
 
     console.log("🎉 Guardado completo exitosamente");
     return NextResponse.json({
       success: true,
-      userId,
-      assessmentId,
+      userId: result.userId,
+      assessmentId: result.assessmentId,
       message: "Evaluación guardada exitosamente",
     });
   } catch (error) {

@@ -1,17 +1,26 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { pool } from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    const result = await pool.query(`
-      SELECT q.*, 
-             COALESCE(q.recommendations, q.recommendation) as recommendation,
-             m.name as module_name
-      FROM questions q
-      JOIN modules m ON q.module_id = m.id
-      ORDER BY q.module_id, q.order_index
-    `);
-    return NextResponse.json(result.rows);
+    const questions = await prisma.question.findMany({
+      include: {
+        module: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: [
+        { moduleId: 'asc' },
+        { orderIndex: 'asc' },
+      ],
+    });
+
+    return NextResponse.json(questions.map(q => ({
+      ...q,
+      module_name: q.module.name,
+    })));
   } catch (error) {
     console.error("Error obteniendo preguntas:", error);
     return NextResponse.json(
@@ -31,26 +40,17 @@ export async function POST(request: NextRequest) {
       recommendations,
     } = await request.json();
 
-    // Intentar con recommendations (Neon) primero, luego recommendation (local)
-    try {
-      const result = await pool.query(
-        `INSERT INTO questions (module_id, question_text, question_type, order_index, recommendations)
-         VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-        [module_id, question_text, question_type, order_index, recommendations || null]
-      );
-      return NextResponse.json(result.rows[0]);
-    } catch (err: any) {
-      if (err.code === '42703') { // Column does not exist
-        // Usar recommendation (local)
-        const result = await pool.query(
-          `INSERT INTO questions (module_id, question_text, question_type, order_index, recommendation)
-           VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-          [module_id, question_text, question_type, order_index, JSON.stringify(recommendations)]
-        );
-        return NextResponse.json(result.rows[0]);
-      }
-      throw err;
-    }
+    const question = await prisma.question.create({
+      data: {
+        moduleId: module_id,
+        questionText: question_text,
+        questionType: question_type,
+        orderIndex: order_index,
+        recommendations: recommendations || null,
+      },
+    });
+
+    return NextResponse.json(question);
   } catch (error) {
     console.error("Error creando pregunta:", error);
     return NextResponse.json(
@@ -71,28 +71,18 @@ export async function PUT(request: NextRequest) {
       recommendations,
     } = await request.json();
 
-    // Intentar con recommendations (Neon) primero, luego recommendation (local)
-    try {
-      const result = await pool.query(
-        `UPDATE questions 
-         SET module_id = $1, question_text = $2, question_type = $3, order_index = $4, recommendations = $5
-         WHERE id = $6 RETURNING *`,
-        [module_id, question_text, question_type, order_index, recommendations || null, id]
-      );
-      return NextResponse.json(result.rows[0]);
-    } catch (err: any) {
-      if (err.code === '42703') { // Column does not exist
-        // Usar recommendation (local)
-        const result = await pool.query(
-          `UPDATE questions 
-           SET module_id = $1, question_text = $2, question_type = $3, order_index = $4, recommendation = $5
-           WHERE id = $6 RETURNING *`,
-          [module_id, question_text, question_type, order_index, JSON.stringify(recommendations), id]
-        );
-        return NextResponse.json(result.rows[0]);
-      }
-      throw err;
-    }
+    const question = await prisma.question.update({
+      where: { id },
+      data: {
+        moduleId: module_id,
+        questionText: question_text,
+        questionType: question_type,
+        orderIndex: order_index,
+        recommendations: recommendations || null,
+      },
+    });
+
+    return NextResponse.json(question);
   } catch (error) {
     console.error("Error actualizando pregunta:", error);
     return NextResponse.json(
@@ -107,7 +97,9 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
-    await pool.query("DELETE FROM questions WHERE id = $1", [id]);
+    await prisma.question.delete({
+      where: { id: parseInt(id!) },
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { pool } from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(
   request: NextRequest,
@@ -7,32 +7,50 @@ export async function GET(
 ) {
   try {
     const { userId } = await params;
+    const userIdInt = parseInt(userId);
 
-    const responsesResult = await pool.query(`
-      SELECT 
-        r.*,
-        q.question_text,
-        q.question_type,
-        COALESCE(q.recommendations, q.recommendation) as recommendation,
-        ro.option_text,
-        ro.points,
-        m.name as module_name
-      FROM responses r
-      JOIN questions q ON r.question_id = q.id
-      JOIN modules m ON q.module_id = m.id
-      LEFT JOIN response_options ro ON r.response_option_id = ro.id
-      WHERE r.user_id = $1
-      ORDER BY m.order_index, q.order_index
-    `, [userId]);
-
-    const userResult = await pool.query(
-      "SELECT * FROM users WHERE id = $1",
-      [userId]
-    );
+    const [user, responses] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: userIdInt },
+      }),
+      prisma.response.findMany({
+        where: { userId: userIdInt },
+        include: {
+          question: {
+            include: {
+              module: {
+                select: {
+                  name: true,
+                  orderIndex: true,
+                },
+              },
+            },
+          },
+          responseOption: {
+            select: {
+              optionText: true,
+              points: true,
+            },
+          },
+        },
+        orderBy: [
+          { question: { module: { orderIndex: 'asc' } } },
+          { question: { orderIndex: 'asc' } },
+        ],
+      }),
+    ]);
 
     return NextResponse.json({
-      user: userResult.rows[0],
-      responses: responsesResult.rows,
+      user,
+      responses: responses.map(r => ({
+        ...r,
+        question_text: r.question.questionText,
+        question_type: r.question.questionType,
+        recommendation: r.question.recommendations,
+        option_text: r.responseOption?.optionText,
+        points: r.responseOption?.points,
+        module_name: r.question.module.name,
+      })),
     });
   } catch (error) {
     console.error("Error obteniendo respuestas:", error);

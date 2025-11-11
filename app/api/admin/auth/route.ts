@@ -1,32 +1,30 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { pool } from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json();
 
-    // Buscar el usuario administrador en la tabla correcta
-    const result = await pool.query(
-      "SELECT * FROM admins WHERE username = $1 AND password_hash = $2",
-      [username, password]
-    );
+    // Buscar el usuario administrador
+    const admin = await prisma.admin.findFirst({
+      where: {
+        username: username,
+        passwordHash: password, // En producción usar bcrypt
+      },
+    });
 
-    if (result.rows.length === 0) {
+    if (!admin) {
       return NextResponse.json(
         { error: "Credenciales inválidas" },
         { status: 401 },
       );
     }
 
-    const adminUser = result.rows[0];
-
-    // En un entorno de producción, aquí usarías JWT o sessions con bcrypt
+    // En producción, aquí deberías usar JWT o similar
     return NextResponse.json({
       success: true,
-      admin: {
-        id: adminUser.id,
-        username: adminUser.username,
-        role: adminUser.role,
+      user: {
+        username: admin.username,
       },
     });
   } catch (error) {

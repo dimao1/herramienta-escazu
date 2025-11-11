@@ -1,24 +1,18 @@
 import { NextResponse } from "next/server";
-import { pool } from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    const result = await pool.query(`
-      SELECT 
-        a.*,
-        u.name,
-        u.contact,
-        u.entity,
-        u.municipality,
-        COUNT(r.id) as total_responses
-      FROM assessments a
-      JOIN users u ON a.user_id = u.id
-      LEFT JOIN responses r ON r.user_id = u.id
-      GROUP BY a.id, u.id
-      ORDER BY a.completed_at DESC
-    `);
+    const assessments = await prisma.assessment.findMany({
+      include: {
+        user: true,
+      },
+      orderBy: {
+        completedAt: 'desc',
+      },
+    });
 
-    return NextResponse.json(result.rows);
+    return NextResponse.json(assessments);
   } catch (error) {
     console.error("Error obteniendo evaluaciones:", error);
     return NextResponse.json(
