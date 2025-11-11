@@ -1,11 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { Pool } from "pg";
-
-// Usar Pool de pg para soportar tanto local como Neon
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL ||
-    "postgresql://placeholder:placeholder@placeholder.neon.tech/placeholder?sslmode=require",
-});
+import { type NextRequest, NextResponse } from "next/server";
+import { pool } from "@/lib/db";
 
 interface SaveAssessmentRequest {
   user: {

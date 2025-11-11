@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Pool } from "pg";
+import { pool, isNeon } from "@/lib/db";
 
 export async function GET() {
   try {
@@ -20,11 +20,6 @@ export async function GET() {
         currentUrl: "postgresql://placeholder:***@placeholder.neon.tech/...",
       }, { status: 500 });
     }
-
-    // Intentar conectar a la base de datos
-    const pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-    });
     
     // Verificar conexión simple
     const timeResult = await pool.query("SELECT NOW() as current_time");
@@ -61,15 +56,17 @@ export async function GET() {
       }, { status: 500 });
     }
 
-    await pool.end();
-    
     return NextResponse.json({
       status: "ok",
       message: "Base de datos conectada correctamente",
-      database: process.env.DATABASE_URL.includes("localhost") ? "PostgreSQL Local" : 
-                process.env.DATABASE_URL.includes("neon.tech") ? "Neon Database" : "PostgreSQL Remoto",
+      database: isNeon ? "Neon Database (Serverless)" : "PostgreSQL Local",
+      environment: process.env.VERCEL ? "Vercel" : "Local",
       timestamp: timeResult.rows[0].current_time,
       tables: tableNames,
+      poolConfig: {
+        max: isNeon ? 1 : 10,
+        isNeon: isNeon,
+      }
     });
 
   } catch (error) {

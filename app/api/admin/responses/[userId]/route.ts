@@ -1,10 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { Pool } from "pg";
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL ||
-    "postgresql://placeholder:placeholder@placeholder.neon.tech/placeholder?sslmode=require",
-});
+import { pool } from "@/lib/db";
 
 export async function GET(
   request: NextRequest,
