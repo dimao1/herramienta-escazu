@@ -1,0 +1,91 @@
+// Prisma Schema para Herramienta Escazú
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int          @id @default(autoincrement())
+  name         String
+  contact      String
+  entity       String
+  municipality String
+  createdAt    DateTime     @default(now()) @map("created_at")
+  responses    Response[]
+  assessments  Assessment[]
+
+  @@map("users")
+}
+
+model Module {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  orderIndex  Int        @map("order_index")
+  questions   Question[]
+
+  @@map("modules")
+}
+
+model Question {
+  id              Int        @id @default(autoincrement())
+  moduleId        Int        @map("module_id")
+  questionText    String     @map("question_text")
+  questionType    String?    @map("question_type")
+  orderIndex      Int        @map("order_index")
+  recommendations Json?
+  module          Module     @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  responses       Response[]
+
+  @@map("questions")
+}
+
+model ResponseOption {
+  id                       Int        @id @default(autoincrement())
+  optionText               String     @map("option_text")
+  points                   Int
+  excludesFromCalculation  Boolean    @default(false) @map("excludes_from_calculation")
+  responses                Response[]
+
+  @@map("response_options")
+}
+
+model Response {
+  id               Int             @id @default(autoincrement())
+  userId           Int             @map("user_id")
+  questionId       Int             @map("question_id")
+  responseOptionId Int?            @map("response_option_id")
+  responseText     String?         @map("response_text")
+  createdAt        DateTime        @default(now()) @map("created_at")
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question         Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  responseOption   ResponseOption? @relation(fields: [responseOptionId], references: [id])
+
+  @@map("responses")
+}
+
+model Assessment {
+  id             Int      @id @default(autoincrement())
+  userId         Int      @map("user_id")
+  totalScore     Int      @map("total_score")
+  maxPossibleScore Int    @map("max_possible_score")
+  percentage     Float
+  classification String
+  completedAt    DateTime @default(now()) @map("completed_at")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("assessments")
+}
+
+model Admin {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("admins")
+}
