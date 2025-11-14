@@ -17,8 +17,19 @@ export default function AdminPage() {
   useEffect(() => {
     // Verificar si hay una sesión de admin guardada
     const savedAdmin = localStorage.getItem("admin");
-    if (savedAdmin) {
-      setAdmin(JSON.parse(savedAdmin));
+    if (savedAdmin && savedAdmin !== "undefined") {
+      try {
+        const parsed = JSON.parse(savedAdmin) as AdminUser;
+        if (parsed && parsed.username) {
+          setAdmin(parsed);
+        }
+      } catch {
+        // Si el contenido no es JSON válido, limpiar la entrada corrupta
+        localStorage.removeItem("admin");
+      }
+    } else if (savedAdmin === "undefined") {
+      // Limpiar valores antiguos que guardaron la cadena "undefined"
+      localStorage.removeItem("admin");
     }
     setLoading(false);
   }, []);

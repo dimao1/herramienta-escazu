@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { pool } from "@/lib/db";
 
 export async function GET(
   request: NextRequest,
@@ -7,50 +7,54 @@ export async function GET(
 ) {
   try {
     const { userId } = await params;
-    const userIdInt = parseInt(userId);
+    const userIdInt = parseInt(userId, 10);
 
-    const [user, responses] = await Promise.all([
-      prisma.user.findUnique({
-        where: { id: userIdInt },
-      }),
-      prisma.response.findMany({
-        where: { userId: userIdInt },
-        include: {
-          question: {
-            include: {
-              module: {
-                select: {
-                  name: true,
-                  orderIndex: true,
-                },
-              },
-            },
-          },
-          responseOption: {
-            select: {
-              optionText: true,
-              points: true,
-            },
-          },
-        },
-        orderBy: [
-          { question: { module: { orderIndex: 'asc' } } },
-          { question: { orderIndex: 'asc' } },
-        ],
-      }),
+    if (Number.isNaN(userIdInt)) {
+      return NextResponse.json(
+        { error: "Parámetro userId inválido" },
+        { status: 400 },
+      );
+    }
+
+    const [userResult, responsesResult] = await Promise.all([
+      pool.query(
+        `SELECT id, name, contact, entity, municipality, created_at AS "createdAt"
+         FROM users
+         WHERE id = $1`,
+        [userIdInt],
+      ),
+      pool.query(
+        `SELECT
+           r.id,
+           r.user_id        AS "userId",
+           r.question_id    AS "questionId",
+           r.response_option_id AS "responseOptionId",
+           r.response_text  AS "responseText",
+           r.created_at     AS "createdAt",
+           q.question_text  AS "question_text",
+           q.question_type  AS "question_type",
+           q.recommendations AS "recommendation",
+           ro.option_text   AS "option_text",
+           ro.points        AS "points",
+           m.name           AS "module_name",
+           m.order_index    AS "module_order_index",
+           q.order_index    AS "question_order_index"
+         FROM responses r
+         JOIN questions q ON q.id = r.question_id
+         JOIN modules m   ON m.id = q.module_id
+         LEFT JOIN response_options ro ON ro.id = r.response_option_id
+         WHERE r.user_id = $1
+         ORDER BY m.order_index ASC, q.order_index ASC`,
+        [userIdInt],
+      ),
     ]);
+
+    const user = userResult.rows[0] ?? null;
+    const responses = responsesResult.rows;
 
     return NextResponse.json({
       user,
-      responses: responses.map(r => ({
-        ...r,
-        question_text: r.question.questionText,
-        question_type: r.question.questionType,
-        recommendation: r.question.recommendations,
-        option_text: r.responseOption?.optionText,
-        points: r.responseOption?.points,
-        module_name: r.question.module.name,
-      })),
+      responses,
     });
   } catch (error) {
     console.error("Error obteniendo respuestas:", error);

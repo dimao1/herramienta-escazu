@@ -1,17 +1,19 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { pool } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json();
 
-    // Buscar el usuario administrador
-    const admin = await prisma.admin.findFirst({
-      where: {
-        username: username,
-        passwordHash: password, // En producción usar bcrypt
-      },
-    });
+    const result = await pool.query(
+      `SELECT username
+       FROM admins
+       WHERE username = $1 AND password_hash = $2
+       LIMIT 1`,
+      [username, password],
+    );
+
+    const admin = result.rows[0];
 
     if (!admin) {
       return NextResponse.json(

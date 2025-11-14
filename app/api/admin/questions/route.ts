@@ -1,31 +1,29 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { pool } from "@/lib/db";
 
 export async function GET() {
   try {
-    const questions = await prisma.question.findMany({
-      include: {
-        module: {
-          select: {
-            name: true,
-          },
-        },
-      },
-      orderBy: [
-        { moduleId: 'asc' },
-        { orderIndex: 'asc' },
-      ],
-    });
+    const result = await pool.query(
+      `SELECT q.id,
+              q.module_id,
+              q.question_text,
+              q.question_type,
+              q.order_index,
+              q.recommendations,
+              m.name AS module_name
+       FROM "questions" q
+       JOIN "modules" m ON m.id = q.module_id
+       ORDER BY q.module_id ASC, q.order_index ASC`,
+    );
 
-    // Transformar a formato snake_case para compatibilidad
-    const formattedQuestions = questions.map(q => ({
+    const formattedQuestions = result.rows.map((q) => ({
       id: q.id,
-      module_id: q.moduleId,
-      question_text: q.questionText,
-      question_type: q.questionType,
-      order_index: q.orderIndex,
+      module_id: q.module_id,
+      question_text: q.question_text,
+      question_type: q.question_type,
+      order_index: q.order_index,
       recommendations: q.recommendations,
-      module_name: q.module.name,
+      module_name: q.module_name,
     }));
 
     return NextResponse.json(formattedQuestions);
@@ -48,17 +46,14 @@ export async function POST(request: NextRequest) {
       recommendations,
     } = await request.json();
 
-    const question = await prisma.question.create({
-      data: {
-        moduleId: module_id,
-        questionText: question_text,
-        questionType: question_type,
-        orderIndex: order_index,
-        recommendations: recommendations || null,
-      },
-    });
+    const result = await pool.query(
+      `INSERT INTO "questions" ("module_id", "question_text", "question_type", "order_index", "recommendations")
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *`,
+      [module_id, question_text, question_type, order_index, recommendations || null],
+    );
 
-    return NextResponse.json(question);
+    return NextResponse.json(result.rows[0]);
   } catch (error) {
     console.error("Error creando pregunta:", error);
     return NextResponse.json(
@@ -79,18 +74,19 @@ export async function PUT(request: NextRequest) {
       recommendations,
     } = await request.json();
 
-    const question = await prisma.question.update({
-      where: { id },
-      data: {
-        moduleId: module_id,
-        questionText: question_text,
-        questionType: question_type,
-        orderIndex: order_index,
-        recommendations: recommendations || null,
-      },
-    });
+    const result = await pool.query(
+      `UPDATE "questions"
+       SET "module_id" = $1,
+           "question_text" = $2,
+           "question_type" = $3,
+           "order_index" = $4,
+           "recommendations" = $5
+       WHERE id = $6
+       RETURNING *`,
+      [module_id, question_text, question_type, order_index, recommendations || null, id],
+    );
 
-    return NextResponse.json(question);
+    return NextResponse.json(result.rows[0]);
   } catch (error) {
     console.error("Error actualizando pregunta:", error);
     return NextResponse.json(
@@ -105,9 +101,7 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
-    await prisma.question.delete({
-      where: { id: parseInt(id!) },
-    });
+    await pool.query(`DELETE FROM "questions" WHERE id = $1`, [parseInt(id!, 10)]);
 
     return NextResponse.json({ success: true });
   } catch (error) {

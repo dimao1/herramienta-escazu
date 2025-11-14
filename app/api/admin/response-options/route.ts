@@ -1,20 +1,21 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { pool } from "@/lib/db";
 
 export async function GET() {
   try {
-    const responseOptions = await prisma.responseOption.findMany({
-      orderBy: { id: 'asc' },
-    });
-    
-    // Transformar a snake_case
-    const formattedOptions = responseOptions.map(o => ({
+    const result = await pool.query(
+      `SELECT id, option_text, points, excludes_from_calculation
+       FROM "response_options"
+       ORDER BY id ASC`,
+    );
+
+    const formattedOptions = result.rows.map((o) => ({
       id: o.id,
-      option_text: o.optionText,
+      option_text: o.option_text,
       points: o.points,
-      excludes_from_calculation: o.excludesFromCalculation,
+      excludes_from_calculation: o.excludes_from_calculation,
     }));
-    
+
     return NextResponse.json(formattedOptions);
   } catch (error) {
     console.error("Error obteniendo opciones de respuesta:", error);
@@ -30,15 +31,14 @@ export async function POST(request: NextRequest) {
     const { option_text, points, excludes_from_calculation } =
       await request.json();
 
-    const responseOption = await prisma.responseOption.create({
-      data: {
-        optionText: option_text,
-        points,
-        excludesFromCalculation: excludes_from_calculation,
-      },
-    });
+    const result = await pool.query(
+      `INSERT INTO "response_options" ("option_text", "points", "excludes_from_calculation")
+       VALUES ($1, $2, $3)
+       RETURNING *`,
+      [option_text, points, excludes_from_calculation],
+    );
 
-    return NextResponse.json(responseOption);
+    return NextResponse.json(result.rows[0]);
   } catch (error) {
     console.error("Error creando opción de respuesta:", error);
     return NextResponse.json(
@@ -53,16 +53,17 @@ export async function PUT(request: NextRequest) {
     const { id, option_text, points, excludes_from_calculation } =
       await request.json();
 
-    const responseOption = await prisma.responseOption.update({
-      where: { id },
-      data: {
-        optionText: option_text,
-        points,
-        excludesFromCalculation: excludes_from_calculation,
-      },
-    });
+    const result = await pool.query(
+      `UPDATE "response_options"
+       SET "option_text" = $1,
+           "points" = $2,
+           "excludes_from_calculation" = $3
+       WHERE id = $4
+       RETURNING *`,
+      [option_text, points, excludes_from_calculation, id],
+    );
 
-    return NextResponse.json(responseOption);
+    return NextResponse.json(result.rows[0]);
   } catch (error) {
     console.error("Error actualizando opción de respuesta:", error);
     return NextResponse.json(
@@ -77,9 +78,9 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
-    await prisma.responseOption.delete({
-      where: { id: parseInt(id!) },
-    });
+    await pool.query(`DELETE FROM "response_options" WHERE id = $1`, [
+      parseInt(id!, 10),
+    ]);
 
     return NextResponse.json({ success: true });
   } catch (error) {

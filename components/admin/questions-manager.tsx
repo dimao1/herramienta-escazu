@@ -58,16 +58,28 @@ export function QuestionsManager() {
     try {
       const response = await fetch("/api/admin/questions");
       const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Error en /api/admin/questions:", data);
+        setQuestions([]);
+        return;
+      }
+
+      const arrayData = Array.isArray(data) ? data : [];
+
       // Parsear el campo recommendation si viene como string JSON
-      const parsedData = data.map((q: any) => ({
+      const parsedData = arrayData.map((q: any) => ({
         ...q,
-        recommendations: typeof q.recommendation === 'string' 
-          ? JSON.parse(q.recommendation) 
-          : (q.recommendation || {}),
+        recommendations:
+          typeof q.recommendation === "string"
+            ? JSON.parse(q.recommendation)
+            : q.recommendation || {},
       }));
+
       setQuestions(parsedData);
     } catch (error) {
       console.error("Error fetching questions:", error);
+      setQuestions([]);
     } finally {
       setLoading(false);
     }
@@ -77,9 +89,17 @@ export function QuestionsManager() {
     try {
       const response = await fetch("/api/admin/modules");
       const data = await response.json();
-      setModules(data);
+
+      if (!response.ok) {
+        console.error("Error en /api/admin/modules:", data);
+        setModules([]);
+        return;
+      }
+
+      setModules(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching modules:", error);
+      setModules([]);
     }
   };
 

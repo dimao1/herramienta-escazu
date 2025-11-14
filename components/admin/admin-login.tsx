@@ -43,7 +43,8 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
       const data = await response.json();
 
       if (response.ok) {
-        onLogin(data.admin);
+        // El endpoint /api/admin/auth devuelve { success: true, user: { username } }
+        onLogin(data.user);
       } else {
         setError(data.error || "Error de autenticación");
       }

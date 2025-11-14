@@ -64,11 +64,22 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
       const response = await fetch("/api/admin/dashboard");
       const data = await response.json();
 
-      setStats(data.stats);
-      setRecentAssessments(data.recentAssessments);
-      setClassificationStats(data.classificationStats);
+      if (!response.ok) {
+        console.error("Error en /api/admin/dashboard:", data);
+        setStats(null);
+        setRecentAssessments([]);
+        setClassificationStats([]);
+        return;
+      }
+
+      setStats(data.stats ?? null);
+      setRecentAssessments(data.recentAssessments ?? []);
+      setClassificationStats(data.classificationStats ?? []);
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
+      setStats(null);
+      setRecentAssessments([]);
+      setClassificationStats([]);
     } finally {
       setLoading(false);
     }

@@ -1,20 +1,21 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { pool } from "@/lib/db";
 
 export async function GET() {
   try {
-    const modules = await prisma.module.findMany({
-      orderBy: { orderIndex: 'asc' },
-    });
-    
-    // Transformar a snake_case
-    const formattedModules = modules.map(m => ({
+    const result = await pool.query(
+      `SELECT id, name, description, order_index
+       FROM "modules"
+       ORDER BY order_index ASC`,
+    );
+
+    const formattedModules = result.rows.map((m) => ({
       id: m.id,
       name: m.name,
       description: m.description,
-      order_index: m.orderIndex,
+      order_index: m.order_index,
     }));
-    
+
     return NextResponse.json(formattedModules);
   } catch (error) {
     console.error("Error obteniendo módulos:", error);
@@ -29,15 +30,14 @@ export async function POST(request: NextRequest) {
   try {
     const { name, description, order_index } = await request.json();
 
-    const module = await prisma.module.create({
-      data: {
-        name,
-        description,
-        orderIndex: order_index,
-      },
-    });
+    const result = await pool.query(
+      `INSERT INTO "modules" ("name", "description", "order_index")
+       VALUES ($1, $2, $3)
+       RETURNING *`,
+      [name, description ?? null, order_index],
+    );
 
-    return NextResponse.json(module);
+    return NextResponse.json(result.rows[0]);
   } catch (error) {
     console.error("Error creando módulo:", error);
     return NextResponse.json(
@@ -51,16 +51,17 @@ export async function PUT(request: NextRequest) {
   try {
     const { id, name, description, order_index } = await request.json();
 
-    const module = await prisma.module.update({
-      where: { id },
-      data: {
-        name,
-        description,
-        orderIndex: order_index,
-      },
-    });
+    const result = await pool.query(
+      `UPDATE "modules"
+       SET "name" = $1,
+           "description" = $2,
+           "order_index" = $3
+       WHERE id = $4
+       RETURNING *`,
+      [name, description ?? null, order_index, id],
+    );
 
-    return NextResponse.json(module);
+    return NextResponse.json(result.rows[0]);
   } catch (error) {
     console.error("Error actualizando módulo:", error);
     return NextResponse.json(
@@ -75,9 +76,7 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
-    await prisma.module.delete({
-      where: { id: parseInt(id!) },
-    });
+    await pool.query(`DELETE FROM "modules" WHERE id = $1`, [parseInt(id!, 10)]);
 
     return NextResponse.json({ success: true });
   } catch (error) {

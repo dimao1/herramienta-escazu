@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { pool, isNeon } from "@/lib/db";
 
 export async function GET() {
   try {
@@ -21,25 +21,23 @@ export async function GET() {
       }, { status: 500 });
     }
 
-    const isNeon = process.env.DATABASE_URL?.includes("neon.tech") || false;
-    
-    // Verificar conexión y contar registros en cada tabla
+    // Verificar conexión y contar registros en cada tabla usando SQL crudo
     const [
-      userCount,
-      moduleCount,
-      questionCount,
-      responseOptionCount,
-      responseCount,
-      assessmentCount,
-      adminCount
+      usersRes,
+      modulesRes,
+      questionsRes,
+      responseOptionsRes,
+      responsesRes,
+      assessmentsRes,
+      adminsRes,
     ] = await Promise.all([
-      prisma.user.count(),
-      prisma.module.count(),
-      prisma.question.count(),
-      prisma.responseOption.count(),
-      prisma.response.count(),
-      prisma.assessment.count(),
-      prisma.admin.count(),
+      pool.query("SELECT COUNT(*) AS count FROM users"),
+      pool.query("SELECT COUNT(*) AS count FROM modules"),
+      pool.query("SELECT COUNT(*) AS count FROM questions"),
+      pool.query("SELECT COUNT(*) AS count FROM response_options"),
+      pool.query("SELECT COUNT(*) AS count FROM responses"),
+      pool.query("SELECT COUNT(*) AS count FROM assessments"),
+      pool.query("SELECT COUNT(*) AS count FROM admins"),
     ]);
 
     return NextResponse.json({
@@ -49,15 +47,15 @@ export async function GET() {
       environment: process.env.VERCEL ? "Vercel" : "Local",
       timestamp: new Date().toISOString(),
       tables: {
-        users: userCount,
-        modules: moduleCount,
-        questions: questionCount,
-        response_options: responseOptionCount,
-        responses: responseCount,
-        assessments: assessmentCount,
-        admins: adminCount,
+        users: Number(usersRes.rows[0]?.count ?? 0),
+        modules: Number(modulesRes.rows[0]?.count ?? 0),
+        questions: Number(questionsRes.rows[0]?.count ?? 0),
+        response_options: Number(responseOptionsRes.rows[0]?.count ?? 0),
+        responses: Number(responsesRes.rows[0]?.count ?? 0),
+        assessments: Number(assessmentsRes.rows[0]?.count ?? 0),
+        admins: Number(adminsRes.rows[0]?.count ?? 0),
       },
-      prismaVersion: "6.19.0",
+      prismaVersion: null,
     });
 
   } catch (error) {
