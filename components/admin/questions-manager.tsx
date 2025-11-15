@@ -67,14 +67,26 @@ export function QuestionsManager() {
 
       const arrayData = Array.isArray(data) ? data : [];
 
-      // Parsear el campo recommendation si viene como string JSON
-      const parsedData = arrayData.map((q: any) => ({
-        ...q,
-        recommendations:
-          typeof q.recommendation === "string"
-            ? JSON.parse(q.recommendation)
-            : q.recommendation || {},
-      }));
+      // Parsear el campo recommendations si viene como string JSON
+      const parsedData = arrayData.map((q: any) => {
+        const raw = q.recommendations ?? q.recommendation;
+
+        let parsed: Record<string, string> = {};
+        if (typeof raw === "string" && raw.trim() !== "") {
+          try {
+            parsed = JSON.parse(raw);
+          } catch {
+            parsed = {};
+          }
+        } else if (raw && typeof raw === "object") {
+          parsed = raw as Record<string, string>;
+        }
+
+        return {
+          ...q,
+          recommendations: parsed,
+        };
+      });
 
       setQuestions(parsedData);
     } catch (error) {

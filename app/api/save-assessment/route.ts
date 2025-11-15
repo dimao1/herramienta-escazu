@@ -83,11 +83,20 @@ export async function POST(request: NextRequest) {
           valuePlaceholders.push(
             `($${baseIndex + 1}, $${baseIndex + 2}, $${baseIndex + 3}, $${baseIndex + 4})`,
           );
+
+          // Priorizar el texto abierto y, si no existe, usar la justificación
+          const responseText =
+            (response.open_response && response.open_response.trim() !== ""
+              ? response.open_response
+              : response.justification && response.justification.trim() !== ""
+                ? response.justification
+                : null);
+
           values.push(
             userId,
             response.questionId,
             response.response_option_id ?? null,
-            response.open_response ?? null,
+            responseText,
           );
         });
 

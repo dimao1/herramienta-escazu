@@ -15,9 +15,23 @@ export async function GET() {
               u.contact,
               u.entity,
               u.municipality,
-              u.created_at
+              u.created_at,
+              COUNT(r.id) AS total_responses
        FROM "assessments" a
        JOIN "users" u ON u.id = a.user_id
+       LEFT JOIN "responses" r ON r.user_id = u.id
+       GROUP BY a.id,
+                a.user_id,
+                a.total_score,
+                a.max_possible_score,
+                a.percentage,
+                a.classification,
+                a.completed_at,
+                u.name,
+                u.contact,
+                u.entity,
+                u.municipality,
+                u.created_at
        ORDER BY a.completed_at DESC`,
     );
 
@@ -34,6 +48,7 @@ export async function GET() {
       entity: a.entity,
       municipality: a.municipality,
       created_at: a.created_at,
+      total_responses: Number(a.total_responses ?? 0),
     }));
 
     return NextResponse.json(formattedAssessments);

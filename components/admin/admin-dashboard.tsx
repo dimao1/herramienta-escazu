@@ -32,12 +32,17 @@ interface DashboardStats {
 
 interface RecentAssessment {
   id: number;
-  name: string;
-  entity: string;
-  municipality: string;
-  classification: string;
+  user_id: number;
+  total_score: number;
+  max_possible_score: number;
   percentage: number;
+  classification: string;
   completed_at: string;
+  user: {
+    name: string;
+    entity: string;
+    municipality: string;
+  };
 }
 
 interface ClassificationStat {
@@ -93,6 +98,30 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
         return "bg-yellow-100 text-yellow-800";
       default:
         return "bg-red-100 text-red-800";
+    }
+  };
+
+  const formatDateTime = (dateString: string) => {
+    try {
+      const originalDate = new Date(dateString);
+
+      // La base de datos está guardando la hora ~5 horas por delante
+      // Ajustamos restando 5 horas para mostrar la hora real de Bogotá
+      const adjustedDate = new Date(
+        originalDate.getTime() - 5 * 60 * 60 * 1000,
+      );
+
+      return new Intl.DateTimeFormat("es-CO", {
+        timeZone: "America/Bogota",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }).format(adjustedDate);
+    } catch {
+      return "";
     }
   };
 
@@ -217,12 +246,15 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
                         className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
                       >
                         <div>
-                          <p className="font-medium">{assessment.name}</p>
+                          <p className="font-medium">{assessment.user.name}</p>
                           <p className="text-sm text-gray-600">
-                            {assessment.entity}
+                            {assessment.user.entity}
                           </p>
                           <p className="text-xs text-gray-500">
-                            {assessment.municipality}
+                            {assessment.user.municipality}
+                          </p>
+                          <p className="text-xs text-gray-400 mt-1">
+                            {formatDateTime(assessment.completed_at)}
                           </p>
                         </div>
                         <div className="text-right">

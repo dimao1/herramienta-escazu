@@ -86,32 +86,41 @@ export function AssessmentsViewer() {
       }
       
       const data = await response.json();
-      console.log('Received data:', data);
-      
+      console.log("Received data:", data);
+
       // Parsear el campo recommendation si viene como string JSON, o usar directamente si ya es objeto
       const parsedData = {
         ...data,
-        responses: data.responses?.map((r: any) => {
-          let recommendations = {};
-          
-          // Si ya es un objeto (JSONB desde Neon), usarlo directamente
-          if (typeof r.recommendation === 'object' && r.recommendation !== null) {
-            recommendations = r.recommendation;
-          } 
-          // Si es string, intentar parsear
-          else if (typeof r.recommendation === 'string' && r.recommendation) {
-            try {
-              recommendations = JSON.parse(r.recommendation);
-            } catch (e) {
-              console.warn(`No se pudo parsear recommendation para respuesta`, e);
+        responses:
+          data.responses?.map((r: any) => {
+            let recommendations = {} as Record<string, string>;
+
+            // Si ya es un objeto (JSONB desde Neon), usarlo directamente
+            if (
+              typeof r.recommendation === "object" &&
+              r.recommendation !== null
+            ) {
+              recommendations = r.recommendation;
             }
-          }
-          
-          return {
-            ...r,
-            recommendations,
-          };
-        }) || [],
+            // Si es string, intentar parsear
+            else if (typeof r.recommendation === "string" && r.recommendation) {
+              try {
+                recommendations = JSON.parse(r.recommendation);
+              } catch (e) {
+                console.warn(
+                  "No se pudo parsear recommendation para respuesta",
+                  e,
+                );
+              }
+            }
+
+            return {
+              ...r,
+              // Mapear el texto de respuesta abierta al campo que usa el frontend
+              open_response: r.open_response ?? r.responseText ?? r.response_text,
+              recommendations,
+            };
+          }) || [],
       };
       
       setSelectedAssessment(parsedData);
@@ -272,7 +281,9 @@ export function AssessmentsViewer() {
                             </div>
                             <div className="text-sm text-gray-600 mb-2">
                               <strong>Respuesta:</strong>{" "}
-                              {response.option_text || response.open_response}
+                              {response.option_text && response.open_response
+                                ? `${response.option_text} — ${response.open_response}`
+                                : response.option_text || response.open_response}
                               {response.points !== undefined &&
                                 response.points > 0 && (
                                   <span className="ml-2 text-green-600 font-semibold">

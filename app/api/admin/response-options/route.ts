@@ -9,7 +9,18 @@ export async function GET() {
        ORDER BY id ASC`,
     );
 
-    const formattedOptions = result.rows.map((o) => ({
+    // Deduplicar por option_text para evitar mostrar opciones duplicadas
+    // (por ejemplo ids 1-5 y 101-105 con el mismo texto).
+    const seenTexts = new Set<string>();
+    const uniqueRows = [] as typeof result.rows;
+
+    for (const row of result.rows) {
+      if (seenTexts.has(row.option_text)) continue;
+      seenTexts.add(row.option_text);
+      uniqueRows.push(row);
+    }
+
+    const formattedOptions = uniqueRows.map((o) => ({
       id: o.id,
       option_text: o.option_text,
       points: o.points,
