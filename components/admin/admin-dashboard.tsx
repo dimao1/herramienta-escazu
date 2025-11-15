@@ -105,12 +105,7 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
     try {
       const originalDate = new Date(dateString);
 
-      // La base de datos está guardando la hora ~5 horas por delante
-      // Ajustamos restando 5 horas para mostrar la hora real de Bogotá
-      const adjustedDate = new Date(
-        originalDate.getTime() - 5 * 60 * 60 * 1000,
-      );
-
+      // Mostrar siempre la fecha y hora en la zona horaria de Bogotá
       return new Intl.DateTimeFormat("es-CO", {
         timeZone: "America/Bogota",
         day: "2-digit",
@@ -119,7 +114,7 @@ export function AdminDashboard({ admin, onLogout }: AdminDashboardProps) {
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
-      }).format(adjustedDate);
+      }).format(originalDate);
     } catch {
       return "";
     }
