@@ -51,6 +51,7 @@ export function AssessmentsViewer() {
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingDetails, setLoadingDetails] = useState(false);
+  const [deletingAll, setDeletingAll] = useState(false);
   const [selectedAssessment, setSelectedAssessment] = useState<{
     user: UserData;
     responses: UserResponse[];
@@ -70,6 +71,39 @@ export function AssessmentsViewer() {
       console.error("Error fetching assessments:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    if (
+      !window.confirm(
+        "¿Seguro que deseas eliminar TODAS las evaluaciones? Esta acción no se puede deshacer.",
+      )
+    ) {
+      return;
+    }
+
+    try {
+      setDeletingAll(true);
+      const response = await fetch("/api/admin/assessments", {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error al eliminar evaluaciones:", response.status, errorText);
+        alert("Ocurrió un error al eliminar las evaluaciones. Intenta de nuevo.");
+        return;
+      }
+
+      // Volver a cargar la lista de evaluaciones
+      await fetchAssessments();
+      alert("Se eliminaron todas las evaluaciones correctamente.");
+    } catch (error) {
+      console.error("Error en handleDeleteAll:", error);
+      alert("Ocurrió un error al eliminar las evaluaciones. Intenta de nuevo.");
+    } finally {
+      setDeletingAll(false);
     }
   };
 
@@ -151,10 +185,21 @@ export function AssessmentsViewer() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Evaluaciones Realizadas</h2>
-        <p className="text-gray-600">
-          Total: {assessments.length} evaluaciones
-        </p>
+        <div>
+          <h2 className="text-2xl font-bold">Evaluaciones Realizadas</h2>
+          <p className="text-gray-600">
+            Total: {assessments.length} evaluaciones
+          </p>
+        </div>
+        <Button
+          size="sm"
+          variant="outline"
+          className="border-red-500 text-red-600 hover:bg-red-50"
+          onClick={handleDeleteAll}
+          disabled={deletingAll || assessments.length === 0}
+        >
+          {deletingAll ? "Eliminando..." : "Eliminar todas"}
+        </Button>
       </div>
 
       <div className="grid gap-4">

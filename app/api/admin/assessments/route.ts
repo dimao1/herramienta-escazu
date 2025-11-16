@@ -60,3 +60,40 @@ export async function GET() {
     );
   }
 }
+
+export async function DELETE() {
+  try {
+    const client = await pool.connect();
+
+    try {
+      await client.query("BEGIN");
+
+      // Eliminar primero todas las respuestas y luego las evaluaciones
+      await client.query('DELETE FROM "responses"');
+      await client.query('DELETE FROM "assessments"');
+
+      await client.query("COMMIT");
+
+      return NextResponse.json({
+        success: true,
+        message: "Todas las evaluaciones fueron eliminadas correctamente.",
+      });
+    } catch (error) {
+      await client.query("ROLLBACK");
+      console.error("Error eliminando evaluaciones:", error);
+      return NextResponse.json(
+        { error: "Error al eliminar las evaluaciones" },
+        { status: 500 },
+      );
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error("Error en DELETE /api/admin/assessments:", error);
+    return NextResponse.json(
+      { error: "Error interno del servidor" },
+      { status: 500 },
+    );
+  }
+}
+
