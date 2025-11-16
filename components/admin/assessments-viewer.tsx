@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { generateResultsPdf } from "@/lib/generate-results-pdf";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -167,6 +168,65 @@ export function AssessmentsViewer() {
     }
   };
 
+  const handleDownloadPDF = async () => {
+    if (!selectedAssessment) return;
+
+    try {
+      const summary = assessments.find(
+        (a) => a.user_id === selectedAssessment.user.id,
+      );
+
+      const responsesForPdf = selectedAssessment.responses.map((response) => {
+        let recommendation = "";
+        if (
+          response.option_text &&
+          response.recommendations &&
+          response.recommendations[response.option_text]
+        ) {
+          recommendation = response.recommendations[response.option_text];
+        } else if (response.recommendations?.general) {
+          recommendation = response.recommendations.general;
+        }
+
+        return {
+          question_text: response.question_text,
+          option_text: response.option_text,
+          open_response: response.open_response,
+          justification: response.justification,
+          recommendation,
+          module_name: response.module_name,
+          points: response.points,
+        };
+      });
+
+      await generateResultsPdf({
+        user: {
+          name: selectedAssessment.user.name,
+          entity: selectedAssessment.user.entity,
+          municipality: selectedAssessment.user.municipality,
+          contact: selectedAssessment.user.contact,
+        },
+        assessment: summary
+          ? {
+              total_score: summary.total_score,
+              max_possible_score: summary.max_possible_score,
+              percentage: summary.percentage,
+              classification: summary.classification,
+            }
+          : {
+              total_score: 0,
+              max_possible_score: 0,
+              percentage: 0,
+              classification: "",
+            },
+        responses: responsesForPdf,
+      });
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      alert("Error al generar el PDF. Por favor, intente nuevamente.");
+    }
+  };
+
   const getClassificationColor = (classification: string) => {
     switch (classification) {
       case "Bien encaminado":
@@ -263,9 +323,16 @@ export function AssessmentsViewer() {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>
-              Detalles de la Evaluación - {selectedAssessment?.user.name}
-            </DialogTitle>
+            <div className="flex items-center justify-between gap-4">
+              <DialogTitle>
+                Detalles de la Evaluación - {selectedAssessment?.user.name}
+              </DialogTitle>
+              {selectedAssessment && (
+                <Button size="sm" onClick={handleDownloadPDF}>
+                  Descargar PDF
+                </Button>
+              )}
+            </div>
           </DialogHeader>
           {selectedAssessment && (
             <div className="space-y-6">

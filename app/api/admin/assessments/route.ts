@@ -68,15 +68,21 @@ export async function DELETE() {
     try {
       await client.query("BEGIN");
 
-      // Eliminar primero todas las respuestas y luego las evaluaciones
+      // Eliminar primero todas las respuestas y evaluaciones
       await client.query('DELETE FROM "responses"');
       await client.query('DELETE FROM "assessments"');
+
+      // Eliminar también todos los usuarios evaluados, de modo que
+      // el contador de "Total Usuarios" en el dashboard quede en 0.
+      // (La tabla admins no se ve afectada porque es distinta.)
+      await client.query('DELETE FROM "users"');
 
       await client.query("COMMIT");
 
       return NextResponse.json({
         success: true,
-        message: "Todas las evaluaciones fueron eliminadas correctamente.",
+        message:
+          "Todas las evaluaciones y usuarios evaluados fueron eliminados correctamente.",
       });
     } catch (error) {
       await client.query("ROLLBACK");
