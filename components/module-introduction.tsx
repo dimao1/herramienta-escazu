@@ -134,7 +134,9 @@ export function ModuleIntroduction({
             />
             <div className="text-center flex-grow">
               <CardTitle className="text-base sm:text-lg md:text-xl font-bold leading-tight mb-1 text-gray-800">
-                Introducción al {moduleName}
+                {moduleId === 4
+                  ? "Introducción a Preguntas Generales"
+                  : `Introducción al ${moduleName}`}
               </CardTitle>
               <p className="text-gray-600 text-xs sm:text-sm">
                 Este módulo contiene {questionCount} preguntas
