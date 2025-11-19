@@ -752,7 +752,10 @@ export const questionsData = [
       "38. ¿Los mecanismos de participación ambiental que promueve la entidad aseguran la inclusión activa de mujeres y diversidades de género, en condiciones de equidad frente a la toma de decisiones y el acceso a la información ambiental?",
     question_type: "open" as const,
     order_index: 38,
-    recommendations: {},
+    recommendations: {
+      general:
+        "Sistematicen y documenten las acciones orientadas a garantizar la participación equitativa de mujeres y diversidades de género en los mecanismos de participación ambiental, mediante la elaboración de guías para fortalecer la adopción de buenas prácticas en participación con enfoque diferencial.",
+    },
   },
   {
     id: 39,
@@ -761,6 +764,9 @@ export const questionsData = [
       "39. ¿Se han implementado protocolos, indicadores o acciones específicas para identificar y reducir las barreras que enfrentan las mujeres y poblaciones con enfoque diferencial (edad, etnia, discapacidad, orientación sexual) en los procesos de licenciamiento, consultas y participación ambiental?",
     question_type: "open" as const,
     order_index: 39,
-    recommendations: {},
+    recommendations: {
+      general:
+        "Diseñen, implementen y actualicen protocolos y herramientas que permitan identificar de manera sistemática las barreras que enfrentan mujeres y poblaciones con enfoque diferencial en los procesos de licenciamiento, consulta y participación ambiental.",
+    },
   },
 ];
